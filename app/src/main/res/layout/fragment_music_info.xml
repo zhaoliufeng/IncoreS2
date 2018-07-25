@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round_white">
+
+        <TextView
+            android:id="@+id/tv_music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_music_singer"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:text="@string/music_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="23sp" />
+
+        <TextView
+            android:id="@+id/tv_music_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/iv_music_log"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:text="@string/music_singer"
+            android:textColor="@color/black_333" />
+
+        <ImageView
+            android:id="@+id/iv_music_log"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_music" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/csb_process"
+            android:layout_alignStart="@id/csb_process"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/music_list" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/csb_process"
+            android:layout_alignEnd="@id/csb_process"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/music_list" />
+
+        <com.ws.mesh.incores2.view.control.seekbar.CustomSeekBar
+            android:id="@+id/csb_process"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            app:stroke_width="1"
+            app:show_stroke="true"
+            app:process_bg_height="5dp"
+            app:stroke_color="@color/grey_999"
+            app:thumb_color="@color/white"
+            app:process_bg_color="@color/app_bg"
+            app:process_color="@color/colorPrimary" />
+    </RelativeLayout>
+
+</LinearLayout>

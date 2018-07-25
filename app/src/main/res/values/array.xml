@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="breath">
+        <item>@string/rainbow_breath</item>
+        <item>@string/heartbeat</item>
+        <item>@string/green_breath</item>
+        <item>@string/blue_breath</item>
+        <item>@string/alarm</item>
+        <item>@string/flash</item>
+        <item>@string/breathings</item>
+        <item>@string/green_mood</item>
+        <item>@string/setting_sun</item>
+    </string-array>
+</resources>

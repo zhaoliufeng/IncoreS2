@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+def app_name = "IncoreS2"
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.ws.mesh.incores2"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (!variant.buildType.isDebuggable()) {
+                def replaceFile
+                //判断有没有发布渠道
+                if (!variant.flavorName.isEmpty()) {
+                    replaceFile = "${app_name}V${variant.versionName}_${releaseTime()}_${variant.flavorName}_${variant.buildType.name}.apk"
+                } else {
+                    replaceFile = "${app_name}V${variant.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
+                }
+
+                outputFileName = replaceFile
+            }
+        }
+    }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':sqldao')
+    implementation project(':BluetoothLightLib')
+
+    /***第三方***/
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.alibaba:fastjson:1.2.36'
+    implementation 'skin.support:skin-support:3.1.0-beta'
+    implementation 'skin.support:skin-support-design:3.1.0-beta'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+}
