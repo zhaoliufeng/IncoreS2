@@ -40,14 +40,16 @@
             android:src="@drawable/icon_music" />
 
         <ImageView
+            android:id="@+id/iv_music_mode"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_above="@id/csb_process"
             android:layout_alignStart="@id/csb_process"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/music_list" />
+            android:src="@drawable/icon_music_cycle" />
 
         <ImageView
+            android:id="@+id/iv_music_list"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_above="@id/csb_process"

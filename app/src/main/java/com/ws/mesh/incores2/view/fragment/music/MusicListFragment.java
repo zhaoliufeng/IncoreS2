@@ -55,4 +55,9 @@ public class MusicListFragment extends BaseFragment {
     public void setOnMusicSelectedListener(OnMusicSelectedListener listener){
         this.onMusicSelectedListener = listener;
     }
+
+    //设置当前播放音乐的position
+    public void setCurrMusicPosition(int position){
+        this.musicItemAdapter.setCurrPosition(position);
+    }
 }

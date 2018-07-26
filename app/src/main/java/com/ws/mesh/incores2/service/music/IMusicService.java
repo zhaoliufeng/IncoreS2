@@ -21,4 +21,6 @@ public interface IMusicService {
     void selectMusic(int index);
     //拖动进度条
     void seekTo(int msec);
+    //获取当前音乐播放状态
+    boolean isPlaying();
 }

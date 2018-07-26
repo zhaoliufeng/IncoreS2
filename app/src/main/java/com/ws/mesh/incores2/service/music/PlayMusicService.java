@@ -205,6 +205,11 @@ public class PlayMusicService extends Service implements IMusicService {
         mediaPlayer.seekTo(msec);
     }
 
+    @Override
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
     //上一首
     @Override
     public int prevMusic() {
