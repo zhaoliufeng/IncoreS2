@@ -56,4 +56,6 @@ public class IntentConstant {
     public static final String EXTRA = "extra";
     
     public static final String INTENT_OBJ = "intent_obj";
+    public static final String RESULT = "result";
+    public static final int REQUEST_CODE = 1;
 }

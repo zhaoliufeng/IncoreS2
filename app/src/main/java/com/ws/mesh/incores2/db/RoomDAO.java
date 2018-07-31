@@ -18,17 +18,17 @@ public class RoomDAO extends BaseDAO<Room> {
         super(Room.class);
     }
 
-    private static RoomDAO mRoomDAO;
+    private static RoomDAO dao;
 
     public static RoomDAO getInstance() {
-        if (mRoomDAO == null) {
+        if (dao == null) {
             synchronized (MeshDAO.class) {
-                if (mRoomDAO == null) {
-                    mRoomDAO = new RoomDAO();
+                if (dao == null) {
+                    dao = new RoomDAO();
                 }
             }
         }
-        return mRoomDAO;
+        return dao;
     }
 
     /**
@@ -54,9 +54,7 @@ public class RoomDAO extends BaseDAO<Room> {
      */
     public boolean deleteRoom(Room room) {
         return delete(room,
-                "mRoomMeshName", "mRoomId",
-                room.mRoomMeshName,
-                        String.valueOf(room.mRoomId));
+                "mRoomMeshName", "mRoomId");
     }
 
     /**
@@ -87,6 +85,11 @@ public class RoomDAO extends BaseDAO<Room> {
      */
     public SparseArray<Room> queryRoom() {
         return queryRoom(new String[]{CoreData.core().getCurrMesh().mMeshName}, "mRoomMeshName");
+    }
+
+    public Room queryRoomByMeshId(int meshId) {
+        return queryRoom(new String[]{CoreData.core().getCurrMesh().mMeshName, String.valueOf(meshId)},
+                "mRoomMeshName", "mRoomId").valueAt(0);
     }
 
     private SparseArray<Room> queryRoom(String[] whereValue, String... whereKey) {

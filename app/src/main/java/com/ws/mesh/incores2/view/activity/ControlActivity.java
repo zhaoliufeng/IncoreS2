@@ -265,15 +265,15 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
                         break;
                     case 1:
                         //音乐
-                        pushActivity(StageTwoActivity.class, PageId.MUSIC);
+                        pushActivity(StageTwoActivity.class, PageId.MUSIC, meshAddress);
                         break;
                     case 2:
                         //定时
-                        pushActivity(StageTwoActivity.class, PageId.TIMING);
+                        pushActivity(StageTwoActivity.class, PageId.TIMING, meshAddress);
                         break;
                     case 3:
                         //编辑设备
-                        pushActivity(StageTwoActivity.class, PageId.EDIT_DEVICE);
+                        pushActivity(StageTwoActivity.class, PageId.EDIT_DEVICE, meshAddress);
                         break;
                 }
             }

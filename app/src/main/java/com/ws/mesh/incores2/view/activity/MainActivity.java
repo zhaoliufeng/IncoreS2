@@ -112,6 +112,7 @@ public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> 
         }
     }
 
+    //重置所有导航栏icon的状态为未选中
     private void resetNavbarTextIcon() {
         tvZone.setTextColor(getResources().getColor(R.color.grey_929292));
         tvDevice.setTextColor(getResources().getColor(R.color.grey_929292));
@@ -122,6 +123,11 @@ public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> 
         imgDevice.setImageResource(R.drawable.icon_tab_device_unselected);
         imgScene.setImageResource(R.drawable.icon_tab_scenes_unselected);
         imgSchedules.setImageResource(R.drawable.icon_tab_schedules_unselected);
+    }
+
+    @OnClick(R.id.img_setting)
+    public void onSetting(){
+
     }
 
     //切换fragment

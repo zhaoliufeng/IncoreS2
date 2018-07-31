@@ -28,5 +28,6 @@
     <!--tab栏图标大小-->
     <dimen name="tab_icon_size">22dp</dimen>
     <dimen name="sub_title_text_size">16sp</dimen>
+    <dimen name="btn_height_90px">45dp</dimen>
 
 </resources>

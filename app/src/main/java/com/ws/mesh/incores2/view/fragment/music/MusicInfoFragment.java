@@ -63,7 +63,7 @@ public class MusicInfoFragment extends BaseFragment {
     @OnClick(R.id.iv_music_mode)
     public void onChangeMode(){
         if (onControlListener != null){
-            playMode = playMode + 1;
+            playMode = playMode == 3 ? 1: playMode + 1;
             switch (playMode){
                 case 1:
                     ivMusicMode.setImageResource(R.drawable.icon_music_random);

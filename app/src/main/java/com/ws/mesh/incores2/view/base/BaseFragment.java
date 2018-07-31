@@ -2,6 +2,7 @@ package com.ws.mesh.incores2.view.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.TwoStatePreference;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.telink.WSMeshApplication;
 import com.ws.mesh.incores2.constant.IntentConstant;
+import com.ws.mesh.incores2.view.activity.StageThreeActivity;
+import com.ws.mesh.incores2.view.activity.StageTwoActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -55,7 +58,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void toast(final String str) {
-        if (isAdded()) {
+        if (isAdded() && getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -65,16 +68,41 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    public void pushActivity(Class<? extends BaseActivity> clazz) {
-        startActivity(new Intent(getActivity(), clazz));
+    //跳转层级Activity 没有具体业务逻辑 负责渲染fragment的界面
+    public void pushStageActivity(int pageId) {
+        startActivity(new Intent(getActivity(), findNextClass())
+                .putExtra(IntentConstant.PAGE_TYPE, pageId));
     }
 
-    public void pushActivity(Class<? extends BaseActivity> clazz, int meshaddress) {
-        startActivity(new Intent(getActivity(), clazz)
-                .putExtra(IntentConstant.MESH_ADDRESS, meshaddress));
+    public void pushStageActivity(int pageId, int meshAddress) {
+        startActivity(new Intent(getActivity(), findNextClass())
+                .putExtra(IntentConstant.PAGE_TYPE, pageId)
+                .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
     }
-    public void pushActivityWithPageId(Class<? extends BaseActivity> clazz, int pageId) {
+
+    public void pushStageActivityForResult(int pageId) {
+        startActivityForResult(new Intent(getActivity(), findNextClass())
+                        .putExtra(IntentConstant.PAGE_TYPE, pageId),
+                IntentConstant.REQUEST_CODE);
+    }
+
+    public void pushActivity(Class<? extends BaseActivity> clazz, int meshAddress) {
         startActivity(new Intent(getActivity(), clazz)
-                .putExtra(IntentConstant.PAGE_TYPE, pageId));
+                .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
+    }
+
+    public void pushActivity(Class<? extends BaseActivity> clazz, int pageId, int meshAddress) {
+        startActivity(new Intent(getActivity(), clazz)
+                .putExtra(IntentConstant.PAGE_TYPE, pageId)
+                .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
+    }
+
+    //寻找当前下一层的class
+    public Class<?> findNextClass() {
+        if (getActivity() instanceof StageTwoActivity) {
+            return StageThreeActivity.class;
+        } else {
+            return StageTwoActivity.class;
+        }
     }
 }

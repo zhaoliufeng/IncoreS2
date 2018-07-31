@@ -22,7 +22,7 @@ public class ZonePresenter extends IBasePresenter<IZoneView> {
         }
         Room room = new Room();
         room.mRoomId = zoneId;
-        room.mRoomName = "Zone " + zoneId;
+        room.mRoomName = "Zone " + (zoneId - AppConstant.ZONE_START_ID);
         room.circadian = new Circadian();
         room.mDeviceIds = new SparseArray<>();
         if (RoomDAO.getInstance().insertRoom(room)) {
@@ -35,7 +35,9 @@ public class ZonePresenter extends IBasePresenter<IZoneView> {
     }
 
     private int getZoneId() {
-        for (int i = 0; i < AppConstant.ZONE_MAX_NUM; i++) {
+        int zoneStartId = AppConstant.ZONE_START_ID;
+        int zoneEndId = AppConstant.ZONE_START_ID + AppConstant.ZONE_MAX_NUM;
+        for (int i = zoneStartId; i < zoneEndId; i++) {
             if (CoreData.core().mRoomSparseArray.get(i) == null) {
                 return i;
             }

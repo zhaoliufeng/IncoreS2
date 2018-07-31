@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.ws.mesh.incores2.MeshApplication;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Song;
+import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.service.music.IMusicPlayListener;
 import com.ws.mesh.incores2.service.music.PlayMode;
 import com.ws.mesh.incores2.service.music.PlayMusicService;
@@ -49,6 +50,8 @@ public class MusicFragment extends BaseFragment {
     private MusicListFragment musicListFragment;
     //当前播放音乐的总时长
     private int currDur;
+    //控制的设备地址
+    private int meshAddress;
 
     //音乐播放监听
     IMusicPlayListener musicPlayListener = new IMusicPlayListener() {
@@ -103,6 +106,10 @@ public class MusicFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        if (getActivity() != null){
+            meshAddress = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
+        }
+
         List<BaseFragment> mFragmentList = new ArrayList<>();
         musicInfoFragment = new MusicInfoFragment();
         musicListFragment = new MusicListFragment();

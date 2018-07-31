@@ -18,17 +18,17 @@ public class MeshDAO extends BaseDAO<Mesh> {
         super(Mesh.class);
     }
 
-    private static MeshDAO mMeshDAO;
+    private static MeshDAO dao;
 
     public static MeshDAO getInstance() {
-        if (mMeshDAO == null) {
+        if (dao == null) {
             synchronized (MeshDAO.class) {
-                if (mMeshDAO == null) {
-                    mMeshDAO = new MeshDAO();
+                if (dao == null) {
+                    dao = new MeshDAO();
                 }
             }
         }
-        return mMeshDAO;
+        return dao;
     }
 
     public boolean insertMesh(Mesh mesh) {

@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_round_white">
+
+        <ImageView
+            android:id="@+id/iv_sun"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/icon_schedules_sun" />
+
+        <TextView
+            android:id="@+id/tv_sunset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/iv_sun"
+            android:text="@string/sun_set"
+            android:textColor="@color/black_333"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_sunset_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/tv_sunset"
+            android:text="08:00 AM"
+            android:textColor="@color/black_333"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/iv_sunset_switch"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/schedules_switch_on" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_round_white">
+
+        <ImageView
+            android:id="@+id/iv_moon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/icon_schedules_moon" />
+
+        <TextView
+            android:id="@+id/tv_sunrise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/iv_moon"
+            android:text="@string/sun_set"
+            android:textColor="@color/black_333"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_sunrise_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/tv_sunrise"
+            android:text="08:00 AM"
+            android:textColor="@color/black_333"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/iv_sunrise_switch"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/schedules_switch_on" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_timing_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/iv_add_timing"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icon_add"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="5dp"/>
+</LinearLayout>

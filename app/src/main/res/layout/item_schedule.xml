@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <ImageView
+        android:id="@+id/iv_list_icon"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_list_center" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/iv_list_icon"
+        android:background="@drawable/bg_round_white"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05:09 AM"
+            android:textColor="@color/black_333"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_repeat_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_time"
+            android:text="Workday"
+            android:textColor="@color/black_333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/zones"
+            android:textColor="@color/black_333"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_name"
+            android:text="@string/on"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+</RelativeLayout>

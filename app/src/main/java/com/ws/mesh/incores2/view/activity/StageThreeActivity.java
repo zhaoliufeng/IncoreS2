@@ -1,6 +1,7 @@
 package com.ws.mesh.incores2.view.activity;
 
 import com.ws.mesh.incores2.R;
+import com.ws.mesh.incores2.utils.FragmentFactory;
 import com.ws.mesh.incores2.view.base.BaseActivity;
 
 public class StageThreeActivity extends BaseActivity {
@@ -11,6 +12,6 @@ public class StageThreeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        setPage(FragmentFactory.create(getPageId()));
     }
 }

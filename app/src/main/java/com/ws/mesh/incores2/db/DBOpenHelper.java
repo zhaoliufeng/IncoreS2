@@ -23,6 +23,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         RoomDAO.getInstance().createTable(db);
         SceneDAO.getInstance().createTable(db);
         FColorDAO.getInstance().createTable(db);
+        TimingDAO.getInstance().createTable(db);
     }
 
     @Override

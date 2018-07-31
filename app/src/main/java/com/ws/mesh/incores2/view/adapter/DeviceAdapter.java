@@ -50,7 +50,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
         device.updateIcon();
         viewHolder.ivDeviceIcon.setImageResource(device.mIconRes);
-        viewHolder.tvDeviceOn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.tvDeviceName.setText(device.mDevName);
+                viewHolder.tvDeviceOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SendMsg.switchDevice(device.mDevMeshId, true);
@@ -66,7 +67,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         viewHolder.ivDeviceIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onDeviceSelectedListener != null){
+                if (onDeviceSelectedListener != null) {
                     onDeviceSelectedListener.onSelected(device.mDevMeshId);
                 }
             }
@@ -86,6 +87,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         TextView tvDeviceOff;
         @BindView(R.id.iv_device_icon)
         ImageView ivDeviceIcon;
+        @BindView(R.id.tv_device_name)
+        TextView tvDeviceName;
 
         DeviceViewHolder(View itemView) {
             super(itemView);
@@ -107,12 +110,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void removeDevice(Device device) {
-        if (mDatas.get(device.mDevMeshId) != null) {
-            int index = mDatas.indexOfKey(device.mDevMeshId);
-            mDatas.remove(device.mDevMeshId);
-            notifyItemRemoved(index);
-        }
+    public void refreshDeviceList(){
+        notifyDataSetChanged();
     }
 
     private OnDeviceSelectedListener onDeviceSelectedListener;

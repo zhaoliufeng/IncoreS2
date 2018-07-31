@@ -12,6 +12,7 @@ import com.ws.mesh.incores2.view.impl.OnItemSelectedListener;
 
 import butterknife.BindView;
 
+//默认呼吸
 public class BreathFragment extends BaseFragment {
     @BindView(R.id.rl_breath)
     RecyclerView rlBreath;
@@ -25,13 +26,17 @@ public class BreathFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        meshAddress = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
+        if (getActivity() != null){
+            meshAddress = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
+        }
+
         BreathAdapter breathAdapter = new BreathAdapter();
         rlBreath.setAdapter(breathAdapter);
         rlBreath.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         breathAdapter.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void ItemSelected(int position) {
+                //发送颜色控制指令
                 SendMsg.loadBreath(meshAddress, position + 1);
             }
         });

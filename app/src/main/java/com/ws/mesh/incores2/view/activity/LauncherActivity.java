@@ -28,11 +28,13 @@ public class LauncherActivity extends BaseContentActivity<ILauncherView, Launche
     @Override
     public void enterMainView() {
         pushActivity(MainActivity.class);
+        finish();
     }
 
     @Override
     public void enterScanView() {
         //Intent附带Extra标识当前是否需要进入扫描设备界面
         pushActivity(MainActivity.class, true);
+        finish();
     }
 }

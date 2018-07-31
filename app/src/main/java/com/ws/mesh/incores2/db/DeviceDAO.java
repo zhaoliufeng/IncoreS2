@@ -18,17 +18,17 @@ public class DeviceDAO extends BaseDAO<Device> {
         super(Device.class);
     }
 
-    private static DeviceDAO mDeviceDAO;
+    private static DeviceDAO dao;
 
     public static DeviceDAO getInstance() {
-        if (mDeviceDAO == null) {
+        if (dao == null) {
             synchronized (MeshDAO.class) {
-                if (mDeviceDAO == null) {
-                    mDeviceDAO = new DeviceDAO();
+                if (dao == null) {
+                    dao = new DeviceDAO();
                 }
             }
         }
-        return mDeviceDAO;
+        return dao;
     }
 
     public boolean insertDevice(Device device) {
@@ -45,7 +45,8 @@ public class DeviceDAO extends BaseDAO<Device> {
     }
 
     public boolean deleteDevice(Device device) {
-        return delete(device, "mDeviceMeshName", "mDevMeshId");
+        return delete(device,
+                "mDeviceMeshName", "mDevMeshId");
     }
 
     public boolean clearMeshDevice(String meshName) {
@@ -64,7 +65,18 @@ public class DeviceDAO extends BaseDAO<Device> {
      * 查询mesh集合
      */
     public SparseArray<Device> queryDevice() {
-        return queryDevice(new String[]{CoreData.core().getCurrMesh().mMeshName}, "mDeviceMeshName");
+        return queryDevice(new String[]{
+                        CoreData.core().getCurrMesh().mMeshName
+                },
+                "mDeviceMeshName");
+    }
+
+    public Device queryDeviceByMeshId(int meshId) {
+        return queryDevice(new String[]{
+                        CoreData.core().getCurrMesh().mMeshName,
+                        String.valueOf(meshId)
+                },
+                "mDeviceMeshName", "mDevMeshId").valueAt(0);
     }
 
     private SparseArray<Device> queryDevice(String[] whereValue, String... whereKey) {

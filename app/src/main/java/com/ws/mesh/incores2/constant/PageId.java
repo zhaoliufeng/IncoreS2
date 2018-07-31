@@ -5,6 +5,8 @@ public class PageId {
 
     //添加定时
     public static final int ADD_TIMING = 11;
+    //添加定时events
+    public static final int ADD_TIMING_EVENT = 12;
 
     //呼吸
     public static final int BREATH = 20;
@@ -30,4 +32,8 @@ public class PageId {
     //场景设置状态
     public static final int SET_SCENE_STATUS = 31;
 
+    //房间设备预览
+    public static final int ZONE_DEVICE_MANAGE_PREVIEW = 32;
+    //房间设备管理
+    public static final int ZONE_DEVICE_MANAGE = 33;
 }

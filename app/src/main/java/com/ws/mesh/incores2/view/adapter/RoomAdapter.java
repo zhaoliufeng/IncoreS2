@@ -73,6 +73,7 @@ public class RoomAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+
         viewHolder.ivZoneDevice.setOnClickListener(onZoneMenuListener);
         viewHolder.ivZonePanel.setOnClickListener(onZoneMenuListener);
         viewHolder.ivZoneBreath.setOnClickListener(onZoneMenuListener);
@@ -80,6 +81,7 @@ public class RoomAdapter extends RecyclerView.Adapter {
         viewHolder.ivZoneAlarm.setOnClickListener(onZoneMenuListener);
         viewHolder.ivZoneEdit.setOnClickListener(onZoneMenuListener);
     }
+
 
     @Override
     public int getItemCount() {
@@ -89,29 +91,29 @@ public class RoomAdapter extends RecyclerView.Adapter {
     private View.OnClickListener onZoneMenuListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int position = 0;
+            int menuItemIndex = 0;
             switch (v.getId()) {
                 case R.id.iv_zone_device:
-                    position = 0;
+                    menuItemIndex = 0;
                     break;
                 case R.id.iv_zone_panel:
-                    position = 1;
+                    menuItemIndex = 1;
                     break;
                 case R.id.iv_zone_breath:
-                    position = 2;
+                    menuItemIndex = 2;
                     break;
                 case R.id.iv_zone_music:
-                    position = 3;
+                    menuItemIndex = 3;
                     break;
                 case R.id.iv_zone_alarm:
-                    position = 4;
+                    menuItemIndex = 4;
                     break;
                 case R.id.iv_zone_edit:
-                    position = 5;
+                    menuItemIndex = 5;
                     break;
             }
             if (onZoneClickListener != null){
-                onZoneClickListener.onMenu(position);
+                onZoneClickListener.onMenu(menuItemIndex, expandPosition);
             }
         }
     };
@@ -120,7 +122,7 @@ public class RoomAdapter extends RecyclerView.Adapter {
 
     //群组点击事件接口
     public interface OnZoneClickListener {
-        void onMenu(int position);
+        void onMenu(int menuItemIndex, int position);
 
         void onSwitch(boolean isOpen, int position);
     }

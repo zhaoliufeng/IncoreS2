@@ -18,17 +18,17 @@ public class SceneDAO extends BaseDAO<Scene> {
         super(Scene.class);
     }
 
-    private static SceneDAO mSceneDAO;
+    private static SceneDAO dao;
 
     public static SceneDAO getInstance() {
-        if (mSceneDAO == null) {
+        if (dao == null) {
             synchronized (MeshDAO.class) {
-                if (mSceneDAO == null) {
-                    mSceneDAO = new SceneDAO();
+                if (dao == null) {
+                    dao = new SceneDAO();
                 }
             }
         }
-        return mSceneDAO;
+        return dao;
     }
 
     public boolean insertScene(Scene scene) {
@@ -66,7 +66,12 @@ public class SceneDAO extends BaseDAO<Scene> {
      * 查询mesh集合
      */
     public SparseArray<Scene> queryScene() {
-        return queryScene(new String[]{CoreData.core().getCurrMesh().mMeshName}, "mRoomMeshName");
+        return queryScene(new String[]{CoreData.core().getCurrMesh().mMeshName}, "mSceneMeshName");
+    }
+
+    public Scene querySceneBySceneId(int parentId) {
+        return queryScene(new String[]{CoreData.core().getCurrMesh().mMeshName, String.valueOf(parentId)},
+                "mSceneMeshName", "mSceneId").valueAt(0);
     }
 
 

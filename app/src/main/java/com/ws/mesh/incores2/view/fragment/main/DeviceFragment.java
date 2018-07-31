@@ -37,6 +37,12 @@ public class DeviceFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        deviceAdapter.refreshDeviceList();
+    }
+
     public void refreshDevice(Device device) {
         deviceAdapter.refreshDevice(device);
     }
