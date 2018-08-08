@@ -13,9 +13,6 @@ public interface IMainView extends IBaseView {
     //登陆成功
     void onLoginSuccess();
 
-    //设备下线
-    void offline(Device device);
-
     //设备上线
     void online(SparseArray<Device> sparseArray);
 

@@ -54,7 +54,6 @@ public class CoreData {
     public void setCurrAppStatus(int status) {
         mCurrAppStatus = status;
     }
-
     /*
     * 当前操作的网络
     * */
@@ -68,6 +67,9 @@ public class CoreData {
         mCurrMesh = mesh;
     }
 
+    public boolean isEmptyMesh() {
+        return mCurrMesh == null;
+    }
 
     /*
     * 全局数据
@@ -82,6 +84,7 @@ public class CoreData {
     public Map<String, Mesh> mMeshMap;
 
     public void initMeshData() {
+        mMeshMap = MeshDAO.getInstance().queryMesh();
         mDeviceSparseArray = DeviceDAO.getInstance().queryDevice();
         mRoomSparseArray = RoomDAO.getInstance().queryRoom();
         mSceneSparseArray = SceneDAO.getInstance().queryScene();

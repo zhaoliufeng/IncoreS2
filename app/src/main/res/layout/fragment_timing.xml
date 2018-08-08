@@ -1,119 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/app_bg">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_round_white">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_sun"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:src="@drawable/icon_schedules_sun" />
-
-        <TextView
-            android:id="@+id/tv_sunset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@id/iv_sun"
-            android:text="@string/sun_set"
-            android:textColor="@color/black_333"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_sunset_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/tv_sunset"
-            android:text="08:00 AM"
-            android:textColor="@color/black_333"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/iv_sunset_switch"
-            android:layout_width="55dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/schedules_switch_on" />
-    </RelativeLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_round_white">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_round_white">
+            <ImageView
+                android:id="@+id/iv_sun"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/icon_schedules_sun" />
 
-        <ImageView
-            android:id="@+id/iv_moon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:src="@drawable/icon_schedules_moon" />
+            <TextView
+                android:id="@+id/tv_sunrise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/iv_sun"
+                android:text="@string/sun_rise"
+                android:textColor="@color/black_333"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_sunrise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@id/iv_moon"
-            android:text="@string/sun_set"
-            android:textColor="@color/black_333"
-            android:textSize="20sp" />
+            <LinearLayout
+                android:id="@+id/ll_sunrise_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/tv_sunrise"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_sunrise_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/tv_sunrise"
-            android:text="08:00 AM"
-            android:textColor="@color/black_333"
-            android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/tv_sunrise_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="08:00 AM"
+                    android:textColor="@color/black_333"
+                    android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/iv_sunrise_switch"
-            android:layout_width="55dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+                <TextView
+                    android:id="@+id/tv_sunrise_durtime"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1min"
+                    android:textColor="@color/black_333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_sunrise_switch"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/schedules_switch_off" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/schedules_switch_on" />
-    </RelativeLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_round_white">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rl_timing_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp">
+            <ImageView
+                android:id="@+id/iv_moon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/icon_schedules_moon" />
 
-    </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/tv_sunset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/iv_moon"
+                android:text="@string/sun_set"
+                android:textColor="@color/black_333"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_sunset_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/tv_sunset"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_sunset_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="08:00 AM"
+                    android:textColor="@color/black_333"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_sunset_durtime"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1min"
+                    android:textColor="@color/black_333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_sunset_switch"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/schedules_switch_off" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_timing_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <ImageView
+            android:id="@+id/iv_add_timing"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:src="@drawable/icon_add" />
+
+        <View
+            android:id="@+id/view_space"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_finish"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/bg_btn_finish"
+            android:gravity="center"
+            android:text="@string/finish"
+            android:textSize="19sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/iv_add_timing"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/icon_add"
-        android:layout_width="match_parent"
+        android:id="@+id/iv_edit"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="5dp"/>
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:padding="13dp"
+        android:src="@drawable/icon_edit_pencil" />
+</RelativeLayout>

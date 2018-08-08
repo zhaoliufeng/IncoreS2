@@ -21,13 +21,17 @@ public class SPUtils {
 
     private static final String RECEIVE_DATA = "receive_data";
 
-    private static final String SKIN = "skin";
-
     private static final String LOCAL_NEWEST_VERSION = "local_newest_version";
 
     private static final String APP_NAME = "Mesh_Life";
 
     private static final String NEED_UPDATE = "need_update";
+
+    private static final String DEFAULT_MESH = "default_mesh";
+
+    private static final String DEFAULT_RISE = "default_rise";
+
+    private static final String DEFAULT_SET = "default_set";
 
     //初始化
     public static void init(Context context) {
@@ -110,14 +114,6 @@ public class SPUtils {
         saveString(RECEIVE_DATA, receiveStr);
     }
 
-    public static void saveSkin(int skin) {
-        saveInteger(SKIN, skin);
-    }
-
-    public static int getSkin() {
-        return getInteger(SKIN, 0);
-    }
-
     //保存读取当前最新的版本号
     public static void saveNewestVersion(String version) {
         saveString(LOCAL_NEWEST_VERSION, version);
@@ -134,5 +130,31 @@ public class SPUtils {
 
     public static boolean getNeedUpdate() {
         return getBoolean(NEED_UPDATE, false);
+    }
+
+    //保存读取默认网络
+    public static void saveDefaultMesh(String defaultMeshName){
+        saveString(DEFAULT_MESH, defaultMeshName);
+    }
+
+    public static String getDefaultMesh(){
+        return getString(DEFAULT_MESH);
+    }
+
+    //保存昼夜节律时间
+    public static void saveSunrise(String sunrise){
+        saveString(DEFAULT_RISE, sunrise);
+    }
+
+    public static void saveSunset(String sunset){
+        saveString(DEFAULT_SET, sunset);
+    }
+
+    public static String getSunrise(){
+        return getString(DEFAULT_RISE);
+    }
+
+    public static String getSunset(){
+        return getString(DEFAULT_SET);
     }
 }

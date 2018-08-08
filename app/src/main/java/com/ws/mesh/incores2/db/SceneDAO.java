@@ -84,4 +84,8 @@ public class SceneDAO extends BaseDAO<Scene> {
         }
         return deviceSparseArray;
     }
+
+    public SparseArray<Scene> querySceneByMeshName(String mMeshName) {
+        return queryScene(new String[]{mMeshName}, "mSceneMeshName");
+    }
 }

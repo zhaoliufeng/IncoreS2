@@ -126,13 +126,12 @@ public final class LeBluetooth {
      * @return
      */
     synchronized public boolean startScan(final UUID[] serviceUUIDs) {
-        WeSmartLog.d("Scan=" + mScanning + ",mStarted=" + mStarted);
+
         synchronized (this) {
             if (this.mScanning || this.mStarted)
                 return true;
         }
 
-        WeSmartLog.d("enable=" + isEnabled());
         if (!this.isEnabled()) {
             return false;
         }
@@ -218,7 +217,6 @@ public final class LeBluetooth {
      * @return
      */
     public boolean isEnabled() {
-        WeSmartLog.d("mAdapter=" + (mAdapter == null));
         return this.mAdapter != null
                 && this.mAdapter.isEnabled();
     }

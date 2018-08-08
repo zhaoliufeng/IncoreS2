@@ -15,6 +15,7 @@ public class MusicActivity extends BaseActivity implements IMusicPlayListener{
     private Intent mMusicIntent;
     private PlayMusicService mMusicService;
     private PlayConnection mConn;
+    private int meshAddress;
 
     @Override
     protected int getLayoutId() {
@@ -77,6 +78,7 @@ public class MusicActivity extends BaseActivity implements IMusicPlayListener{
         public void onServiceConnected(ComponentName name, IBinder service) {
             //连接之后开始查找音乐
             mMusicService = ((PlayMusicService.PlayBinder) service).getService();
+            mMusicService.setMeshAddress(meshAddress);
             mMusicService.setMusicPlayListener(MusicActivity.this);
             mMusicService.getMusicList();
             mMusicService.initMediaData();

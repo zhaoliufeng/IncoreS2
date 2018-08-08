@@ -39,6 +39,9 @@ public class Device {
     @DBFiled
     public String mDevMacAddress;
 
+    /**
+     * 设备通道留作备用
+     */
     //设备通道1
     @DBFiled
     public String mChannelOne;
@@ -76,6 +79,29 @@ public class Device {
         mIconRes = DeviceParamsDeal.getDeviceIcon(this);
     }
 
+    /**判断该设备是否设置过昼节律,夜节律
+     * 默认值为0
+     * 10 2 设置了夜节律没有设置昼节律**/
+    @DBFiled
+    public int symbolStr;
+
+    public void setSunrise(boolean isOpen){
+        //将之前的symbolStr的sunrise值置0
+        symbolStr = (symbolStr & 0x02) + (isOpen ? 1 : 0);
+    }
+
+    public void setSunset(boolean isOpen){
+        symbolStr = (symbolStr & 0x01) + (isOpen ? 2 : 0);
+    }
+
+    public boolean isSetSunrise(){
+        return (symbolStr & 0x01) == 0x01;
+    }
+
+    public boolean isSetSunset(){
+        return (symbolStr & 0x02) == 0x02;
+    }
+
     //Circadian
     public static String circadianToString(Circadian circadian) {
         if (circadian == null) return "";
@@ -83,7 +109,6 @@ public class Device {
     }
 
     public static Circadian stringToCircadian(String circadian){
-        return (Circadian) JSON.parse(circadian);
+        return JSON.parseObject(circadian, Circadian.class);
     }
-
 }

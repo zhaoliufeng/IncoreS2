@@ -102,4 +102,8 @@ public class RoomDAO extends BaseDAO<Room> {
         }
         return roomSparseArray;
     }
+
+    public SparseArray<Room> queryRoomByMeshName(String mMeshName) {
+        return queryRoom(new String[]{mMeshName}, "mRoomMeshName");
+    }
 }

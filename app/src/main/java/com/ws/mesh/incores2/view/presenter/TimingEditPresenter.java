@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Timing;
 import com.ws.mesh.incores2.constant.AppConstant;
+import com.ws.mesh.incores2.constant.TimingType;
 import com.ws.mesh.incores2.db.TimingDAO;
 import com.ws.mesh.incores2.utils.SendMsg;
 import com.ws.mesh.incores2.utils.ViewUtils;
@@ -23,10 +24,6 @@ public class TimingEditPresenter extends IBasePresenter<ITimingEditView> {
     public SparseArray<Timing> mAlarmSparseArray;
     private int mMeshAddress;
     private Context mContext;
-
-    private final int DEVICE = 0;
-    private final int ROOM = 1;
-    private final int SCENE = 2;
 
     public TimingEditPresenter(Context context) {
         mContext = context;
@@ -96,7 +93,8 @@ public class TimingEditPresenter extends IBasePresenter<ITimingEditView> {
         }
 
         alarm.mWeekNum = 0;
-        alarm.mAlarmType = mMeshAddress < 0x8000 ? 1 : 2;
+        alarm.mAlarmType = mMeshAddress < 0x8000
+                ? TimingType.DEVICE.getValue() : TimingType.ZONE.getValue();
         alarm.mAlarmEvent = sceneId;
         alarm.mHours = hours;
         alarm.mMins = mins;
@@ -149,7 +147,7 @@ public class TimingEditPresenter extends IBasePresenter<ITimingEditView> {
         return -1;
     }
 
-    public SparseArray<Timing> getAlarmList() {
+    private SparseArray<Timing> getAlarmList() {
         mAlarmSparseArray = TimingDAO.getInstance().queryAlarmByMeshId(mMeshAddress);
         return mAlarmSparseArray;
     }

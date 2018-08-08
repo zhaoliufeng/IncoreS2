@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import butterknife.OnClick;
 //编辑定时
 public class TimingEditFragment extends BaseContentFragment<ITimingEditView, TimingEditPresenter> implements ITimingEditView {
 
+    private static final String TAG = "TimingEditFragment";
     @BindView(R.id.tv_event)
     TextView tvEvent;
     @BindView(R.id.img_everyday)
@@ -60,7 +62,7 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
         if (getActivity() != null) {
             alarmId = getActivity().getIntent().getIntExtra(IntentConstant.ALARM_ID, -1);
             meshAddress = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
-            if (meshAddress == -1){
+            if (meshAddress == -1) {
                 toast("meshAddress 传值 -1");
                 return;
             }
@@ -112,6 +114,7 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
             eventId = data.getIntExtra(IntentConstant.RESULT, -1);
             if (eventId != -1) {
                 tvEvent.setText(events[eventId]);
+                Log.i(TAG, "onActivityResult: 选择的执行动作 --> " + events[eventId] + " eventId --> " + eventId);
             }
         }
     }
@@ -194,7 +197,8 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
     @Override
     public void addAlarm(boolean success) {
         if (success) {
-            toast(R.string.add_success);
+            if (getActivity() != null)
+                getActivity().finish();
         } else {
             toast(R.string.add_failed);
         }

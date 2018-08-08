@@ -90,7 +90,6 @@ public class EditFragment extends BaseContentFragment<IEditView, EditPresenter> 
     @Override
     public void remove(boolean success) {
         if (success) {
-            toast(R.string.remove_success);
             if (getActivity() != null)
                 getActivity().finish();
         } else {

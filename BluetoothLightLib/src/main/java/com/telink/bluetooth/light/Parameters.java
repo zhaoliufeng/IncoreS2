@@ -22,10 +22,8 @@ public class Parameters {
     public static final String PARAM_AUTO_REFRESH_NOTIFICATION_DELAY = "com.telink.bluetooth.light.PARAM_AUTO_REFRESH_NOTIFICATION_DELAY";
     public static final String PARAM_OFFLINE_TIMEOUT_SECONDS = "com.telink.bluetooth.light.PARAM_OFFLINE_TIMEOUT_SECONDS";
     public static final String PARAM_DEVICE_LIST = "com.telink.bluetooth.light.PARAM_DEVICE_LIST";
-    public static final String PARAM_UPDATE_OFSTANCE_DEVICE = "com.telink.bluetooth.light.PARAM_UPDATE_OFSTANCE_DEVICE";
     public static final String PARAM_SCAN_TIMEOUT_SECONDS = "com.telink.bluetooth.light.PARAM_SCAN_TIMEOUT_SECONDS";
     public static final String PARAM_SCAN_TYPE_SINGLE = "com.telink.bluetooth.light.PARAM_SCAN_TYPE_SINGLE";
-    public static final String PARAM_SCAN_JION_TMALL = "com.telink.bluetooth.light.PARAM_SCAN_JION_TMALL";
     public static final String PARAM_AUTO_ENABLE_NOTIFICATION = "com.telink.bluetooth.light.PARAM_AUTO_ENABLE_NOTIFICATION";
 
     private final Map<String, Object> mParams = new HashMap<>();

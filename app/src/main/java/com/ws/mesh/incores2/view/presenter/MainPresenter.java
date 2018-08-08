@@ -26,6 +26,7 @@ import com.telink.bluetooth.light.Parameters;
 import com.telink.util.Event;
 import com.telink.util.EventListener;
 import com.ws.mesh.incores2.MeshApplication;
+import com.ws.mesh.incores2.bean.Circadian;
 import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.bean.Mesh;
 import com.ws.mesh.incores2.constant.AppConstant;
@@ -171,6 +172,7 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
     public void destroy() {
         MeshApplication.getInstance().removeEventListener(this);
         MeshApplication.getInstance().unregisterReceiver(mReceiver);
+        WeSmartService.Instance().onDestroy();
     }
 
 
@@ -256,11 +258,11 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
                             SendMsg.getDeviceType(meshAddress);
                         }
                         device.updateIcon();
-                        getView().statusUpdate(device);
                     } else {
                         device.mConnectionStatus = ConnectionStatus.OFFLINE;
-                        getView().offline(device);
                     }
+                    if (getView() != null)
+                        getView().statusUpdate(device);
                 } else {
                     if (status != 0) {
                         device = new Device();
@@ -271,9 +273,11 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
                         device.mConnectionStatus = connectionStatus;
                         device.mDevMeshId = meshAddress;
                         device.mDevType = AppConstant.DEFAULT_TYPE;
+                        device.circadian = new Circadian();
                         SendMsg.getDeviceType(meshAddress);
 
                         device.updateIcon();
+//                        setCircadian(device);
                         CoreData.core().mDeviceSparseArray.put(device.mDevMeshId, device);
                         DeviceDAO.getInstance().insertDevice(device);
                         getView().updateDevice(CoreData.core().mDeviceSparseArray);
@@ -337,6 +341,8 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
                     String name = DeviceParamsDeal.getDeviceName(type);
                     device.mDevType = type;
                     device.mDevName = name + "-" + Integer.toString(srcAddress);
+                    device.circadian = new Circadian();
+//                    setCircadian(device);
                     CoreData.core().mDeviceSparseArray.put(device.mDevMeshId, device);
                     if (DeviceDAO.getInstance().updateDevice(device)) {
                         getView().statusUpdate(device);
@@ -358,5 +364,26 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
             }
         }
         return -1;
+    }
+
+    //设置设备的昼夜节律时间 昼夜节律默认关闭
+    private void setCircadian(Device device){
+        //如果获取的昼夜节律时间是空的 就使用默认的昼夜节律 不然会出现数组越界的异常
+        String sunRiseString = SPUtils.getSunrise().equals("") ? AppConstant.DEFAULT_SUNRISE_TIME : SPUtils.getSunrise();
+        String sunSetString = SPUtils.getSunset().equals("") ? AppConstant.DEFAULT_SUNSET_TIME : SPUtils.getSunset();
+        String[] sunRise = sunRiseString.split(":");
+        String[] sunSet = sunSetString.split(":");
+
+        device.circadian = new Circadian();
+        device.circadian.dayDurTime = 1;
+        device.circadian.dayStartHours = Integer.parseInt(sunRise[0]);
+        device.circadian.dayStartMinutes = Integer.parseInt(sunRise[1]);
+
+        device.circadian.nightDurTime = 1;
+        device.circadian.nightStartHours = Integer.parseInt(sunSet[0]);
+        device.circadian.nightStartMinutes = Integer.parseInt(sunSet[1]);
+
+        device.circadian.isDayOpen = false;
+        device.circadian.isNightOpen = false;
     }
 }

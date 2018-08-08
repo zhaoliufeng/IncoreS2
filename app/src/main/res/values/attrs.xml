@@ -14,4 +14,10 @@
         <attr name="stroke_width" format="float"/>
         <attr name="stroke_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="swipeEnable" format="boolean"/>
+        <attr name="ios" format="boolean"/>
+        <attr name="leftSwipe" format="boolean"/>
+    </declare-styleable>
 </resources>

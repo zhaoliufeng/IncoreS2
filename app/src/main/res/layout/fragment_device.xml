@@ -6,31 +6,36 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp">
 
         <View
             android:layout_width="5dp"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
+
         <TextView
-            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
             android:text="@string/devices"
             android:textColor="@color/black_333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="16sp" />
+
         <TextView
+            android:id="@+id/tv_mesh_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/black_333"
             android:text="@string/_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/black_333"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -41,4 +46,5 @@
         android:paddingStart="10dp">
 
     </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

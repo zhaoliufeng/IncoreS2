@@ -1,7 +1,7 @@
 package com.ws.mesh.incores2.constant;
 
 public enum TimingType {
-    SCENE(0), DEVICE(1), ZONE(2);
+    DEVICE(0), ZONE(1), SCENE(2);
 
     private final int value;
 

@@ -20,6 +20,7 @@ import com.telink.bluetooth.WeSmartLog;
 import com.telink.util.Arrays;
 import com.telink.util.Event;
 import com.telink.util.EventListener;
+import com.telink.util.Hex;
 import com.telink.util.Strings;
 
 import java.util.ArrayList;
@@ -55,8 +56,6 @@ public class LightAdapter {
     public static final int STATUS_GET_FIRMWARE_FAILURE = 61;
     public static final int STATUS_DELETE_COMPLETED = 70;
     public static final int STATUS_DELETE_FAILURE = 71;
-    public static final int STATUS_GET_TMALL_COMPLETED = 72;
-    public static final int STATUS_GET_TMALL_FAILURE = 73;
 
     public static final int MODE_IDLE = 1;
     public static final int MODE_SCAN_MESH = 2;
@@ -64,8 +63,6 @@ public class LightAdapter {
     public static final int MODE_AUTO_CONNECT_MESH = 8;
     public static final int MODE_OTA = 16;
     public static final int MODE_DELETE = 32;
-    public static final int MODE_FIND_TMALL = 64;
-
 
     public static final int AUTO_REFRESH_NOTIFICATION_DELAY = 2 * 1000;
     public static final int CHECK_OFFLINE_TIME = 10 * 1000;
@@ -81,7 +78,6 @@ public class LightAdapter {
     private final EventListener<Integer> mGetLtkListener = new GetLongTermKeyListener();
     private final EventListener<Integer> mNotificationListener = new NotificationListener();
     private final EventListener<Integer> mDeleteListener = new DeleteListener();
-    private final EventListener<Integer> mGetTmallPasswordListener = new GetTMallPasswordListener();
     private final EventListener<Integer> mCommandListener = new NormalCommandListener();
 
     private final AtomicInteger mode = new AtomicInteger(MODE_IDLE);
@@ -177,8 +173,6 @@ public class LightAdapter {
         this.mLightCtrl.addEventListener(LightController.LightEvent.OTA_FAILURE, this.mOtaListener);
         this.mLightCtrl.addEventListener(LightController.LightEvent.GET_FIRMWARE_SUCCESS, this.mFirmwareListener);
         this.mLightCtrl.addEventListener(LightController.LightEvent.GET_FIRMWARE_FAILURE, this.mFirmwareListener);
-        this.mLightCtrl.addEventListener(LightController.LightEvent.GET_TMALL_PASSWORD_SUCCESS, this.mGetTmallPasswordListener);
-        this.mLightCtrl.addEventListener(LightController.LightEvent.GET_TMALL_PASSWORD_FAIL, this.mGetTmallPasswordListener);
         this.mLightCtrl.addEventListener(LightController.LightEvent.GET_LTK_SUCCESS, this.mGetLtkListener);
         this.mLightCtrl.addEventListener(LightController.LightEvent.GET_LTK_FAILURE, this.mGetLtkListener);
         this.mLightCtrl.addEventListener(LightController.LightEvent.DELETE_SUCCESS, this.mDeleteListener);
@@ -279,7 +273,7 @@ public class LightAdapter {
 
         if (currentLight != null && currentLight.isConnected())
             this.mLightCtrl.disconnect();
-        Log.i("FF:01:02:04:00:01", "address=" + light.getMacAddress());
+
         this.mLightCtrl.setTimeoutSeconds(timeoutSeconds);
         this.mLightCtrl.connect(this.mContext, light);
 
@@ -321,29 +315,6 @@ public class LightAdapter {
         return true;
     }
 
-    public boolean getTmallPassword() {
-        if (!this.isStarted.get())
-            return false;
-        LightPeripheral light = this.mLightCtrl.getCurrentLight();
-        if (light == null || !light.isConnected())
-            return false;
-        WeSmartLog.d("LightAdapter#getFirmwareVersion");
-        this.mLightCtrl.requestTMALLPassword();
-        return true;
-    }
-
-    public boolean writeTmallValues(byte[] datas) {
-        if (!this.isStarted.get())
-            return false;
-        LightPeripheral light = this.mLightCtrl.getCurrentLight();
-        if (light == null || !light.isConnected())
-            return false;
-        WeSmartLog.d("LightAdapter#writeTmallValues");
-        mLightCtrl.writeTMallValues(datas);
-        return true;
-    }
-
-
     public boolean delete() {
         if (!this.isStarted.get())
             return false;
@@ -359,9 +330,6 @@ public class LightAdapter {
         byte[] meshName = java.util.Arrays.copyOf(light.getMeshName(), 16);
         String passwordStr = mParams.getString(Parameters.PARAM_MESH_PASSWORD);
         if (TextUtils.isEmpty(passwordStr)) return;
-        if (Arrays.bytesToString(meshName).equals("Aligenie_iot")) {
-            passwordStr = "7501";
-        }
         byte[] password = Strings.stringToBytes(passwordStr, 16);
         this.login(meshName, password);
     }
@@ -460,40 +428,33 @@ public class LightAdapter {
 
         Object updateObj = this.mParams.get(Parameters.PARAM_DEVICE_LIST);
         this.mUpdateLights.clear();
+
         if (updateObj != null) {
-            Object devObject = this.mParams.get(Parameters.PARAM_UPDATE_OFSTANCE_DEVICE);
-            if (devObject != null) {
-                DeviceInfo deviceInfo = (DeviceInfo) devObject;
+
+            if (updateObj instanceof DeviceInfo) {
+                DeviceInfo deviceInfo = (DeviceInfo) updateObj;
                 LightPeripheral peripheral = this.mScannedLights.get(deviceInfo.macAddress);
                 if (peripheral != null) {
                     peripheral.setNewMeshAddress(deviceInfo.meshAddress);
                     this.mUpdateLights.put(peripheral);
                 }
-            } else {
-                if (updateObj instanceof DeviceInfo) {
-                    DeviceInfo deviceInfo = (DeviceInfo) updateObj;
-                    LightPeripheral peripheral = this.mScannedLights.get(deviceInfo.macAddress);
-                    if (peripheral != null) {
-                        peripheral.setNewMeshAddress(deviceInfo.meshAddress);
-                        this.mUpdateLights.put(peripheral);
-                    }
-                } else if (updateObj instanceof Iterable) {
-                    @SuppressWarnings("unchecked")
-                    Iterable<DeviceInfo> iterable = (Iterable<DeviceInfo>) updateObj;
-                    Iterator<DeviceInfo> iterator = iterable.iterator();
-                    DeviceInfo deviceInfo;
-                    while ( iterator.hasNext() ) {
-                        deviceInfo = iterator.next();
-                        if (deviceInfo != null) {
-                            LightPeripheral peripheral = this.mScannedLights.get(deviceInfo.macAddress);
-                            if (peripheral != null) {
-                                peripheral.setNewMeshAddress(deviceInfo.meshAddress);
-                                this.mUpdateLights.put(peripheral);
-                            }
+            } else if (updateObj instanceof Iterable) {
+                @SuppressWarnings("unchecked")
+                Iterable<DeviceInfo> iterable = (Iterable<DeviceInfo>) updateObj;
+                Iterator<DeviceInfo> iterator = iterable.iterator();
+                DeviceInfo deviceInfo;
+                while ( iterator.hasNext() ) {
+                    deviceInfo = iterator.next();
+                    if (deviceInfo != null) {
+                        LightPeripheral peripheral = this.mScannedLights.get(deviceInfo.macAddress);
+                        if (peripheral != null) {
+                            peripheral.setNewMeshAddress(deviceInfo.meshAddress);
+                            this.mUpdateLights.put(peripheral);
                         }
                     }
                 }
             }
+
         } else {
             this.mScannedLights.copyTo(this.mUpdateLights);
         }
@@ -679,6 +640,8 @@ public class LightAdapter {
         AdvertiseDataFilter filter;
         LightPeripheral light = null;
 
+        Log.i("TestData", Hex.encodeHexStr(scanRecord));
+
         while ( iterator.hasNext() ) {
             filter = iterator.next();
             try {
@@ -686,7 +649,6 @@ public class LightAdapter {
             } catch (Exception e) {
                 WeSmartLog.d("Advertise Filter Exception : " + filter.toString() + "--" + e.getMessage(), e);
             }
-
 
             if (light != null)
                 break;
@@ -701,23 +663,18 @@ public class LightAdapter {
 
         Parameters params = this.getParameters();
 
-        if (params == null) {
+        if (params == null)
             return false;
-        }
-
 
         byte[] outOfMeshName;
+
         byte[] meshName = Strings.stringToBytes(params.getString(Parameters.PARAM_MESH_NAME), 16);
         byte[] meshName1 = light.getMeshName();
 
         if (mode == MODE_SCAN_MESH) {
             outOfMeshName = Strings.stringToBytes(params.getString(Parameters.PARAM_OUT_OF_MESH), 16);
-            if (params.getBoolean(Parameters.PARAM_SCAN_JION_TMALL)) {
-                return true;
-            }
             if (!Arrays.equals(meshName, meshName1) && !Arrays.equals(outOfMeshName, meshName1))
                 return false;
-            Log.i("FF:01:02:04:00:01", "meshName1==" + Strings.bytesToString(meshName1));
         } else if (mode == MODE_AUTO_CONNECT_MESH) {
             if (!Arrays.equals(meshName, meshName1))
                 return false;
@@ -791,7 +748,6 @@ public class LightAdapter {
     }
 
     private void setStatus(int newStatus) {
-        WeSmartLog.d("set newStatus" + newStatus);
         this.setStatus(newStatus, false, false);
     }
 
@@ -965,13 +921,8 @@ public class LightAdapter {
 
             if (light == null)
                 return;
-            boolean result = onLeScanFilter(light);
 
-            if (mFindTmallMode) {
-                if (light.getAdvPropertyAsInt(LightPeripheral.ABILITY) == 0) {
-                    return;
-                }
-            }
+            boolean result = onLeScanFilter(light);
 
             if (!result)
                 return;
@@ -981,16 +932,21 @@ public class LightAdapter {
             int mode = getMode();
 
             if (mode == MODE_SCAN_MESH) {
+
                 boolean isSingleScan = mParams.getBoolean(Parameters.PARAM_SCAN_TYPE_SINGLE, false);
+
                 if (isSingleScan) {
+
                     if (mScannedLights.size() == 0) {
                         mScannedLights.put(light);
                         mCallback.onLeScan(light, mode, scanRecord);
                     }
+
                 } else {
                     mScannedLights.put(light);
                     mCallback.onLeScan(light, mode, scanRecord);
                 }
+
             } else if (mode == MODE_AUTO_CONNECT_MESH) {
                 mScannedLights.put(light);
             } else if (mode == MODE_OTA) {
@@ -1040,7 +996,7 @@ public class LightAdapter {
             if (mode == MODE_UPDATE_MESH) {
 
                 setStatus(STATUS_UPDATING_MESH);
-               
+
                 byte[] meshName = Strings.stringToBytes(mParams.getString(Parameters.PARAM_NEW_MESH_NAME), 16);
                 byte[] password = Strings.stringToBytes(mParams.getString(Parameters.PARAM_NEW_PASSWORD), 16);
                 byte[] ltk = mParams.getBytes(Parameters.PARAM_LONG_TERM_KEY);
@@ -1224,35 +1180,6 @@ public class LightAdapter {
                     this.onGetFirmwareSuccess();
                     break;
                 case LightController.LightEvent.GET_FIRMWARE_FAILURE:
-                    this.onGetFirmwareFailure();
-                    break;
-            }
-        }
-    }
-
-    private final class GetTMallPasswordListener implements EventListener<Integer> {
-
-        private void onGetFirmwareSuccess() {
-            int mode = getMode();
-            if (mode == MODE_UPDATE_MESH || mode == MODE_AUTO_CONNECT_MESH || mode == MODE_OTA)
-                return;
-            setStatus(STATUS_GET_TMALL_COMPLETED, true);
-        }
-
-        private void onGetFirmwareFailure() {
-            int mode = getMode();
-            if (mode == MODE_UPDATE_MESH || mode == MODE_AUTO_CONNECT_MESH || mode == MODE_OTA)
-                return;
-            setStatus(STATUS_GET_TMALL_FAILURE, true);
-        }
-
-        @Override
-        public void performed(Event<Integer> event) {
-            switch (event.getType()) {
-                case LightController.LightEvent.GET_TMALL_PASSWORD_SUCCESS:
-                    this.onGetFirmwareSuccess();
-                    break;
-                case LightController.LightEvent.GET_TMALL_PASSWORD_FAIL:
                     this.onGetFirmwareFailure();
                     break;
             }
@@ -1520,12 +1447,8 @@ public class LightAdapter {
         private boolean startScan() {
 
             if (!LeBluetooth.getInstance().isScanning()) {
-                WeSmartLog.d("isScan=" + false);
-                if (!LeBluetooth.getInstance().startScan(null)) {
-                    WeSmartLog.d("startScan=" + false);
+                if (!LeBluetooth.getInstance().startScan(null))
                     return false;
-                }
-
                 lastLogoutTime = 0;
             }
 
@@ -1692,15 +1615,7 @@ public class LightAdapter {
         }
     }
 
-
     private boolean isSupportN() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
-    }
-
-    public static boolean mFindTmallMode = false;
-
-    //设置Ali模式
-    public static void setTmallMode(boolean isFindTmallMode) {
-        mFindTmallMode = isFindTmallMode;
     }
 }

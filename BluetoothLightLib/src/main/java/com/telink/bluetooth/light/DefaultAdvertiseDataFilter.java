@@ -5,9 +5,9 @@
 package com.telink.bluetooth.light;
 
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
 
-import com.telink.util.Hex;
+import com.telink.bluetooth.WeSmartLog;
+import com.telink.util.Arrays;
 import com.telink.util.Strings;
 
 /**
@@ -26,8 +26,7 @@ public final class DefaultAdvertiseDataFilter implements AdvertiseDataFilter<Lig
     @Override
     public LightPeripheral filter(BluetoothDevice device, int rssi, byte[] scanRecord) {
 
-//        WeSmartLog.i(device.getName() + "-->" + Arrays.bytesToHexString(scanRecord, ":"));
-        Log.i("TestData", "name=" + device.getName()+ Hex.encodeHexStr(scanRecord));
+        WeSmartLog.i(device.getName() + "-->" + Arrays.bytesToHexString(scanRecord, ":"));
 
         int length = scanRecord.length;
         int packetPosition = 0;
@@ -38,12 +37,18 @@ public final class DefaultAdvertiseDataFilter implements AdvertiseDataFilter<Lig
         byte[] meshName = null;
 
         int rspData = 0;
+
         while ( packetPosition < length ) {
+
             packetSize = scanRecord[ packetPosition ];
-            if (packetSize == 0)break;
+
+            if (packetSize == 0)
+                break;
+
             position = packetPosition + 1;
             type = scanRecord[ position ] & 0xFF;
             position++;
+
             if (type == 0x09) {
                 packetContentLength = packetSize - 1;
                 if (packetContentLength > 16 || packetContentLength <= 0)
@@ -55,32 +60,25 @@ public final class DefaultAdvertiseDataFilter implements AdvertiseDataFilter<Lig
                 String devName = Strings.bytesToString(meshName);
                 if (rspData == 2) {
                     int vendorId = (scanRecord[ position++ ] << 8) + scanRecord[ position++ ];
-                    Log.i("TestData", "devName=" + devName + ",length==" + scanRecord.length + ",vendorId=" + vendorId);
                     if (vendorId == Manufacture.getDefault().getVendorId() || vendorId == 0x0211) {
+//                        int meshUUID = scanRecord[ position++ ] + (scanRecord[ position++ ] << 8);
                         int meshUuidOne = (scanRecord[ position++ ] << 8) & 0xFFff;
                         int meshUuidTwo = (scanRecord[ position++ ]) & 0xFF;
-                        int meshAliVendor = meshUuidOne + meshUuidTwo;
+                        int meshUUID = meshUuidOne + meshUuidTwo;
+                        if (!devName.equals("Fulife") && (((meshUUID & 0xFFFF) == 0xC100) || ((meshUUID & 0xFFFF) >> 8 == 0xC0))) return null;
                         position += 4;
-                        int productType = scanRecord[ position++ ] + (scanRecord[ position++ ] << 8);
+                        int productUUID = scanRecord[ position++ ] + (scanRecord[ position++ ] << 8);
                         int status = scanRecord[ position++ ] & 0xFF;
                         int meshAddressOne = scanRecord[ position++ ] & 0xFF;
                         int meshAddressTwo = (scanRecord[ position ] << 8) & 0xFF;
                         int meshAddress = meshAddressOne + meshAddressTwo;
-                        int abilityOne = scanRecord[ scanRecord.length - 2 ];
-                        int authorCodeOne = scanRecord[ scanRecord.length - 6 ] << 24;
-                        int authorCodeTwo = scanRecord[ scanRecord.length - 6 ] << 16;
-                        int authorCodeThree = scanRecord[ scanRecord.length - 6 ] << 8;
-                        int authorCodeFour = scanRecord[ scanRecord.length - 6 ];
-                        int authorCode = authorCodeOne + authorCodeTwo + authorCodeThree + authorCodeFour;
-
                         LightPeripheral light = new LightPeripheral(device, scanRecord, rssi, meshName, meshAddress);
                         light.putAdvProperty(LightPeripheral.ADV_MESH_NAME, meshName);
                         light.putAdvProperty(LightPeripheral.ADV_MESH_ADDRESS, meshAddress);
-                        light.putAdvProperty(LightPeripheral.ADV_MESH_UUID, meshAliVendor);
-                        light.putAdvProperty(LightPeripheral.ADV_PRODUCT_UUID, productType);
+                        light.putAdvProperty(LightPeripheral.ADV_MESH_UUID, meshUUID);
+                        light.putAdvProperty(LightPeripheral.ADV_PRODUCT_UUID, productUUID);
                         light.putAdvProperty(LightPeripheral.ADV_STATUS, status);
-                        light.putAdvProperty(LightPeripheral.ABILITY, abilityOne);
-                        light.putAdvProperty(LightPeripheral.AUTHOR_CODE, authorCode);
+
                         return light;
                     }
                 }

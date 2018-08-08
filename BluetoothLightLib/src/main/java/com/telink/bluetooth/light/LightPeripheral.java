@@ -24,8 +24,6 @@ public class LightPeripheral extends Peripheral {
     public static final String ADV_MESH_UUID = "com.telink.bluetooth.light.ADV_MESH_UUID";
     public static final String ADV_PRODUCT_UUID = "com.telink.bluetooth.light.ADV_PRODUCT_UUID";
     public static final String ADV_STATUS = "com.telink.bluetooth.light.ADV_STATUS";
-    public static final String AUTHOR_CODE = "com.telink.bluetooth.light.AUTHOR_CODE";
-    public static final String ABILITY  = "com.telink.bluetooth.light.Ability ";
 
     protected final Map<String, Object> advProperties = new HashMap<>();
     protected final Map<UUID, byte[]> characteristicsValue = new HashMap<>();
@@ -36,7 +34,6 @@ public class LightPeripheral extends Peripheral {
     private byte[] password;
     private byte[] longTermKey;
     private int meshAddress;
-    private int tmallAbility;
 
     private Callback mCallback;
 
@@ -104,9 +101,6 @@ public class LightPeripheral extends Peripheral {
     public int getMeshUUID() {
         return this.getAdvPropertyAsInt(ADV_MESH_UUID);
     }
-    public int getAbility(){
-        return this.getAdvPropertyAsInt(ABILITY);
-    }
 
     public int getProductUUID() {
         return this.getAdvPropertyAsInt(ADV_PRODUCT_UUID);
@@ -149,7 +143,6 @@ public class LightPeripheral extends Peripheral {
             return this.characteristicsValue.get(characteristicUUID);
         return null;
     }
-
 
     public String getCharacteristicValueAsString(UUID characteristicUUID) {
         byte[] value = this.getCharacteristicValue(characteristicUUID);

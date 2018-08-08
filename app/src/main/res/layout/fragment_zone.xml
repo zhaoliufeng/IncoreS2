@@ -24,15 +24,16 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:text="@string/zones"
-            android:textColor="@color/black_333" />
+            android:textColor="@color/black_333"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_zone_list"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
 
     </android.support.v7.widget.RecyclerView>
 

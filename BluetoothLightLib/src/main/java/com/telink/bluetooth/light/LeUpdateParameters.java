@@ -88,14 +88,4 @@ public final class LeUpdateParameters extends Parameters {
         this.set(PARAM_DEVICE_LIST, Arrays.asList(value));
         return this;
     }
-    
-    /*
-    * 更新的单个设备
-    * 
-    * */
-      
-    public LeUpdateParameters setUpdateDevice(DeviceInfo value) {
-        this.set(PARAM_UPDATE_OFSTANCE_DEVICE, value);
-        return this;
-    }
 }

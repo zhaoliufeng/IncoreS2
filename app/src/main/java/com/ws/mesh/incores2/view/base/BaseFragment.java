@@ -2,7 +2,6 @@ package com.ws.mesh.incores2.view.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.TwoStatePreference;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.telink.WSMeshApplication;
+import com.ws.mesh.incores2.MeshApplication;
 import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.view.activity.StageThreeActivity;
 import com.ws.mesh.incores2.view.activity.StageTwoActivity;
+
+import java.net.InetAddress;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -62,7 +63,7 @@ public abstract class BaseFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(WSMeshApplication.getInstance(), str, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MeshApplication.getInstance(), str, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -74,10 +75,23 @@ public abstract class BaseFragment extends Fragment {
                 .putExtra(IntentConstant.PAGE_TYPE, pageId));
     }
 
+    public void pushStageActivity(int pageId, InetAddress inetAddress) {
+        startActivity(new Intent(getActivity(), findNextClass())
+                .putExtra(IntentConstant.PAGE_TYPE, pageId)
+                .putExtra(IntentConstant.INTENT_OBJ, inetAddress));
+    }
+
     public void pushStageActivity(int pageId, int meshAddress) {
         startActivity(new Intent(getActivity(), findNextClass())
                 .putExtra(IntentConstant.PAGE_TYPE, pageId)
                 .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
+    }
+
+    public void pushStageActivity(int pageId, int meshAddress, int alarmId) {
+        startActivity(new Intent(getActivity(), findNextClass())
+                .putExtra(IntentConstant.PAGE_TYPE, pageId)
+                .putExtra(IntentConstant.MESH_ADDRESS, meshAddress)
+                .putExtra(IntentConstant.ALARM_ID, alarmId));
     }
 
     public void pushStageActivityForResult(int pageId) {
@@ -86,15 +100,19 @@ public abstract class BaseFragment extends Fragment {
                 IntentConstant.REQUEST_CODE);
     }
 
+    public void pushActivity(Class<? extends BaseActivity> clazz) {
+        startActivity(new Intent(getActivity(), clazz));
+    }
+
     public void pushActivity(Class<? extends BaseActivity> clazz, int meshAddress) {
         startActivity(new Intent(getActivity(), clazz)
                 .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
     }
 
-    public void pushActivity(Class<? extends BaseActivity> clazz, int pageId, int meshAddress) {
+    public void pushActivity(Class<? extends BaseActivity> clazz, int meshAddress, int sceneId) {
         startActivity(new Intent(getActivity(), clazz)
-                .putExtra(IntentConstant.PAGE_TYPE, pageId)
-                .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
+                .putExtra(IntentConstant.MESH_ADDRESS, meshAddress)
+                .putExtra(IntentConstant.SCENE_ID, sceneId));
     }
 
     //寻找当前下一层的class

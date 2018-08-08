@@ -72,18 +72,20 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tv_menu_right"
+                android:id="@+id/tv_menu_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="4dp"
                 android:padding="7dp"
-                android:text="@string/confirm"
-                android:textColor="@color/black_333"
+                android:textSize="18sp"
+                android:text="@string/save"
+                android:textColor="@color/colorPrimary"
                 android:visibility="gone" />
 
             <ImageView
+                android:visibility="visible"
                 android:id="@+id/img_menu_add"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -195,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="50%"
+                android:text="@string/_0"
                 android:textColor="@color/black_333"
                 android:textSize="@dimen/text_size_38px" />
 
@@ -277,7 +279,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="RGB(0,0,0)"
+                android:text="@string/rgb_0_0_0"
                 android:textColor="@color/black_333"
                 android:textSize="@dimen/text_size_36px" />
 
@@ -354,7 +356,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="CoolWarm(200,200)"
+                android:text="@string/coolwarm_0_0"
                 android:textColor="@color/black_333"
                 android:textSize="@dimen/text_size_36px" />
 
@@ -405,7 +407,7 @@
 
         <TextView
             android:id="@+id/tv_finish"
-            android:layout_width="200dp"
+            android:layout_width="260dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
@@ -421,10 +423,24 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_interaction"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:overScrollMode="never"
         android:padding="10dp">
 
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_clear_set"
+        android:gravity="center"
+        android:textSize="19sp"
+        android:text="@string/clear_setting"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/bg_btn_finish" />
 
 </LinearLayout>

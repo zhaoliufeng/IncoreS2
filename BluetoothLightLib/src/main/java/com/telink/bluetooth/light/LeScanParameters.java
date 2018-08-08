@@ -64,15 +64,4 @@ public final class LeScanParameters extends Parameters {
         this.set(Parameters.PARAM_SCAN_TYPE_SINGLE, singleScan);
         return this;
     }
-
-    /**
-     * 扫描模式,true时扫描到一个设备就会立即停止扫描.
-     *
-     * @param isJion
-     * @return
-     */
-    public LeScanParameters setIsJoinTmall(boolean isJion) {
-        this.set(Parameters.PARAM_SCAN_JION_TMALL, isJion);
-        return this;
-    }
 }

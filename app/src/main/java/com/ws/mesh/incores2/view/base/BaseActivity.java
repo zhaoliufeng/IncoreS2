@@ -18,11 +18,21 @@ import com.ws.mesh.incores2.utils.StatusBarUpper;
 import com.ws.mesh.incores2.view.activity.LauncherActivity;
 import com.ws.mesh.incores2.view.fragment.BreathFragment;
 import com.ws.mesh.incores2.view.fragment.EditFragment;
+import com.ws.mesh.incores2.view.fragment.NetworkListFragment;
+import com.ws.mesh.incores2.view.fragment.SceneAddFragment;
+import com.ws.mesh.incores2.view.fragment.SettingFragment;
+import com.ws.mesh.incores2.view.fragment.ShareManageFragment;
+import com.ws.mesh.incores2.view.fragment.TimingEventsFragment;
+import com.ws.mesh.incores2.view.fragment.ZoneDeviceManageFragment;
 import com.ws.mesh.incores2.view.fragment.music.MusicFragment;
 import com.ws.mesh.incores2.view.fragment.SceneAddDeviceFragment;
 import com.ws.mesh.incores2.view.fragment.SceneAddTimingFragment;
 import com.ws.mesh.incores2.view.fragment.TimingEditFragment;
 import com.ws.mesh.incores2.view.fragment.TimingFragment;
+import com.ws.mesh.incores2.view.fragment.share.ChooseShareMeshFragment;
+import com.ws.mesh.incores2.view.fragment.share.ShareReceiveFragment;
+import com.ws.mesh.incores2.view.fragment.share.ShareChooseRoleFragment;
+import com.ws.mesh.incores2.view.fragment.share.ShareUserFragment;
 
 import butterknife.ButterKnife;
 
@@ -63,7 +73,7 @@ public abstract class BaseActivity extends FragmentActivity {
             title = findViewById(R.id.tv_title);
         }
 
-        if (findViewById(R.id.img_back) != null){
+        if (findViewById(R.id.img_back) != null) {
             findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,6 +81,8 @@ public abstract class BaseActivity extends FragmentActivity {
                 }
             });
         }
+
+
         initData();
         CoreData.addActivity(this, getClass().getSimpleName());
     }
@@ -139,32 +151,58 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     private void setPageTitle(BaseFragment fragment) {
-        if (fragment instanceof BreathFragment){
+        if (fragment instanceof BreathFragment) {
             title.setText(R.string.breath);
         }
 
-        if (fragment instanceof MusicFragment){
+        if (fragment instanceof MusicFragment) {
             title.setText(R.string.music);
         }
 
-        if (fragment instanceof TimingFragment){
+        if (fragment instanceof TimingFragment ||
+                fragment instanceof TimingEditFragment ||
+                fragment instanceof SceneAddTimingFragment) {
             title.setText(R.string.schedule_editor);
         }
 
-        if (fragment instanceof TimingEditFragment){
-            title.setText(R.string.schedule_editor);
+        if (fragment instanceof TimingEventsFragment){
+            title.setText(R.string.schedule_events);
         }
 
-        if (fragment instanceof EditFragment){
+        if (fragment instanceof EditFragment) {
             title.setText(R.string.zone_editor);
         }
 
-        if (fragment instanceof SceneAddTimingFragment){
+        if (fragment instanceof SceneAddTimingFragment) {
             title.setText(R.string.schedule_editor);
         }
 
-        if (fragment instanceof SceneAddDeviceFragment){
+        if (fragment instanceof SceneAddDeviceFragment ||
+                fragment instanceof SceneAddFragment) {
             title.setText(R.string.add_scene);
+        }
+
+        if (fragment instanceof ZoneDeviceManageFragment){
+            title.setText(R.string.zone_manager);
+        }
+
+        if (fragment instanceof SettingFragment) {
+            title.setText(R.string.settings);
+        }
+
+        if (fragment instanceof NetworkListFragment) {
+            title.setText(R.string.network_manager);
+        }
+
+        if (fragment instanceof ShareManageFragment){
+            title.setText(R.string.share_history);
+        }
+
+        if (fragment instanceof ShareChooseRoleFragment ||
+                fragment instanceof ShareUserFragment ||
+                fragment instanceof ChooseShareMeshFragment ||
+                fragment instanceof ShareReceiveFragment) {
+            title.setText(R.string.network_share);
         }
 
     }

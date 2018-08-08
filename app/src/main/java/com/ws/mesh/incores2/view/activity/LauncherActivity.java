@@ -3,7 +3,6 @@ package com.ws.mesh.incores2.view.activity;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.constant.AppLifeStatusConstant;
 import com.ws.mesh.incores2.utils.CoreData;
-import com.ws.mesh.incores2.view.base.BaseActivity;
 import com.ws.mesh.incores2.view.base.BaseContentActivity;
 import com.ws.mesh.incores2.view.impl.ILauncherView;
 import com.ws.mesh.incores2.view.presenter.LauncherPresenter;
@@ -21,6 +20,12 @@ public class LauncherActivity extends BaseContentActivity<ILauncherView, Launche
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.initMesh();
+    }
+
+    @Override
     protected LauncherPresenter createPresenter() {
         return new LauncherPresenter();
     }
@@ -33,8 +38,8 @@ public class LauncherActivity extends BaseContentActivity<ILauncherView, Launche
 
     @Override
     public void enterScanView() {
-        //Intent附带Extra标识当前是否需要进入扫描设备界面
-        pushActivity(MainActivity.class, true);
+        //Intent附带Extra标识当前是否需第一次进入程序
+        pushActivity(ScanDeviceActivity.class, true);
         finish();
     }
 }

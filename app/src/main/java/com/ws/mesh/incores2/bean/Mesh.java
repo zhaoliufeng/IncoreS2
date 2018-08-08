@@ -24,7 +24,7 @@ public class Mesh {
     @DBFiled
     public String mMeshFactoryPassword;
 
-    //加密后的名称
+    //显示名
     @DBFiled
     public String mMeshShowName;
 

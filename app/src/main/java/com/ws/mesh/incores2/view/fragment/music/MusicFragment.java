@@ -222,6 +222,7 @@ public class MusicFragment extends BaseFragment {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicService = ((PlayMusicService.PlayBinder) service).getService();
+            musicService.setMeshAddress(meshAddress);
             musicService.setMusicPlayListener(musicPlayListener);
 
             songList = musicService.getMusicList();

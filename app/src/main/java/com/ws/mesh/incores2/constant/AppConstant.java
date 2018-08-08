@@ -9,7 +9,7 @@ public class AppConstant {
     public static final String MESH_DEFAULT_PASSWORD = "2846";
     public static final String DEFAULT_EDIT_PASSWORD = "888888";
     //默认网络名称
-    public static final String DEFAULT_MESH_NAME = "MyHome";
+    public static final String DEFAULT_MESH_NAME = "Default";
     public static final int DEFAULT_TYPE = 0xA0FF;
     public static final String DEVICE_DEFAULT_NAME = "FLEXLINK";
 
@@ -21,10 +21,6 @@ public class AppConstant {
     public static final int ZONE_START_ID = 0x8001;
     public static final long DAY_TIME = 1000L * 24 * 60 * 60;
 
-    //闹钟所属设备类型
-    public static final int ALARM_TYPE_GROUP = 2;
-    public static final int ALARM_TYPE_DEVICE = 1;
-    public static final int ALARM_TYPE_SCENE = 0;
 
     public static final byte SCENE_ALARM = (byte) 0x92;
     //关闭闹钟
@@ -37,4 +33,16 @@ public class AppConstant {
     public static final byte DAY_OFF_ALARM = (byte) 0x80;
     //日模式的打开鬧鐘
     public static final byte DAY_ON_ALARM = (byte) 0x81;
+    //起始场景id
+    public static final int SCENE_START_ID = 1;
+    //末尾场景id
+    public static final int SCENE_LAST_ID = 8;
+
+    //能够支持的最大网络名称长度
+    public static final int MAX_MESH_LENGTH = 12;
+
+    //默认昼夜节律
+    public static final String DEFAULT_SUNRISE_TIME = "06:00";
+    public static final String DEFAULT_SUNSET_TIME = "18:00";
+    public static final int SHARE_VERSION = 1;
 }

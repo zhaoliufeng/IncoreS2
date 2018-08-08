@@ -2,8 +2,8 @@ package com.ws.mesh.incores2.utils;
 
 import android.content.Context;
 
-import com.telink.WSMeshApplication;
 import com.telink.bluetooth.light.ConnectionStatus;
+import com.ws.mesh.incores2.MeshApplication;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.constant.AppConstant;
@@ -38,7 +38,7 @@ public class DeviceParamsDeal {
 
     public static synchronized String getDeviceName(int deviceType) {
         String name;
-        Context context = WSMeshApplication.getInstance();
+        Context context = MeshApplication.getInstance();
         switch (deviceType >> 8) {
             case AppConstant.FORM_LIGHT_BOOSTER:
                 name = context.getString(R.string.device_extender);

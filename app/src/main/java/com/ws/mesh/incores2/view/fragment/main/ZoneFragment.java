@@ -33,8 +33,17 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
 
     @Override
     protected void initData() {
-        roomAdapter = new RoomAdapter(CoreData.core().mRoomSparseArray);
         rlZoneList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    protected ZonePresenter createPresent() {
+        return new ZonePresenter();
+    }
+
+    @Override
+    public void onResume() {
+        roomAdapter = new RoomAdapter(CoreData.core().mRoomSparseArray);
         rlZoneList.setAdapter(roomAdapter);
         roomAdapter.setOnZoneMenuListener(new RoomAdapter.OnZoneClickListener() {
             @Override
@@ -44,7 +53,7 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
                 switch (menuItemIndex) {
                     case 0:
                         //群组设备管理
-
+                        pushStageActivity(PageId.ZONE_DEVICE_MANAGE, room.mRoomId);
                         break;
                     case 1:
                         //颜色控制
@@ -77,17 +86,7 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
                 SendMsg.switchDevice(room.mRoomId, isOpen);
             }
         });
-    }
-
-    @Override
-    protected ZonePresenter createPresent() {
-        return new ZonePresenter();
-    }
-
-    @Override
-    public void onResume() {
         super.onResume();
-        roomAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.iv_add_zone)

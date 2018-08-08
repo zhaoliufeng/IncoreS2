@@ -4,8 +4,6 @@
  */
 package com.telink.util;
 
-import android.text.TextUtils;
-
 import java.nio.charset.Charset;
 
 public final class Strings {
@@ -15,15 +13,13 @@ public final class Strings {
 
     public static byte[] stringToBytes(String str, int length) {
 
-        if (TextUtils.isEmpty(str)) return null;
-
         byte[] srcBytes;
 
         if (length <= 0) {
             return str.getBytes(Charset.defaultCharset());
         }
 
-        byte[] result = new byte[ length ];
+        byte[] result = new byte[length];
 
         srcBytes = str.getBytes(Charset.defaultCharset());
 

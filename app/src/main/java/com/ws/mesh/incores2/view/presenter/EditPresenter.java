@@ -5,7 +5,9 @@ import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.bean.Room;
 import com.ws.mesh.incores2.db.DeviceDAO;
 import com.ws.mesh.incores2.db.RoomDAO;
+import com.ws.mesh.incores2.db.TimingDAO;
 import com.ws.mesh.incores2.utils.CoreData;
+import com.ws.mesh.incores2.utils.SendMsg;
 import com.ws.mesh.incores2.view.base.IBasePresenter;
 import com.ws.mesh.incores2.view.impl.IEditView;
 
@@ -65,8 +67,11 @@ public class EditPresenter extends IBasePresenter<IEditView> {
     }
 
     private boolean removeDevice() {
-        if (RoomDAO.getInstance().deleteRoom(room)) {
-            CoreData.core().mRoomSparseArray.remove(room.mRoomId);
+        if (DeviceDAO.getInstance().deleteDevice(device)) {
+            CoreData.core().mDeviceSparseArray.remove(device.mDevMeshId);
+            //删除定时表中相关的定时
+            TimingDAO.getInstance().deleteTimingByDeviceId(device.mDevMeshId);
+            SendMsg.kickOut(device.mDevMeshId);
             return true;
         }
         return false;
@@ -75,6 +80,9 @@ public class EditPresenter extends IBasePresenter<IEditView> {
     private boolean removeRoom() {
         if (RoomDAO.getInstance().deleteRoom(room)) {
             CoreData.core().mRoomSparseArray.remove(room.mRoomId);
+            //删除定时表中相关的定时
+            TimingDAO.getInstance().deleteTimingByRoomId(room.mRoomId);
+            SendMsg.deleteGroup(room.mRoomId);
             return true;
         }
         return false;

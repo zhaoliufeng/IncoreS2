@@ -3,7 +3,6 @@ package com.ws.mesh.incores2.view.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.FavoriteColor;
 import com.ws.mesh.incores2.constant.IntentConstant;
@@ -70,6 +70,8 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
 
     @BindView(R.id.iv_add_favorite_color)
     ImageView ivAddFavoriteColor;
+    @BindView(R.id.iv_delete_color)
+    ImageView ivDeleteColor;
 
     @BindView(R.id.rl_favorite_color)
     RecyclerView rlFavoriteColor;
@@ -84,7 +86,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
     private ColorTagAdapter colorTagAdapter;
     private InteractionAdapter interactionAdapter;
 
-    private int red, green, blue, warm, clod, brightness;
+    private int red, green, blue, warm, cold, brightness;
     private int meshAddress;
 
     @Override
@@ -93,14 +95,11 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void initData() {
         meshAddress = getIntent().getIntExtra(
                 IntentConstant.MESH_ADDRESS, -1);
-        super.onCreate(savedInstanceState);
-    }
+        presenter.init(meshAddress);
 
-    @Override
-    protected void initData() {
         csbBrightness.setOnSeekBarDragListener(new OnSeekBarDragListener() {
             @Override
             public void startDrag() {
@@ -132,7 +131,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
                 red = (int) (process / 100f * 255);
                 crvPreview.setBackgroundColor(Color.rgb(red, green, blue));
                 tvRgbPreview.setText(String.format("RGB(%d,%d,%d)", red, green, blue));
-                presenter.controlColor(red, green, blue, warm, clod);
+                presenter.controlColor(red, green, blue, warm, cold);
             }
 
             @Override
@@ -152,7 +151,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
                 green = (int) (process / 100f * 255);
                 crvPreview.setBackgroundColor(Color.rgb(red, green, blue));
                 tvRgbPreview.setText(String.format("RGB(%d,%d,%d)", red, green, blue));
-                presenter.controlColor(red, green, blue, warm, clod);
+                presenter.controlColor(red, green, blue, warm, cold);
             }
 
             @Override
@@ -172,7 +171,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
                 blue = (int) (process / 100f * 255);
                 crvPreview.setBackgroundColor(Color.rgb(red, green, blue));
                 tvRgbPreview.setText(String.format("RGB(%d,%d,%d)", red, green, blue));
-                presenter.controlColor(red, green, blue, warm, clod);
+                presenter.controlColor(red, green, blue, warm, cold);
             }
 
             @Override
@@ -190,11 +189,11 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             @Override
             public void dragging(int process) {
                 warm = (int) (process / 100f * 255);
-                tvWcPreview.setText(String.format("CoolWarm(%d,%d)", warm, clod));
+                tvWcPreview.setText(String.format("CoolWarm(%d,%d)", warm, cold));
                 //如果当没有设置rgb彩色值时，预览颜色才显示色温的状态
                 if (red == 0 && green == 0 && blue == 0)
                     crvPreview.setBackgroundColor(ViewUtils.interpolate(0xEBF1F1F1, 0xB9FEB800, warm / 255f));
-                presenter.controlColor(red, green, blue, warm, clod);
+                presenter.controlColor(red, green, blue, warm, cold);
             }
 
             @Override
@@ -211,9 +210,9 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             @SuppressLint("DefaultLocale")
             @Override
             public void dragging(int process) {
-                clod = (int) (process / 100f * 255);
-                tvWcPreview.setText(String.format("CoolWarm(%d,%d)", warm, clod));
-                presenter.controlColor(red, green, blue, warm, clod);
+                cold = (int) (process / 100f * 255);
+                tvWcPreview.setText(String.format("CoolWarm(%d,%d)", warm, cold));
+                presenter.controlColor(red, green, blue, warm, cold);
             }
 
             @Override
@@ -229,8 +228,24 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             @Override
             public void ItemSelected(int position) {
                 FavoriteColor favoriteColor = presenter.colorSparseArray.valueAt(position);
-                int color = Color.rgb(favoriteColor.red, favoriteColor.green, favoriteColor.blue);
-                SendMsg.setDevColor(meshAddress, color, favoriteColor.warm, favoriteColor.cold, false, (byte) 0x1F);
+                presenter.setFavoriteColor(favoriteColor);
+                if (presenter.isRoom()) {
+                    red = favoriteColor.red;
+                    green = favoriteColor.green;
+                    blue = favoriteColor.blue;
+                    warm = favoriteColor.warm;
+                    cold = favoriteColor.cold;
+                    brightness = favoriteColor.brightness;
+
+                    setColorBarStatus();
+
+                    setBrightnessStatus();
+                } else {
+                    presenter.getDeviceColor();
+
+                    brightness = favoriteColor.brightness;
+                    setBrightnessStatus();
+                }
             }
         });
 
@@ -240,12 +255,26 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         colorTagAdapter.setOnItemSelectedListener(new ColorTagAdapter.OnColorTagSelectedListener() {
             @Override
             public void OnColorTagSelected(int color) {
-                if (color == 0xFFFFFF) {
-                    SendMsg.setDevColor(meshAddress, 0, 0, 255, false, (byte) 0x1F);
-                } else if (color == 0xFDA100) {
-                    SendMsg.setDevColor(meshAddress, 0, 255, 0, false, (byte) 0x1F);
+                presenter.setTagColor(color);
+                if (presenter.isRoom()) {
+                    red = 0;
+                    green = 0;
+                    blue = 0;
+                    warm = 0;
+                    cold = 0;
+                    if (color == 0xFFFFFF) {
+                        cold = 255;
+                    } else if (color == 0xFDA100) {
+                        warm = 255;
+                    } else {
+                        red = Color.red(color);
+                        green = Color.green(color);
+                        blue = Color.blue(color);
+                    }
+
+                    setColorBarStatus();
                 } else {
-                    SendMsg.setDevColor(meshAddress, color, 0, 0, false, (byte) 0x1F);
+                    presenter.getDeviceColor();
                 }
             }
         });
@@ -258,7 +287,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             @Override
             public void ItemSelected(int position) {
                 //Interaction item click
-                switch (position){
+                switch (position) {
                     case 0:
                         //呼吸
                         pushActivity(StageTwoActivity.class, PageId.BREATH, meshAddress);
@@ -282,7 +311,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
 
     @Override
     protected ControlPresenter createPresenter() {
-        return new ControlPresenter(meshAddress);
+        return new ControlPresenter();
     }
 
     @OnClick(R.id.tv_title)
@@ -303,6 +332,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         if (view.getId() == R.id.tv_palette) {
             if (llControl.getVisibility() == View.GONE) {
                 llControl.setVisibility(View.VISIBLE);
+
                 tvPalette.setTextColor(getResources().getColor(R.color.white));
                 tvInteraction.setTextColor(getResources().getColor(R.color.colorPrimary));
                 tvPalette.setBackground(getResources().getDrawable(R.drawable.bg_title_palette_selected));
@@ -325,12 +355,14 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             llColorTag.setVisibility(View.GONE);
             tvFinish.setVisibility(View.VISIBLE);
             llBg.setBackgroundColor(getResources().getColor(R.color.black_333));
+            ivAddFavoriteColor.setVisibility(View.INVISIBLE);
+            ivDeleteColor.setVisibility(View.INVISIBLE);
         }
     }
 
     @OnClick(R.id.iv_delete_color)
     public void onDeleteColor() {
-        final AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomDialog).create();
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
         Window window = dialog.getWindow();
         dialog.show();
         if (window != null) {
@@ -374,13 +406,19 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.getDeviceColor();
+    }
+
+    @Override
     public void onBackPressed() {
         onBack();
     }
 
     @OnClick(R.id.tv_finish)
     public void onAddFavoriteColorConfirm() {
-        presenter.addFavorite(red, green, blue, warm, clod, brightness);
+        presenter.addFavorite(red, green, blue, warm, cold, brightness);
     }
 
     @Override
@@ -388,6 +426,8 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         if (success) {
             favoriteAdapter.notifyDataSetChanged();
             if (llColorTag.getVisibility() != View.VISIBLE) {
+                ivAddFavoriteColor.setVisibility(View.VISIBLE);
+                ivDeleteColor.setVisibility(View.VISIBLE);
                 llColorTag.setVisibility(View.VISIBLE);
                 tvFinish.setVisibility(View.GONE);
                 llBg.setBackgroundColor(getResources().getColor(R.color.app_bg));
@@ -395,5 +435,91 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         } else {
             toast(R.string.save_failed);
         }
+    }
+
+    @Override
+    public void setColor(int color, int warm, int cold) {
+        this.red = Color.red(color);
+        this.green = Color.green(color);
+        this.blue = Color.blue(color);
+        this.warm = warm;
+        this.cold = cold;
+        setColorBarStatus();
+    }
+
+    //亮度只有刚进入控制界面才需要设置
+    private boolean alreadySetBrightness;
+
+    @Override
+    public void setBrightness(final int brightness) {
+        if (!alreadySetBrightness) {
+            alreadySetBrightness = true;
+            this.brightness = brightness;
+            runOnUiThread(new Runnable() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public void run() {
+                    csbBrightness.setProcessWithAnimation(brightness);
+                    tvBrightness.setText(String.format("%d%%", brightness));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void setStatus(ConnectionStatus connectStatus) {
+        if (connectStatus == ConnectionStatus.OFF) {
+            this.red = 0;
+            this.green = 0;
+            this.blue = 0;
+            this.green = 0;
+            this.warm = 0;
+            this.cold = 0;
+            this.brightness = 0;
+            setColorBarStatus();
+        }
+    }
+
+    private void setColorBarStatus() {
+        runOnUiThread(new Runnable() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void run() {
+                csbRed.setProcessWithAnimation(getProcessVal(red));
+                csbGreen.setProcessWithAnimation(getProcessVal(green));
+                csbBlue.setProcessWithAnimation(getProcessVal(blue));
+                csbWarm.setProcessWithAnimation(getProcessVal(warm));
+                csbCold.setProcessWithAnimation(getProcessVal(cold));
+                if (red != 0 || green != 0 || blue != 0) {
+                    crvPreview.setBackgroundColor(Color.rgb(red, green, blue));
+                    tvRgbPreview.setText(String.format("RGB(%d,%d,%d)", red, green, blue));
+                } else {
+                    crvPreview.setBackgroundColor(ViewUtils.interpolate(0xEBF1F1F1, 0xB9FEB800, warm / 255f));
+                    tvWcPreview.setText(String.format("CollWarm(%d,%d)", warm, cold));
+                }
+            }
+        });
+    }
+
+    private void setBrightnessStatus() {
+        runOnUiThread(new Runnable() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void run() {
+                csbBrightness.setProcessWithAnimation(brightness);
+                tvBrightness.setText(String.format("%d%%", brightness));
+            }
+        });
+    }
+
+    //将 0 - 255 的值压缩到 0 - 100
+    private int getProcessVal(int val) {
+        return (int) ((val / 255.0f) * 100);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destory();
     }
 }

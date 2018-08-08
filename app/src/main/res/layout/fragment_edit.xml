@@ -56,7 +56,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/bg_round_primary"
+            android:background="@drawable/bg_round_primary_border"
             android:gravity="center"
             android:text="@string/enter"
             android:textColor="@color/colorPrimary"

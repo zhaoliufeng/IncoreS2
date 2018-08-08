@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
+import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.bean.Timing;
 import com.ws.mesh.incores2.constant.TimingType;
 import com.ws.mesh.incores2.db.DeviceDAO;
@@ -21,6 +23,9 @@ import com.ws.mesh.incores2.utils.ViewUtils;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,11 +33,36 @@ import butterknife.ButterKnife;
 
 public class ScheduleAdapter extends RecyclerView.Adapter {
 
-    private SparseArray<Timing> timingList;
+    private List<Timing> timingList;
     private Context context;
 
-    public ScheduleAdapter(SparseArray<Timing> data) {
-        this.timingList = data;
+    public ScheduleAdapter(List<Timing> data) {
+        this.timingList = new ArrayList<>();
+        for (Timing timing : data){
+            if (timing.mAlarmType == TimingType.DEVICE.getValue()){
+                //如果是设备的定时 则需要判断设备在不在先 如果在线才显示
+                Device device = CoreData.core().mDeviceSparseArray.get(timing.mParentId);
+                if (device != null
+                        && device.mConnectionStatus != ConnectionStatus.OFFLINE){
+                    this.timingList.add(timing);
+                }
+            }else {
+                this.timingList.add(timing);
+            }
+        }
+
+        //按照执行时间排序
+        Collections.sort(timingList, new Comparator<Timing>() {
+            @Override
+            public int compare(Timing o1, Timing o2) {
+                //比较执行小时 * 100 + 执行分钟的大小
+                if (o1.mHours * 100 + o1.mMins > o2.mHours * 100 + o2.mMins)
+                    return 1;
+                else if (o1.mHours * 100 + o1.mMins == o2.mHours * 100 + o2.mMins)
+                    return 0;
+                return -1;
+            }
+        });
     }
 
     @NonNull
@@ -48,7 +78,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TimingViewHolder viewHolder = (TimingViewHolder) holder;
         int viewPosition = viewHolder.getAdapterPosition();
-        Timing timing = timingList.valueAt(viewPosition);
+        Timing timing = timingList.get(viewPosition);
         int listRes = R.drawable.icon_list_center;
         if (getItemCount() == 1) {
             listRes = R.drawable.icon_list_single;

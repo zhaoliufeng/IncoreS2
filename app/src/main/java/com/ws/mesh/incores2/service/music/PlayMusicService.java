@@ -4,11 +4,15 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
+import android.media.audiofx.Visualizer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.util.Log;
 
 import com.ws.mesh.incores2.bean.Song;
+import com.ws.mesh.incores2.utils.SendMsg;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +69,10 @@ public class PlayMusicService extends Service implements IMusicService {
     //播放模式 默认列表循环
     private PlayMode mMode = PlayMode.LIST_LOOP;
 
+    private Visualizer visualizer;
+    private Equalizer equalizer;
+    private int meshAddress;
+
     public PlayMusicService() {
 
     }
@@ -78,6 +86,19 @@ public class PlayMusicService extends Service implements IMusicService {
         mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         initListener();
+
+        equalizer = new Equalizer(0, mediaPlayer.getAudioSessionId());
+        equalizer.setEnabled(true);
+
+        visualizer = new Visualizer(mediaPlayer.getAudioSessionId());
+        visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+
+        visualizer.setDataCaptureListener(captureListener,
+                Visualizer.getMaxCaptureRate(), false, true);
+    }
+
+    public void setMeshAddress(int meshAddress){
+        this.meshAddress = meshAddress;
     }
 
     private void initListener() {
@@ -147,6 +168,8 @@ public class PlayMusicService extends Service implements IMusicService {
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(musicDatas.get(mCurrIndex).getPath());
                 prepareMediaPlayer();
+                if (visualizer != null)
+                    visualizer.setEnabled(true);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -252,6 +275,7 @@ public class PlayMusicService extends Service implements IMusicService {
     //暂停
     @Override
     public void pause() {
+        if (visualizer != null) visualizer.setEnabled(true);
         mediaPlayer.pause();
         musicPlayListener.MusicPaused();
     }
@@ -259,6 +283,7 @@ public class PlayMusicService extends Service implements IMusicService {
     //继续 开始播放
     @Override
     public void start() {
+        if (visualizer != null) visualizer.setEnabled(true);
         mediaPlayer.start();
         musicPlayListener.MusicStart();
     }
@@ -286,6 +311,10 @@ public class PlayMusicService extends Service implements IMusicService {
 
     @Override
     public void onDestroy() {
+        equalizer.release();
+        visualizer.setEnabled(false);
+        visualizer.release();
+        visualizer = null;
         mediaPlayer.release();
         super.onDestroy();
     }
@@ -295,8 +324,40 @@ public class PlayMusicService extends Service implements IMusicService {
         return binder;
     }
 
+    private byte[] mColorData;
+    Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
+
+        @Override
+        public void onWaveFormDataCapture(Visualizer arg0, byte[] data, int arg2) {
+            int brightness = MusicUtils.parseMusicData(data);
+            if (brightness > 100) brightness = 100;
+            if (brightness == -1) return;
+            mColorData = MusicUtils.getColor(brightness);
+            mColorData[ 6 ] = (byte) brightness;
+            SendMsg.sendColorCommonMsg(meshAddress, mColorData);
+        }
+
+        @Override
+        public void onFftDataCapture(Visualizer arg0, byte[] data, int arg2) {
+            int brightness = MusicUtils.parseMusicData(data);
+            if (brightness > 100) brightness = 100;
+            if (brightness == -1) return;
+            mColorData = MusicUtils.getColor(brightness);
+//            mColorData[8] = (byte) (0x9F);
+            Log.i("V Value", mColorData[8] + "");
+            mColorData[ 6 ] = (byte) brightness;
+            SendMsg.sendColorCommonMsg(meshAddress, mColorData);
+        }
+    };
+
     @Override
     public boolean onUnbind(Intent intent) {
+        //最后一帧发有效位去掉byte7的 1 表示开启设备颜色上报
+        if (mColorData != null){
+            mColorData[8] = (byte) (mColorData[8] - 0x80);
+            SendMsg.sendColorCommonMsg(meshAddress, mColorData);
+            Log.i("V Last Value", mColorData[8] + "");
+        }
         return super.onUnbind(intent);
     }
 }

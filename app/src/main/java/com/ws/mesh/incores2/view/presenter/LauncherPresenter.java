@@ -21,10 +21,9 @@ public class LauncherPresenter extends IBasePresenter<ILauncherView> {
         if (WeSmartService.Instance() == null) {
             MeshApplication.getInstance().doInit();
         }
-        initMesh();
     }
 
-    private void initMesh() {
+    public void initMesh() {
         CoreData.core().initMesh();
         if (CoreData.core().getCurrMesh() != null) {
             if (!TextUtils.isEmpty(SPUtils.getLatelyMesh())) {
@@ -49,13 +48,14 @@ public class LauncherPresenter extends IBasePresenter<ILauncherView> {
             String password = AccountUtil.generatePassword(account);
 //            mesh.mMeshName = account;
 //            mesh.mMeshPassword = password;
-            mesh.mMeshName = AppConstant.MESH_DEFAULT_NAME;;
+            mesh.mMeshName = AppConstant.MESH_DEFAULT_NAME;
             mesh.mMeshPassword = AppConstant.MESH_DEFAULT_PASSWORD;
             mesh.mMeshFactoryName = AppConstant.MESH_DEFAULT_NAME;
             mesh.mMeshFactoryPassword = AppConstant.MESH_DEFAULT_PASSWORD;
             mesh.mMeshShowName = AppConstant.DEFAULT_MESH_NAME;
             mesh.mIsShare = false;
             mesh.mMeshEditPassword = AppConstant.DEFAULT_EDIT_PASSWORD;
+            SPUtils.saveDefaultMesh(mesh.mMeshName);
 
             if (MeshDAO.getInstance().insertMesh(mesh)) {
                 CoreData.core().setCurrMesh(mesh);
@@ -77,7 +77,7 @@ public class LauncherPresenter extends IBasePresenter<ILauncherView> {
                 if (finalIsInitMesh) {
                     getView().enterScanView();
                 } else {
-                    getView().enterScanView();
+                    getView().enterMainView();
                 }
             }
         }, 1500);

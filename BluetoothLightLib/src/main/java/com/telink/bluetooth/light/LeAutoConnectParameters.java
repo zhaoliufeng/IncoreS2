@@ -64,6 +64,4 @@ public final class LeAutoConnectParameters extends Parameters {
         this.set(PARAM_TIMEOUT_SECONDS, timeoutSeconds);
         return this;
     }
-
-  
 }

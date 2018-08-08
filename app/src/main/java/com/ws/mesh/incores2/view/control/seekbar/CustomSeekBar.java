@@ -363,7 +363,7 @@ public class CustomSeekBar extends View implements View.OnTouchListener {
     /**
      * 设置进度
      *
-     * @param process 当前进度
+     * @param process 当前进度 0 - 100
      */
     public void setProcess(final int process) {
         synchronized (this) {
@@ -400,7 +400,7 @@ public class CustomSeekBar extends View implements View.OnTouchListener {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     mThumbX = (float) animation.getAnimatedValue();
                     postInvalidate();
-                    mSeekBarDragListener.dragging((int) ((mThumbX - mProcessStartX) / (mProcessEndX - mProcessStartX) * 100));
+//                    mSeekBarDragListener.dragging((int) ((mThumbX - mProcessStartX) / (mProcessEndX - mProcessStartX) * 100));
                 }
             });
             mSeekBarDragListener.stopDragging(this.mCurrProcess);

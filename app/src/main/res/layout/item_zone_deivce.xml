@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main_frame"
+    android:layout_width="match_parent"
+    android:layout_height="135dp"
+    android:layout_margin="2.5dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_device_frame"
+        android:background="@drawable/bg_zone_device_icon_unselected"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:id="@+id/iv_sun"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_schedules_sun" />
+
+        <ImageView
+            android:id="@+id/iv_moon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/iv_sun"
+            android:src="@drawable/icon_schedules_moon" />
+
+        <ImageView
+            android:id="@+id/iv_device_icon"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_above="@id/tv_device_name"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_device_on" />
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/device_flexlink"
+            android:textColor="@color/black_333"
+            android:textSize="@dimen/text_size_22px" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_select"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_zone_device_unselected"
+        android:gravity="center"
+        android:text="@string/select"
+        android:textColor="@color/colorPrimary"
+        android:visibility="visible" />
+
+</LinearLayout>

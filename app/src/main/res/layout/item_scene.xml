@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/bg_round_white"
+    android:orientation="vertical"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp">
+
+    <TextView
+        android:id="@+id/tv_scene_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="@string/scene_name"
+        android:textColor="@color/black_333"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/iv_delete"
+        android:padding="5dp"
+        android:src="@drawable/icon_edit_pencil"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:src="@drawable/icon_trashcam"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_run"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_round_white_with_border"
+        android:gravity="center"
+        android:text="@string/run"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:visibility="visible" />
+</RelativeLayout>

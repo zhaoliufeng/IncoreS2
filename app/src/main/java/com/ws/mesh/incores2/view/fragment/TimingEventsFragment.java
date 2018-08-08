@@ -51,10 +51,10 @@ public class TimingEventsFragment extends BaseFragment {
     @OnClick({R.id.ll_on, R.id.ll_off})
     public void onOff(View view){
         switch (view.getId()){
-            case R.id.ll_on:
+            case R.id.ll_off:
                 resultVal = 0;
                 break;
-            case R.id.ll_off:
+            case R.id.ll_on:
                 resultVal = 1;
                 break;
         }

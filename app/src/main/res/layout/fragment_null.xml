@@ -6,10 +6,10 @@
     android:background="@color/app_bg">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NullFragment"
+        android:textSize="20sp"
         android:textColor="@color/black_333"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"

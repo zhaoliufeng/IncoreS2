@@ -101,6 +101,11 @@ public abstract class LightService extends Service implements
         this.mAdapter.startScan(params, this);
     }
 
+    public void stopScan(){
+        if (this.mAdapter == null)
+            return;
+        this.mAdapter.stop();
+    }
     /**
      * 自动重连
      * <p>当启动自动重连时,如果当前连接的设备连接断开了,会自动扫描一个设备进行连接.
@@ -434,24 +439,6 @@ public abstract class LightService extends Service implements
     public boolean getFirmwareVersion() {
         return this.mAdapter != null && this.mAdapter.getFirmwareVersion();
     }
-    
-    /*
-    * 写入天猫精灵的特性值
-    * */
-
-    public boolean writeTmallValues(byte[] datas) {
-        if (mAdapter != null) {
-            return mAdapter.writeTmallValues(datas);
-        }
-        return false;
-    }
-
-    /*
-    * 读取天猫精灵的密码
-    * */
-    public boolean getTmallPassword() {
-        return this.mAdapter != null && this.mAdapter.getTmallPassword();
-    }
 
     public void delete(Parameters parameters) {
         if (this.mAdapter == null)
@@ -471,10 +458,9 @@ public abstract class LightService extends Service implements
         deviceInfo.deviceName = light.getDeviceName();
         deviceInfo.meshName = light.getMeshNameStr();
         deviceInfo.meshAddress = light.getMeshAddress();
-        deviceInfo.customVendorId = light.getMeshUUID();
-        deviceInfo.productType = light.getProductUUID();
+        deviceInfo.meshUUID = light.getMeshUUID();
+        deviceInfo.productUUID = light.getProductUUID();
         deviceInfo.status = light.getStatus();
-        deviceInfo.mAbility = light.getAbility();
 
 
         Intent intent = new Intent();
@@ -513,27 +499,14 @@ public abstract class LightService extends Service implements
             intent.setAction(ACTION_STATUS_CHANGED);
             intent.putExtra(EXTRA_MODE, mode);
             intent.putExtra(EXTRA_DEVICE, deviceInfo);
-        } else if (newStatus == LightAdapter.STATUS_GET_TMALL_COMPLETED) {
-            DeviceInfo deviceInfo = new DeviceInfo();
-            deviceInfo.macAddress = light.getMacAddress();
-            deviceInfo.deviceName = light.getDeviceName();
-            deviceInfo.meshName = light.getMeshNameStr();
-            deviceInfo.meshAddress = light.getMeshAddress();
-            deviceInfo.customVendorId = light.getMeshUUID();
-            deviceInfo.productType = light.getProductUUID();
-            deviceInfo.status = newStatus;
-            deviceInfo.mPassword = light.getCharacteristicValue(UuidInformation.CHARACTERISTIC_BEACON.getValue());
-            intent.setAction(ACTION_STATUS_CHANGED);
-            intent.putExtra(EXTRA_MODE, mode);
-            intent.putExtra(EXTRA_DEVICE, deviceInfo);
         } else {
             DeviceInfo deviceInfo = new DeviceInfo();
             deviceInfo.macAddress = light.getMacAddress();
             deviceInfo.deviceName = light.getDeviceName();
             deviceInfo.meshName = light.getMeshNameStr();
             deviceInfo.meshAddress = light.getMeshAddress();
-            deviceInfo.customVendorId = light.getMeshUUID();
-            deviceInfo.productType = light.getProductUUID();
+            deviceInfo.meshUUID = light.getMeshUUID();
+            deviceInfo.productUUID = light.getProductUUID();
             deviceInfo.status = newStatus;
             deviceInfo.firmwareRevision = light.getFirmwareRevision();
             intent.setAction(ACTION_STATUS_CHANGED);
@@ -564,8 +537,8 @@ public abstract class LightService extends Service implements
             deviceInfo.deviceName = light.getDeviceName();
             deviceInfo.meshName = light.getMeshNameStr();
             deviceInfo.meshAddress = light.getMeshAddress();
-            deviceInfo.customVendorId = light.getMeshUUID();
-            deviceInfo.productType = light.getProductUUID();
+            deviceInfo.meshUUID = light.getMeshUUID();
+            deviceInfo.productUUID = light.getProductUUID();
             notifyInfo.deviceInfo = deviceInfo;
         }
 

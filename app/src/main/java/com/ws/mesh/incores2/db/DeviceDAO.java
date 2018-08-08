@@ -83,8 +83,13 @@ public class DeviceDAO extends BaseDAO<Device> {
         List<Device> devices = query(whereValue, whereKey);
         SparseArray<Device> deviceSparseArray = new SparseArray<>();
         for (Device device : devices) {
+            device.circadian = Device.stringToCircadian(device.circadianString);
             deviceSparseArray.put(device.mDevMeshId, device);
         }
         return deviceSparseArray;
+    }
+
+    public SparseArray<Device> queryDeviceByMeshName(String meshName) {
+        return queryDevice(new String[]{meshName}, "mDeviceMeshName");
     }
 }

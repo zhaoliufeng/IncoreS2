@@ -9,7 +9,7 @@ import com.telink.bluetooth.light.DeviceInfo;
 /**
  * 设备事件
  */
-public class  DeviceEvent extends DataEvent<DeviceInfo> {
+public class DeviceEvent extends DataEvent<DeviceInfo> {
 
     /**
      * 当设备的状态发生改变时,会分发此事件.可以根据事件参数{@link DeviceInfo#status}获取状态.

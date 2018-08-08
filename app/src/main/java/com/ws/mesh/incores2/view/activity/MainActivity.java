@@ -2,14 +2,18 @@ package com.ws.mesh.incores2.view.activity;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
-import com.ws.mesh.incores2.constant.IntentConstant;
+import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.view.base.BaseContentActivity;
 import com.ws.mesh.incores2.view.base.BaseFragment;
 import com.ws.mesh.incores2.view.fragment.main.DeviceFragment;
@@ -24,6 +28,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> implements IMainView {
 
+    private static final String TAG = "MainActivity";
     private BaseFragment mCurrFragment;
     private ZoneFragment zoneFragment;
     private DeviceFragment deviceFragment;
@@ -57,11 +62,6 @@ public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> 
 
     @Override
     protected void initData() {
-        boolean enterScanView = getIntent().getBooleanExtra(IntentConstant.ENTER_SCAN_VIEW, false);
-        if (enterScanView){
-            //跳转到设备扫描入网界面
-
-        }
         this.mFragmentManager = this.getSupportFragmentManager();
         zoneFragment = new ZoneFragment();
         deviceFragment = new DeviceFragment();
@@ -127,7 +127,7 @@ public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> 
 
     @OnClick(R.id.img_setting)
     public void onSetting(){
-
+        pushActivity(StageTwoActivity.class, PageId.SETTING);
     }
 
     //切换fragment
@@ -161,11 +161,6 @@ public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> 
     }
 
     @Override
-    public void offline(Device device) {
-
-    }
-
-    @Override
     public void online(SparseArray<Device> sparseArray) {
 
     }
@@ -194,5 +189,18 @@ public class MainActivity extends BaseContentActivity<IMainView, MainPresenter> 
     @Override
     public void updateDevice(SparseArray<Device> deviceSparseArray) {
 
+    }
+
+    @OnClick(R.id.img_menu_add)
+    public void onLocation(){
+        LocationClient locationClient = new LocationClient(this);
+        locationClient.registerLocationListener(new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                Log.i(TAG, "onLocation: lat --> " + bdLocation.getLatitude() + " lng --> " + bdLocation.getLongitude());
+            }
+        });
+
+        locationClient.start();
     }
 }

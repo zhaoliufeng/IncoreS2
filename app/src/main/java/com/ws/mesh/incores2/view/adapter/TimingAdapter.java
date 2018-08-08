@@ -26,6 +26,10 @@ public class TimingAdapter extends RecyclerView.Adapter {
     private Context context;
     //编辑模式
     private boolean editMode = false;
+    private int[] iconIds = {R.drawable.icon_tab_device_unselected, R.drawable.icon_tab_device_selected,
+            R.drawable.breath_rainbow, R.drawable.breath_heart, R.drawable.breath_greenbreath,
+            R.drawable.breath_bluebreath, R.drawable.breath_alarm, R.drawable.breath_flash,
+            R.drawable.breath_breathing, R.drawable.breath_smile, R.drawable.breath_sun};
     private OnTimingActionListener onTimingActionListener;
 
     public enum Action {
@@ -49,7 +53,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final TimingViewHolder viewHolder = (TimingViewHolder) holder;
-        Timing timing = timingList.valueAt(viewHolder.getAdapterPosition());
+        final Timing timing = timingList.valueAt(viewHolder.getAdapterPosition());
         //设置右边柱状指示
         int listRes = R.drawable.icon_list_center;
         if (getItemCount() == 1) {
@@ -70,16 +74,23 @@ public class TimingAdapter extends RecyclerView.Adapter {
             viewHolder.ivTimingSwitch.setVisibility(View.VISIBLE);
         }
 
+        viewHolder.ivEvent.setImageResource(iconIds[timing.mAlarmEvent]);
+
         //设置定时显示信息
         String[] timeArray = ViewUtils.getAlarmShow(timing.mHours, timing.mMins);
         viewHolder.tvTime.setText(timeArray[0] + " " + timeArray[1]);
         viewHolder.tvRepeatDay.setText(getExecuteInfo(timing.mWeekNum));
 
+        if (timing.mIsOpen){
+            viewHolder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_on);
+        }else {
+            viewHolder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_off);
+        }
         viewHolder.ivTimingSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onTimingActionListener != null) {
-                    onTimingActionListener.onAction(Action.SWITCH, viewHolder.getAdapterPosition());
+                    onTimingActionListener.onAction(Action.SWITCH, timing.mAId);
                 }
             }
         });
@@ -88,7 +99,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 if (onTimingActionListener != null) {
-                    onTimingActionListener.onAction(Action.EDIT, viewHolder.getAdapterPosition());
+                    onTimingActionListener.onAction(Action.EDIT, timing.mAId);
                 }
             }
         });
@@ -97,7 +108,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 if (onTimingActionListener != null) {
-                    onTimingActionListener.onAction(Action.DELETE, viewHolder.getAdapterPosition());
+                    onTimingActionListener.onAction(Action.DELETE, timing.mAId);
                 }
             }
         });
@@ -133,7 +144,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnTimingActionListener {
-        void onAction(Action action, int position);
+        void onAction(Action action, int alarmId);
     }
 
     public void setOnTimingActionListener(OnTimingActionListener listener) {

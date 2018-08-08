@@ -9,9 +9,11 @@ import com.we_smart.sqldao.Annotation.DBFiled;
 public class FavoriteColor {
     @DBFiled
     public int cIndex;
+    @DBFiled
+    public String meshName;
     //自定义颜色与路数绑定
     @DBFiled
-    public int parentChannel;
+    public int deviceType;
     @DBFiled
     public int red;
     @DBFiled

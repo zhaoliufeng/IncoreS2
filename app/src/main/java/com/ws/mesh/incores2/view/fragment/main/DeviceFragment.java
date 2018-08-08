@@ -2,6 +2,7 @@ package com.ws.mesh.incores2.view.fragment.main;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
@@ -16,6 +17,8 @@ public class DeviceFragment extends BaseFragment {
 
     @BindView(R.id.rl_device_list)
     RecyclerView rlDeviceList;
+    @BindView(R.id.tv_mesh_name)
+    TextView tvMeshName;
 
     private DeviceAdapter deviceAdapter;
     @Override
@@ -40,7 +43,8 @@ public class DeviceFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        deviceAdapter.refreshDeviceList();
+        deviceAdapter.refreshDeviceList(CoreData.core().mDeviceSparseArray);
+        tvMeshName.setText(CoreData.core().getCurrMesh().mMeshShowName);
     }
 
     public void refreshDevice(Device device) {

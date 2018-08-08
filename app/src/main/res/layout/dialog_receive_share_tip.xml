@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_round_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_round_title_primary"
+        android:gravity="center"
+        android:text="@string/sussess"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_34px" />
+
+
+    <LinearLayout
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="2dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_sender"
+                android:textColor="@color/black_333"
+                android:textSize="@dimen/text_size_32px" />
+
+            <TextView
+                android:id="@+id/share_send_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black_333"
+                android:textSize="@dimen/text_size_32px" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/net_name"
+                android:textColor="@color/black_333"
+                android:textSize="@dimen/text_size_32px" />
+
+            <TextView
+                android:id="@+id/share_network_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black_333"
+                android:textSize="@dimen/text_size_32px" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey_ddd" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height_90px"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/Custom_Tips_Btn"
+            android:text="@string/ok"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

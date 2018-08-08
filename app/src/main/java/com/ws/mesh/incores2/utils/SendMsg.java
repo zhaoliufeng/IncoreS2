@@ -361,6 +361,16 @@ public class SendMsg {
                 0, 0, 0, 0, 0});
     }
 
+    public static void addAlarmScene(int meshAddress, Timing alarmBean, int sceneId) {
+        if (null == alarmBean) return;
+        int byte13 = (2 + (alarmBean.mWeekNum == 0 ? 0 : 16) + 128);
+        sendCommonMsg(meshAddress, Opcode.BLE_GATT_OP_CTRL_E5.getValue(), new byte[]{0x02,
+                (byte) alarmBean.mAId, (byte) byte13, (byte) (alarmBean.mWeekNum == 0 ? alarmBean.mMonths : 0),
+                (byte) (alarmBean.mWeekNum == 0 ? alarmBean.mDate : alarmBean.mWeekNum), (byte) alarmBean.mHours,
+                (byte) alarmBean.mMins, (byte) 0, (byte) sceneId, 0
+        });
+    }
+
     /*
     * 加载场景
     * @params 设备的目的地址meshAddress

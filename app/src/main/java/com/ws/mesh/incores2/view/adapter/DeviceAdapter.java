@@ -51,7 +51,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         device.updateIcon();
         viewHolder.ivDeviceIcon.setImageResource(device.mIconRes);
         viewHolder.tvDeviceName.setText(device.mDevName);
-                viewHolder.tvDeviceOn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.tvDeviceOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SendMsg.switchDevice(device.mDevMeshId, true);
@@ -72,6 +72,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+        viewHolder.ivSunrise.setVisibility(device.isSetSunrise() ? View.VISIBLE : View.GONE);
+        viewHolder.ivSunset.setVisibility(device.isSetSunset() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -89,6 +91,10 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         ImageView ivDeviceIcon;
         @BindView(R.id.tv_device_name)
         TextView tvDeviceName;
+        @BindView(R.id.iv_sun)
+        ImageView ivSunrise;
+        @BindView(R.id.iv_moon)
+        ImageView ivSunset;
 
         DeviceViewHolder(View itemView) {
             super(itemView);
@@ -96,7 +102,9 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         }
     }
 
+    //刷新设备列表
     public void refreshDevice(Device device) {
+        //如果设备当前是离线状态则从列表中剔除
         if (device.mConnectionStatus != null && device.mConnectionStatus != ConnectionStatus.OFFLINE) {
             mDatas.append(device.mDevMeshId, device);
             int index = mDatas.indexOfKey(device.mDevMeshId);
@@ -110,7 +118,14 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void refreshDeviceList(){
+    public void refreshDeviceList(SparseArray<Device> deviceSparseArray) {
+        mDatas.clear();
+        for (int i = 0; i < deviceSparseArray.size(); i++) {
+            if (deviceSparseArray.valueAt(i).mConnectionStatus != null &&
+                    deviceSparseArray.valueAt(i).mConnectionStatus != ConnectionStatus.OFFLINE) {
+                mDatas.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
+            }
+        }
         notifyDataSetChanged();
     }
 

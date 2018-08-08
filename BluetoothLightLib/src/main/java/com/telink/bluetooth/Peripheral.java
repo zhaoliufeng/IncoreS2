@@ -292,7 +292,8 @@ public class Peripheral extends BluetoothGattCallback {
             commandContext = this.mInputCommandQueue.poll();
         }
 
-        if (commandContext == null) return;
+        if (commandContext == null)
+            return;
 
         commandType = commandContext.command.type;
 
@@ -495,6 +496,7 @@ public class Peripheral extends BluetoothGattCallback {
                     .findWritableCharacteristic(service, characteristicUUID,
                             writeType);
             if (characteristic != null) {
+
                 characteristic.setValue(data);
                 characteristic.setWriteType(writeType);
 
@@ -733,7 +735,7 @@ public class Peripheral extends BluetoothGattCallback {
         super.onCharacteristicRead(gatt, characteristic, status);
 
         this.cancelCommandTimeoutTask();
-        Log.i("TestData", "read=" + Hex.encodeHexStr(characteristic.getValue()));
+
         if (status == BluetoothGatt.GATT_SUCCESS) {
             byte[] data = characteristic.getValue();
             this.commandSuccess(data);
@@ -748,7 +750,9 @@ public class Peripheral extends BluetoothGattCallback {
     public void onCharacteristicWrite(BluetoothGatt gatt,
                                       BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicWrite(gatt, characteristic, status);
+
         this.cancelCommandTimeoutTask();
+
         if (status == BluetoothGatt.GATT_SUCCESS) {
             this.commandSuccess(null);
         } else {
@@ -810,7 +814,9 @@ public class Peripheral extends BluetoothGattCallback {
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
         super.onReadRemoteRssi(gatt, rssi, status);
+
         if (status == BluetoothGatt.GATT_SUCCESS) {
+
             if (rssi != this.rssi) {
                 this.rssi = rssi;
                 this.onRssiChanged();

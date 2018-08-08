@@ -83,8 +83,6 @@ public final class LightController extends EventBus<Integer> implements LightPer
     private final Command.Callback deleteCallback = new DeleteCommandCallback();
     private final Command.Callback otaCallback = new OtaCommandCallback();
     private final Command.Callback firmwareCallback = new FirmwareCallback();
-    private final Command.Callback getTmallPassword = new GetTMALLCallback();
-    private final Command.Callback writeTmallPassword = new WriteTMALLValuesCallback();
     private final OtaPacketParser otaPacketParser = new OtaPacketParser();
 
     private LightPeripheral light;
@@ -325,14 +323,6 @@ public final class LightController extends EventBus<Integer> implements LightPer
     }
 
     protected boolean resetDeviceAddress() {
-
-        this.enableNotification(this.notifyCallback, TAG_RESET_MESH_ADDRESS_NOTIFY_DATA);
-//        sendCommand(this.normalCallback,Opcode.BLE_GATT_OP_CTRL_EA.getValue(), 0, new byte[]{ 0x10 },true,null,0);
-//        try {
-//            Thread.sleep(500);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         int newAddress = this.light.getNewMeshAddress();
         int oldAddress = this.light.getMeshAddress();
@@ -766,39 +756,6 @@ public final class LightController extends EventBus<Integer> implements LightPer
         return this.sendCommand(this.firmwareCallback, cmd);
     }
 
-    /*
-    * Get TMALL password
-    * */
-
-    public void requestTMALLPassword() {
-
-        UUID serviceUUID = UuidInformation.WESMART_BEACON.getValue();
-        UUID characteristicUUID = UuidInformation.CHARACTERISTIC_BEACON.getValue();
-
-
-        Command cmd = Command.newInstance();
-        cmd.serviceUUID = serviceUUID;
-        cmd.characteristicUUID = characteristicUUID;
-        cmd.type = Command.CommandType.READ;
-
-
-        this.sendCommand(this.getTmallPassword, cmd);
-    }
-
-    public void writeTMallValues(byte[] data) {
-
-        UUID serviceUUID = UuidInformation.WESMART_BEACON.getValue();
-        UUID characteristicUUID = UuidInformation.CHARACTERISTIC_BEACON.getValue();
-
-        Command command = Command.newInstance();
-        command.serviceUUID = serviceUUID;
-        command.characteristicUUID = characteristicUUID;
-        command.type = Command.CommandType.WRITE;
-        command.data = data;
-        this.sendCommand(this.writeTmallPassword, command);
-    }
-
-
     /********************************************************************************
      * Private API
      *******************************************************************************/
@@ -999,13 +956,6 @@ public final class LightController extends EventBus<Integer> implements LightPer
 
         public static final int GET_FIRMWARE_SUCCESS = 80;
         public static final int GET_FIRMWARE_FAILURE = 81;
-
-        public static final int GET_TMALL_PASSWORD_SUCCESS = 82;
-        public static final int GET_TMALL_PASSWORD_FAIL = 83;
-
-        public static final int WRITE_TMALL_PASSWORD_SUCCESS = 84;
-        public static final int WRITE_TMALL_PASSWORD_FAIL = 85;
-
 
         private Object args;
 
@@ -1356,46 +1306,6 @@ public final class LightController extends EventBus<Integer> implements LightPer
         @Override
         public void error(Peripheral peripheral, Command command, String errorMsg) {
             dispatchEvent(new LightEvent(LightEvent.GET_FIRMWARE_FAILURE));
-        }
-
-        @Override
-        public boolean timeout(Peripheral peripheral, Command command) {
-            return false;
-        }
-    }
-
-    private final class GetTMALLCallback implements Command.Callback {
-
-        @Override
-        public void success(Peripheral peripheral, Command command, Object obj) {
-            LightPeripheral light = (LightPeripheral) peripheral;
-            light.putCharacteristicValue(command.characteristicUUID, (byte[]) obj);
-            dispatchEvent(new LightEvent(LightEvent.GET_TMALL_PASSWORD_SUCCESS));
-        }
-
-        @Override
-        public void error(Peripheral peripheral, Command command, String errorMsg) {
-            dispatchEvent(new LightEvent(LightEvent.GET_TMALL_PASSWORD_FAIL));
-        }
-
-        @Override
-        public boolean timeout(Peripheral peripheral, Command command) {
-            return false;
-        }
-    }
-
-    private final class WriteTMALLValuesCallback implements Command.Callback {
-
-        @Override
-        public void success(Peripheral peripheral, Command command, Object obj) {
-            LightPeripheral light = (LightPeripheral) peripheral;
-            light.putCharacteristicValue(command.characteristicUUID, (byte[]) obj);
-            dispatchEvent(new LightEvent(LightEvent.WRITE_TMALL_PASSWORD_SUCCESS));
-        }
-
-        @Override
-        public void error(Peripheral peripheral, Command command, String errorMsg) {
-            dispatchEvent(new LightEvent(LightEvent.WRITE_TMALL_PASSWORD_FAIL));
         }
 
         @Override

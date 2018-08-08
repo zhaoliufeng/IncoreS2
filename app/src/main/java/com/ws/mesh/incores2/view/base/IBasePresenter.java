@@ -9,21 +9,23 @@ public class IBasePresenter<V extends IBaseView> {
      */
     private WeakReference<V> viewRef;
 
-    protected void attachView(V view){
+    protected void attachView(V view) {
         this.viewRef = new WeakReference<>(view);
     }
 
     /**
      * 视图解绑
      */
-    protected void detach(){
-        if (viewRef != null){
+    protected void detach() {
+        if (viewRef != null) {
             viewRef.clear();
             viewRef = null;
         }
     }
 
-    public V getView(){
-        return viewRef.get();
+    public V getView() {
+        if (viewRef != null)
+            return viewRef.get();
+        return null;
     }
 }

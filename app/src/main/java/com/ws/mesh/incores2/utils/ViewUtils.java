@@ -1,5 +1,12 @@
 package com.ws.mesh.incores2.utils;
 
+import android.annotation.SuppressLint;
+import android.util.SparseArray;
+
+import com.ws.mesh.incores2.bean.Device;
+
+import java.util.Calendar;
+
 public class ViewUtils {
     /**
      * @param startColor 开始颜色
@@ -101,5 +108,26 @@ public class ViewUtils {
                 + (weekByte[ 5 ] << 1)
                 + (weekByte[ 6 ]);
         return value;
+    }
+
+    public synchronized static int getVaildMeshAddress(SparseArray<Device> mDeviceArray) {
+        for (int x = 1; x < 254; x++) {
+            if (mDeviceArray.get(x & 0xFF) == null) {
+                return x;
+            }
+        }
+        return -1;
+    }
+
+    @SuppressLint("DefaultLocale")
+    public static String showUtcTime(long utc) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(utc);
+        int year = calendar.get(Calendar.YEAR);
+        int months = calendar.get(Calendar.MONTH) + 1;
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int mins = calendar.get(Calendar.MINUTE);
+        return String.format("%d/%02d/%02d %02d:%02d", year, months, date, hours, mins);
     }
 }
