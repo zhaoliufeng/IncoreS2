@@ -37,7 +37,6 @@ public class ScanDeviceActivity extends BaseContentActivity<IScanView, ScanPrese
     @BindView(R.id.list_devices)
     GridView gridView;
     private ScanAddDeviceAdapter deviceAdapter;
-    private boolean formLauncher;
 
     @Override
     protected ScanPresenter createPresenter() {
@@ -51,7 +50,6 @@ public class ScanDeviceActivity extends BaseContentActivity<IScanView, ScanPrese
 
     @Override
     protected void initData() {
-        formLauncher = getIntent().getBooleanExtra(IntentConstant.ENTER_SCAN_VIEW, false);
         deviceAdapter = new ScanAddDeviceAdapter(this);
         gridView.setAdapter(deviceAdapter);
 
@@ -71,9 +69,6 @@ public class ScanDeviceActivity extends BaseContentActivity<IScanView, ScanPrese
 
     @OnClick(R.id.iv_scan_back)
     void OnBack() {
-        if (formLauncher) {
-            pushActivity(MainActivity.class);
-        }
         finish();
     }
 

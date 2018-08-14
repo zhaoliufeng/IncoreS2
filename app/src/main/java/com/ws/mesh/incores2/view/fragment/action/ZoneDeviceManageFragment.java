@@ -1,4 +1,4 @@
-package com.ws.mesh.incores2.view.fragment;
+package com.ws.mesh.incores2.view.fragment.action;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

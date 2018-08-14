@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.utils.SendMsg;
 
 import org.w3c.dom.Text;
@@ -48,6 +49,14 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         DeviceViewHolder viewHolder = (DeviceViewHolder) holder;
         final Device device = mDatas.valueAt(position);
 
+        //如果是强波器设备类型则不显示开关INVISIBLE
+        if((device.mDevType >> 8) == AppConstant.FORM_LIGHT_BOOSTER){
+            viewHolder.tvDeviceOn.setVisibility(View.INVISIBLE);
+            viewHolder.tvDeviceOff.setVisibility(View.INVISIBLE);
+        }else {
+            viewHolder.tvDeviceOn.setVisibility(View.VISIBLE);
+            viewHolder.tvDeviceOff.setVisibility(View.VISIBLE);
+        }
         device.updateIcon();
         viewHolder.ivDeviceIcon.setImageResource(device.mIconRes);
         viewHolder.tvDeviceName.setText(device.mDevName);

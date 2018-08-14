@@ -1,6 +1,7 @@
-package com.ws.mesh.incores2.view.fragment;
+package com.ws.mesh.incores2.view.fragment.setting;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,7 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
         networkAdapter.setOnNetActionListener(new NetworkAdapter.OnNetActionListener() {
             @Override
             public void switchNet(Mesh mesh) {
+                showProgress();
                 presenter.switchNetwork(mesh);
             }
 
@@ -191,6 +193,26 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
 
     @Override
     public void switchNet() {
+        dismissProgress();
         networkAdapter.refreshMeshList();
+    }
+
+    private android.app.AlertDialog progress;
+    //切换网络时显示进度条
+    private void showProgress(){
+        progress = new android.app.AlertDialog.Builder(getActivity()).create();
+        progress.show();
+        Window window = progress.getWindow();
+        if (window != null){
+            window.setContentView(R.layout.item_swtich_net);
+            window.setBackgroundDrawable(new BitmapDrawable());
+        }
+    }
+
+    private void dismissProgress(){
+        if (progress != null &&
+                progress.isShowing()){
+            progress.dismiss();
+        }
     }
 }

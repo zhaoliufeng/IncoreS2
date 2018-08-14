@@ -13,6 +13,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+//音乐列表
 public class MusicListFragment extends BaseFragment {
     @BindView(R.id.rl_music_list)
     RecyclerView rlMusicList;

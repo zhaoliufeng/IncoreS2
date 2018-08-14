@@ -50,21 +50,21 @@ public class CustomTimePicker extends TimePicker {
             Field fieldHour = clazz.getField("hour");
             fieldHour.setAccessible(true);
             int hourId = fieldHour.getInt(null);
-            NumberPicker hourNumberPicker = (NumberPicker) timePicker.findViewById(hourId);
+            NumberPicker hourNumberPicker = timePicker.findViewById(hourId);
             setDividerColor(hourNumberPicker);
             set_numberpicker_text_colour(hourNumberPicker);
 
             Field fieldminute = clazz.getField("minute");
             fieldminute.setAccessible(true);
             int minuteId = fieldminute.getInt(null);
-            NumberPicker minuteNumberPicker = (NumberPicker) timePicker.findViewById(minuteId);
+            NumberPicker minuteNumberPicker = timePicker.findViewById(minuteId);
             setDividerColor(minuteNumberPicker);
             set_numberpicker_text_colour(minuteNumberPicker);
 
             Field fieldampm = clazz.getField("amPm");
             fieldminute.setAccessible(true);
             int ampmId = fieldampm.getInt(null);
-            NumberPicker ampmNumberPicker = (NumberPicker) timePicker.findViewById(ampmId);
+            NumberPicker ampmNumberPicker = timePicker.findViewById(ampmId);
             setDividerColor(ampmNumberPicker);
             set_numberpicker_text_colour(ampmNumberPicker);
 
@@ -72,7 +72,7 @@ public class CustomTimePicker extends TimePicker {
             Field fieldDivider=clazz.getField("divider");
             fieldDivider.setAccessible(true);
             int dividerId=fieldDivider.getInt(null);
-            TextView textView=(TextView)timePicker.findViewById(dividerId);
+            TextView textView= timePicker.findViewById(dividerId);
             textView.setTextColor(Color.parseColor("#000000"));
 
         }

@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 
-public class SceneFragment extends BaseContentFragment<ISceneView, ScenePresenter> implements ISceneView{
+public class SceneFragment extends BaseContentFragment<ISceneView, ScenePresenter> implements ISceneView {
 
     @BindView(R.id.ll_main_frame)
     LinearLayout llMainFrame;
@@ -82,13 +82,19 @@ public class SceneFragment extends BaseContentFragment<ISceneView, ScenePresente
     }
 
     @OnClick({R.id.iv_add_scene, R.id.iv_edit, R.id.tv_finish})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_add_scene:
+                if (isShareMesh()) {
+                    return;
+                }
                 //添加场景
                 presenter.addScene();
                 break;
             case R.id.iv_edit:
+                if (isShareMesh()) {
+                    return;
+                }
                 editMode = true;
                 //编辑
                 llMainFrame.setBackgroundColor(getResources().getColor(R.color.black_333));
@@ -115,18 +121,18 @@ public class SceneFragment extends BaseContentFragment<ISceneView, ScenePresente
 
     @Override
     public void addScene(int sceneId) {
-        if (sceneId != -1){
+        if (sceneId != -1) {
             pushStageActivity(PageId.ADD_SCENE, sceneId);
-        }else {
+        } else {
             toast(R.string.cannot_add_any_scene);
         }
     }
 
     @Override
     public void deleteScene(boolean success) {
-        if (success){
+        if (success) {
             sceneAdapter.notifyDataSetChanged();
-        }else {
+        } else {
             toast(R.string.remove_failed);
         }
     }

@@ -235,6 +235,7 @@ public class SceneControlActivity extends BaseContentActivity<IControlView, Cont
             }
         });
 
+        //自定义颜色
         favoriteAdapter = new FavoriteAdapter(presenter.colorSparseArray);
         rlFavoriteColor.setLayoutManager(new GridLayoutManager(this, 8));
         rlFavoriteColor.setAdapter(favoriteAdapter);
@@ -251,6 +252,7 @@ public class SceneControlActivity extends BaseContentActivity<IControlView, Cont
             }
         });
 
+        //默认颜色 colorTag
         colorTagAdapter = new ColorTagAdapter();
         rlColorTag.setLayoutManager(new GridLayoutManager(this, 8));
         rlColorTag.setAdapter(colorTagAdapter);

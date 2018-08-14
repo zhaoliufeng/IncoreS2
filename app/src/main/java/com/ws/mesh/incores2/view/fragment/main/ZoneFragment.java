@@ -52,6 +52,9 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
                 //菜单点击
                 switch (menuItemIndex) {
                     case 0:
+                        if (isShareMesh()) {
+                            return;
+                        }
                         //群组设备管理
                         pushStageActivity(PageId.ZONE_DEVICE_MANAGE, room.mRoomId);
                         break;
@@ -91,7 +94,11 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
 
     @OnClick(R.id.iv_add_zone)
     public void addZone() {
-        presenter.addZone();
+        if (CoreData.core().getCurrMesh().mIsShare) {
+            toast(R.string.no_permission);
+        } else {
+            presenter.addZone();
+        }
     }
 
     @Override

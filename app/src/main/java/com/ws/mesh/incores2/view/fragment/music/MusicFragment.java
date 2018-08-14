@@ -35,10 +35,6 @@ public class MusicFragment extends BaseFragment {
     ViewPager vpMusic;
     @BindView(R.id.iv_play)
     ImageView ivPlay;
-    @BindView(R.id.iv_music)
-    ImageView ivMusic;
-    @BindView(R.id.iv_microphone)
-    ImageView ivMicrophone;
 
     private MusicViewPagerAdapter adapter;
     private Intent mMusicIntent;
@@ -123,6 +119,7 @@ public class MusicFragment extends BaseFragment {
         vpMusic.setAdapter(adapter);
         bindService();
 
+        //设置音乐进度拖动监听
         musicInfoFragment.setOnControlListener(new MusicInfoFragment.OnControlListener() {
             @Override
             public void setProcess(int process) {
@@ -177,24 +174,6 @@ public class MusicFragment extends BaseFragment {
         super.onDestroy();
         if (isAdded() && getActivity() != null) {
             getActivity().unbindService(mConn);
-        }
-    }
-
-    @OnClick({R.id.iv_music, R.id.iv_microphone})
-    public void onMusicMicrophone(View view){
-        switch (view.getId()){
-            case R.id.iv_music:
-                //切换到音乐模式
-                ivMusic.setImageResource(R.drawable.music_dance_music);
-                ivMicrophone.setImageResource(R.drawable.music_micro_phone_dance_unselected);
-
-                break;
-            case R.id.iv_microphone:
-                //切换到麦克风输入模式
-                ivMusic.setImageResource(R.drawable.music_dance_music_unselected);
-                ivMicrophone.setImageResource(R.drawable.music_micro_phone_dance);
-
-                break;
         }
     }
 

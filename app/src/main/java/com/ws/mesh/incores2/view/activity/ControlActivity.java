@@ -221,6 +221,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             }
         });
 
+        //自定义颜色
         favoriteAdapter = new FavoriteAdapter(presenter.colorSparseArray);
         rlFavoriteColor.setLayoutManager(new GridLayoutManager(this, 8));
         rlFavoriteColor.setAdapter(favoriteAdapter);
@@ -229,6 +230,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             public void ItemSelected(int position) {
                 FavoriteColor favoriteColor = presenter.colorSparseArray.valueAt(position);
                 presenter.setFavoriteColor(favoriteColor);
+                //如果当前操作的是房间 则不获取设备当前的颜色值（房间颜色值无法统一获取）
                 if (presenter.isRoom()) {
                     red = favoriteColor.red;
                     green = favoriteColor.green;
@@ -249,6 +251,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             }
         });
 
+        //默认颜色 colorTag
         colorTagAdapter = new ColorTagAdapter();
         rlColorTag.setLayoutManager(new GridLayoutManager(this, 8));
         rlColorTag.setAdapter(colorTagAdapter);
@@ -256,6 +259,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             @Override
             public void OnColorTagSelected(int color) {
                 presenter.setTagColor(color);
+                //如果当前操作的是房间 则不获取设备当前的颜色值（房间颜色值无法统一获取）
                 if (presenter.isRoom()) {
                     red = 0;
                     green = 0;
@@ -327,6 +331,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         }
     }
 
+    //切换interaction palette
     @OnClick({R.id.tv_interaction, R.id.tv_palette})
     public void onTitleSwitch(View view) {
         if (view.getId() == R.id.tv_palette) {
@@ -349,6 +354,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         }
     }
 
+    //添加 FavoriteColor 进入编辑模式
     @OnClick(R.id.iv_add_favorite_color)
     public void onAddFavoriteColor() {
         if (llColorTag.getVisibility() == View.VISIBLE) {
@@ -360,6 +366,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         }
     }
 
+    //删除 FavoriteColor
     @OnClick(R.id.iv_delete_color)
     public void onDeleteColor() {
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -416,6 +423,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         onBack();
     }
 
+    //确认添加 FavoriteColor 退出编辑模式
     @OnClick(R.id.tv_finish)
     public void onAddFavoriteColorConfirm() {
         presenter.addFavorite(red, green, blue, warm, cold, brightness);
@@ -447,7 +455,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         setColorBarStatus();
     }
 
-    //亮度只有刚进入控制界面才需要设置
+    //亮度只有刚进入控制界面才需要设置同步
     private boolean alreadySetBrightness;
 
     @Override
@@ -480,6 +488,7 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
         }
     }
 
+    //设置彩色进度条的值
     private void setColorBarStatus() {
         runOnUiThread(new Runnable() {
             @SuppressLint("DefaultLocale")

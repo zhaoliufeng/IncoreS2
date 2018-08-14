@@ -12,6 +12,7 @@ import com.ws.mesh.incores2.view.control.seekbar.OnSeekBarDragListener;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+//当前音乐播放状态
 public class MusicInfoFragment extends BaseFragment {
 
     @BindView(R.id.tv_music_name)

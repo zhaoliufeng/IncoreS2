@@ -1,4 +1,4 @@
-package com.ws.mesh.incores2.view.fragment;
+package com.ws.mesh.incores2.view.fragment.timing;
 
 import android.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +90,9 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         ivSetSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isShareMesh()){
+                    return;
+                }
                 presenter.switchSunset();
             }
         });
@@ -97,6 +100,9 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         ivRiseSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isShareMesh()){
+                    return;
+                }
                 presenter.switchSunrise();
             }
         });
@@ -112,6 +118,9 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         timingAdapter.setOnTimingActionListener(new TimingAdapter.OnTimingActionListener() {
             @Override
             public void onAction(TimingAdapter.Action action, int alarmId) {
+                if (isShareMesh()){
+                    return;
+                }
                 switch (action) {
                     case SWITCH:
                         presenter.switchTiming(alarmId);
@@ -132,12 +141,18 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
 
     @OnClick(R.id.iv_add_timing)
     public void addTiming() {
+        if (isShareMesh()){
+            return;
+        }
         //跳转添加定时界面
         pushStageActivity(PageId.ADD_TIMING, meshAddress);
     }
 
     @OnClick(R.id.iv_edit)
     public void editTiming() {
+        if (isShareMesh()){
+            return;
+        }
         isEditMode = true;
         switchEditMode(true);
     }
@@ -201,6 +216,9 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
 
     @OnClick({R.id.ll_sunrise_time, R.id.ll_sunset_time})
     public void onSetTime(View view) {
+        if (isShareMesh()){
+            return;
+        }
         switch (view.getId()) {
             case R.id.ll_sunrise_time:
                 popSetTimeDialog(true);

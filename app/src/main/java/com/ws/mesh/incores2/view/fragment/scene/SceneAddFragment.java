@@ -1,4 +1,4 @@
-package com.ws.mesh.incores2.view.fragment;
+package com.ws.mesh.incores2.view.fragment.scene;
 
 import android.util.Log;
 import android.view.View;

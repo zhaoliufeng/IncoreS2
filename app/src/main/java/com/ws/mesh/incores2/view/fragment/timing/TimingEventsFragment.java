@@ -1,4 +1,4 @@
-package com.ws.mesh.incores2.view.fragment;
+package com.ws.mesh.incores2.view.fragment.timing;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -26,7 +26,8 @@
             android:id="@+id/iv_last"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_alignParentStart="true"
+            android:layout_marginEnd="30dp"
+            android:layout_toStartOf="@id/iv_play"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
             android:src="@drawable/music_last" />
@@ -36,8 +37,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/iv_last"
+            android:layout_centerInParent="true"
             android:src="@drawable/music_play" />
 
         <ImageView
@@ -45,28 +45,9 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="30dp"
             android:layout_toEndOf="@+id/iv_play"
             android:src="@drawable/music_next" />
-
-        <ImageView
-            android:id="@+id/iv_music"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/music_dance_music" />
-
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/iv_microphone"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/music_micro_phone_dance_unselected" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -1,11 +1,8 @@
-package com.ws.mesh.incores2.view.fragment;
+package com.ws.mesh.incores2.view.fragment.scene;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,132 +15,78 @@ import android.widget.TextView;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Timing;
 import com.ws.mesh.incores2.constant.IntentConstant;
-import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.utils.ViewUtils;
 import com.ws.mesh.incores2.view.base.BaseContentFragment;
-import com.ws.mesh.incores2.view.base.BaseFragment;
 import com.ws.mesh.incores2.view.control.CustomTimePicker;
-import com.ws.mesh.incores2.view.impl.ITimingEditView;
-import com.ws.mesh.incores2.view.presenter.TimingEditPresenter;
+import com.ws.mesh.incores2.view.impl.ISceneAddTimingView;
+import com.ws.mesh.incores2.view.presenter.SceneAddTimingPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//编辑定时
-public class TimingEditFragment extends BaseContentFragment<ITimingEditView, TimingEditPresenter> implements ITimingEditView {
+//场景添加定时
+public class SceneAddTimingFragment extends BaseContentFragment<ISceneAddTimingView, SceneAddTimingPresenter> implements ISceneAddTimingView {
 
-    private static final String TAG = "TimingEditFragment";
-    @BindView(R.id.tv_event)
-    TextView tvEvent;
-    @BindView(R.id.img_everyday)
-    ImageView imgEveryDay;
-    @BindView(R.id.img_workday)
-    ImageView imgWorkday;
-    @BindView(R.id.img_custom)
-    ImageView imgCustom;
     @BindView(R.id.ctp_time)
     CustomTimePicker ctpTime;
-    String[] events;
-    private int weekNum;
-    private byte weekBytes[];
+    @BindView(R.id.iv_everyday)
+    ImageView ivEveryDay;
+    @BindView(R.id.iv_workday)
+    ImageView ivWorkday;
+    @BindView(R.id.iv_custom)
+    ImageView ivCustom;
+    @BindView(R.id.iv_not_schedule)
+    ImageView ivNotSchedule;
+
+    //默认循环模式为everyday
+    private int weekNum = 127;
+    private int sceneId;
     private int alarmId;
-    private int eventId;
-    private int meshAddress;
+    private byte weekBytes[];
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_timing_edit;
+        return R.layout.fragment_scene_add_timing;
     }
 
     @Override
     protected void initData() {
-        events = getResources().getStringArray(R.array.timing_events);
         if (getActivity() != null) {
+            sceneId = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
             alarmId = getActivity().getIntent().getIntExtra(IntentConstant.ALARM_ID, -1);
-            meshAddress = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
-            if (meshAddress == -1) {
-                toast("meshAddress 传值 -1");
-                return;
-            }
         }
-
-        presenter.init(meshAddress);
-
-        if (alarmId != -1) {
-            Timing timing = presenter.mAlarmSparseArray.get(alarmId);
-            weekNum = timing.mWeekNum;
-            eventId = timing.mAlarmEvent;
-            ctpTime.setCurrentHour(timing.mHours);
-            ctpTime.setCurrentMinute(timing.mMins);
-            tvEvent.setText(presenter.getExecuteEvent(timing.mAlarmEvent));
-        } else {
-            //创建新的timing
-            if (presenter.getAlarmId() == -1) {
-                toast(R.string.cannot_add_any_timing);
-                getActivity().finish();
-                return;
-            }
-            alarmId = presenter.getAlarmId();
-            weekNum = 127;
-        }
-
-        switch (weekNum) {
-            case 127:
-                imgEveryDay.setImageResource(R.drawable.radio_item_selected);
-                break;
-            case 62:
-                imgWorkday.setImageResource(R.drawable.radio_item_selected);
-                break;
-            default:
-                imgCustom.setImageResource(R.drawable.radio_item_selected);
-        }
+        presenter.init(sceneId, alarmId);
     }
 
-    @OnClick(R.id.rl_events)
-    public void onEvents() {
-        //跳转到定时选择动作界面
-        pushStageActivityForResult(PageId.ADD_TIMING_EVENT);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IntentConstant.REQUEST_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            eventId = data.getIntExtra(IntentConstant.RESULT, -1);
-            if (eventId != -1) {
-                tvEvent.setText(events[eventId]);
-                Log.i(TAG, "onActivityResult: 选择的执行动作 --> " + events[eventId] + " eventId --> " + eventId);
-            }
-        }
-    }
-
-    @OnClick(R.id.tv_finish)
-    public void onFinish() {
-        //添加定时
-        int hour = ctpTime.getCurrentHour();
-        int min = ctpTime.getCurrentMinute();
-        presenter.addAlarm(hour, min, eventId, weekNum, meshAddress, alarmId);
-    }
-
-    @OnClick({R.id.rl_everyday, R.id.rl_workday, R.id.rl_custom})
-    public void onRepeat(View view) {
+    @OnClick({R.id.rl_everyday, R.id.rl_workday, R.id.rl_custom, R.id.rl_not_schedule})
+    public void onClick(View view) {
         resetRadioImg();
         switch (view.getId()) {
             case R.id.rl_everyday:
-                imgEveryDay.setImageResource(R.drawable.radio_item_selected);
+                ivEveryDay.setImageResource(R.drawable.radio_item_selected);
                 weekNum = 127;
                 break;
             case R.id.rl_workday:
-                imgWorkday.setImageResource(R.drawable.radio_item_selected);
+                ivWorkday.setImageResource(R.drawable.radio_item_selected);
                 weekNum = 62;
                 break;
             case R.id.rl_custom:
-                imgCustom.setImageResource(R.drawable.radio_item_selected);
+                ivCustom.setImageResource(R.drawable.radio_item_selected);
                 showCustomWeekDialog();
                 break;
+            case R.id.rl_not_schedule:
+                ivNotSchedule.setImageResource(R.drawable.radio_item_selected);
+                weekNum = -1;
+                break;
         }
+    }
+
+    private void resetRadioImg() {
+        ivEveryDay.setImageResource(R.drawable.radio_item);
+        ivWorkday.setImageResource(R.drawable.radio_item);
+        ivCustom.setImageResource(R.drawable.radio_item);
+        ivNotSchedule.setImageResource(R.drawable.radio_item);
     }
 
     private void showCustomWeekDialog() {
@@ -178,40 +121,27 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
         }
     }
 
-    private void resetRadioImg() {
-        imgEveryDay.setImageResource(R.drawable.radio_item);
-        imgWorkday.setImageResource(R.drawable.radio_item);
-        imgCustom.setImageResource(R.drawable.radio_item);
+    @Override
+    protected SceneAddTimingPresenter createPresent() {
+        return new SceneAddTimingPresenter();
     }
 
     @Override
-    protected TimingEditPresenter createPresent() {
-        return new TimingEditPresenter(getActivity());
-    }
+    public void setTimingInfo(Timing timing) {
+        ctpTime.setCurrentHour(timing.mHours);
+        ctpTime.setCurrentMinute(timing.mMins);
+        weekNum = timing.mWeekNum;
 
-    @Override
-    public void deleteAlarm(boolean success) {
-
-    }
-
-    @Override
-    public void addAlarm(boolean success) {
-        if (success) {
-            if (getActivity() != null)
-                getActivity().finish();
-        } else {
-            toast(R.string.add_failed);
+        switch (weekNum) {
+            case 127:
+                ivEveryDay.setImageResource(R.drawable.radio_item_selected);
+                break;
+            case 62:
+                ivWorkday.setImageResource(R.drawable.radio_item_selected);
+                break;
+            default:
+                ivCustom.setImageResource(R.drawable.radio_item_selected);
         }
-    }
-
-    @Override
-    public void updateAlarm(boolean success) {
-
-    }
-
-    @Override
-    public void maximumNumber() {
-        toast(R.string.cannot_add_any_timing);
     }
 
     class AlarmCustomWeekAdapter extends RecyclerView.Adapter {
@@ -274,6 +204,22 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
         AlarmEventViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    @OnClick(R.id.tv_save)
+    public void onSave() {
+        //保存场景定时
+        presenter.onSaveSchedule(ctpTime, weekNum);
+    }
+
+    @Override
+    public void saveSchedule(boolean success) {
+        if (success) {
+            if (getActivity() != null)
+                getActivity().finish();
+        } else {
+            toast(R.string.save_failed);
         }
     }
 }

@@ -16,19 +16,19 @@ import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.StatusBarUpper;
 import com.ws.mesh.incores2.view.activity.LauncherActivity;
-import com.ws.mesh.incores2.view.fragment.BreathFragment;
-import com.ws.mesh.incores2.view.fragment.EditFragment;
-import com.ws.mesh.incores2.view.fragment.NetworkListFragment;
-import com.ws.mesh.incores2.view.fragment.SceneAddFragment;
-import com.ws.mesh.incores2.view.fragment.SettingFragment;
-import com.ws.mesh.incores2.view.fragment.ShareManageFragment;
-import com.ws.mesh.incores2.view.fragment.TimingEventsFragment;
-import com.ws.mesh.incores2.view.fragment.ZoneDeviceManageFragment;
+import com.ws.mesh.incores2.view.fragment.action.BreathFragment;
+import com.ws.mesh.incores2.view.fragment.action.EditFragment;
+import com.ws.mesh.incores2.view.fragment.setting.NetworkListFragment;
+import com.ws.mesh.incores2.view.fragment.scene.SceneAddFragment;
+import com.ws.mesh.incores2.view.fragment.setting.SettingFragment;
+import com.ws.mesh.incores2.view.fragment.setting.ShareManageFragment;
+import com.ws.mesh.incores2.view.fragment.timing.TimingEventsFragment;
+import com.ws.mesh.incores2.view.fragment.action.ZoneDeviceManageFragment;
 import com.ws.mesh.incores2.view.fragment.music.MusicFragment;
-import com.ws.mesh.incores2.view.fragment.SceneAddDeviceFragment;
-import com.ws.mesh.incores2.view.fragment.SceneAddTimingFragment;
-import com.ws.mesh.incores2.view.fragment.TimingEditFragment;
-import com.ws.mesh.incores2.view.fragment.TimingFragment;
+import com.ws.mesh.incores2.view.fragment.scene.SceneAddDeviceFragment;
+import com.ws.mesh.incores2.view.fragment.scene.SceneAddTimingFragment;
+import com.ws.mesh.incores2.view.fragment.timing.TimingEditFragment;
+import com.ws.mesh.incores2.view.fragment.timing.TimingFragment;
 import com.ws.mesh.incores2.view.fragment.share.ChooseShareMeshFragment;
 import com.ws.mesh.incores2.view.fragment.share.ShareReceiveFragment;
 import com.ws.mesh.incores2.view.fragment.share.ShareChooseRoleFragment;
@@ -38,8 +38,9 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends FragmentActivity {
 
+    //绑定视图
     protected abstract int getLayoutId();
-
+    //输出化数据
     protected abstract void initData();
 
     /**
@@ -69,10 +70,12 @@ public abstract class BaseActivity extends FragmentActivity {
         if (findViewById(R.id.view_status_bar) != null) {
             setStatusBar(findViewById(R.id.view_status_bar));
         }
+        //绑定标题栏
         if (findViewById(R.id.tv_title) != null) {
             title = findViewById(R.id.tv_title);
         }
 
+        //绑定返回点击监听
         if (findViewById(R.id.img_back) != null) {
             findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,20 +103,17 @@ public abstract class BaseActivity extends FragmentActivity {
         startActivity(new Intent(this, activityClass));
     }
 
+    //跳转 Activity 携带 pageType
     public void pushActivity(Class<? extends BaseActivity> activityClass, int pageId) {
         startActivity(new Intent(this, activityClass)
                 .putExtra(IntentConstant.PAGE_TYPE, pageId));
     }
 
+    //跳转 Activity 携带 pageType meshAddress
     public void pushActivity(Class<? extends BaseActivity> activityClass, int pageId, int meshAddress) {
         startActivity(new Intent(this, activityClass)
                 .putExtra(IntentConstant.PAGE_TYPE, pageId)
                 .putExtra(IntentConstant.MESH_ADDRESS, meshAddress));
-    }
-
-    public void pushActivity(Class<? extends BaseActivity> activityClass, boolean extra) {
-        startActivity(new Intent(this, activityClass)
-                .putExtra(IntentConstant.ENTER_SCAN_VIEW, extra));
     }
 
     protected void toast(int strId) {
@@ -150,6 +150,10 @@ public abstract class BaseActivity extends FragmentActivity {
         setPageTitle(fragment);
     }
 
+    /**
+     * 根据 fragment 设置当前页面的标题
+     * @param fragment 当前渲染的 fragment
+     */
     private void setPageTitle(BaseFragment fragment) {
         if (fragment instanceof BreathFragment) {
             title.setText(R.string.breath);
@@ -207,6 +211,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
     }
 
+    //从当前 Intent 获取 pageId
     public int getPageId() {
         mPageId = getIntent().getIntExtra(IntentConstant.PAGE_TYPE, -1);
         return mPageId;

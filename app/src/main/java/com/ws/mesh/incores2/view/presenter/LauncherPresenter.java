@@ -9,7 +9,6 @@ import com.ws.mesh.incores2.bean.Mesh;
 import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.db.MeshDAO;
 import com.ws.mesh.incores2.service.WeSmartService;
-import com.ws.mesh.incores2.utils.AccountUtil;
 import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.SPUtils;
 import com.ws.mesh.incores2.view.base.IBasePresenter;
@@ -37,17 +36,11 @@ public class LauncherPresenter extends IBasePresenter<ILauncherView> {
     }
 
     private void initData() {
-        boolean isInitMesh = false;
         if (CoreData.core().mMeshMap == null
                 || CoreData.core().mMeshMap.size() == 0) {
-            isInitMesh = true;
             Mesh mesh = new Mesh();
 
-            //自动生成账户与密码
-            String account = AccountUtil.generateAccount();
-            String password = AccountUtil.generatePassword(account);
-//            mesh.mMeshName = account;
-//            mesh.mMeshPassword = password;
+            //生成默认Fulife网络 打开即用
             mesh.mMeshName = AppConstant.MESH_DEFAULT_NAME;
             mesh.mMeshPassword = AppConstant.MESH_DEFAULT_PASSWORD;
             mesh.mMeshFactoryName = AppConstant.MESH_DEFAULT_NAME;
@@ -70,15 +63,10 @@ public class LauncherPresenter extends IBasePresenter<ILauncherView> {
             CoreData.core().switchMesh(mesh);
         }
 
-        final boolean finalIsInitMesh = isInitMesh;
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (finalIsInitMesh) {
-                    getView().enterScanView();
-                } else {
-                    getView().enterMainView();
-                }
+                getView().enterMainView();
             }
         }, 1500);
     }

@@ -42,7 +42,6 @@
         <activity android:name=".view.activity.MainActivity">
 
         </activity>
-        <activity android:name=".view.activity.MusicActivity" />
         <activity android:name=".view.activity.ControlActivity" />
         <activity android:name=".view.activity.StageTwoActivity" />
         <activity android:name=".view.activity.StageThreeActivity" />

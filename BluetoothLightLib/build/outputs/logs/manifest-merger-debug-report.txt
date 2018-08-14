@@ -1,61 +1,61 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
 	package
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:2:5-25
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:2:5-25
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:1-13:12
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.BLUETOOTH
-ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:4:5-68
+ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:4:5-68
 	android:name
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:4:22-65
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:4:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:5:5-74
+ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:5:5-74
 	android:name
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:5:22-71
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:5:22-71
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:6:5-81
+ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:6:5-81
 	android:name
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:6:22-78
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:6:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:7:5-80
+ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:7:5-80
 	android:name
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:7:22-77
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:7:22-77
 application
-ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:9:5-12:38
+ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:9:5-12:38
 	android:supportsRtl
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:12:9-35
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:12:9-35
 	android:label
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:11:9-41
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:11:9-41
 	android:allowBackup
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:10:9-35
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml:10:9-35
 uses-sdk
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		ADDED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
-		INJECTED from /Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/AndroidManifest.xml

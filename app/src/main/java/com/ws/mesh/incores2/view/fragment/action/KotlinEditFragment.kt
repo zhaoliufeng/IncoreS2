@@ -1,12 +1,11 @@
-package com.ws.mesh.incores2.view.fragment
+package com.ws.mesh.incores2.view.fragment.action
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import butterknife.OnClick
 import com.ws.mesh.incores2.R
 import com.ws.mesh.incores2.constant.IntentConstant
+import com.ws.mesh.incores2.utils.CoreData
 import com.ws.mesh.incores2.view.base.BaseContentFragment
 import com.ws.mesh.incores2.view.impl.IEditView
 import com.ws.mesh.incores2.view.presenter.EditPresenter
@@ -63,6 +62,9 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
     }
 
     private fun editName() {
+        if (isShareMesh) {
+            return
+        }
         //设置输入框可用 设置输入框光标位置
         edt_name.isEnabled = true
         edt_name.setSelection(edt_name.text.length)
@@ -78,7 +80,11 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
     }
 
     private fun remove() {
-        presenter.remove()
+        if (CoreData.core().currMesh.mIsShare) {
+            toast(getString(R.string.no_permission))
+        } else {
+            presenter.remove()
+        }
     }
 
     /*******IEditView Interface********/

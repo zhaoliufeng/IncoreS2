@@ -16,7 +16,6 @@ public class LauncherActivity extends BaseContentActivity<ILauncherView, Launche
 
     @Override
     protected void initData() {
-
     }
 
     @Override
@@ -33,13 +32,6 @@ public class LauncherActivity extends BaseContentActivity<ILauncherView, Launche
     @Override
     public void enterMainView() {
         pushActivity(MainActivity.class);
-        finish();
-    }
-
-    @Override
-    public void enterScanView() {
-        //Intent附带Extra标识当前是否需第一次进入程序
-        pushActivity(ScanDeviceActivity.class, true);
         finish();
     }
 }

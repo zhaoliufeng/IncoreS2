@@ -69,6 +69,7 @@ public class PlayMusicService extends Service implements IMusicService {
     //播放模式 默认列表循环
     private PlayMode mMode = PlayMode.LIST_LOOP;
 
+    //音乐可视化
     private Visualizer visualizer;
     private Equalizer equalizer;
     private int meshAddress;
@@ -152,6 +153,7 @@ public class PlayMusicService extends Service implements IMusicService {
         randomIndexList.add(randomIndex);
     }
 
+    //单曲循环
     private void singleMusic() {
         try {
             mediaPlayer.reset();
@@ -162,6 +164,7 @@ public class PlayMusicService extends Service implements IMusicService {
         }
     }
 
+    //初始化音乐数据
     public void initMediaData() {
         try {
             if (musicDatas.size() > 0) {

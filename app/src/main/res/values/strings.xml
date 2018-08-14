@@ -144,4 +144,7 @@
     <string name="set_sunset_time">Set Sunset Time</string>
     <string name="set_durtime">Set Durtime</string>
     <string name="mins">Mins</string>
+    <string name="make_sure_be_same_wifi">Make sure the Sharer and Recipient are connected to the same WiFi</string>
+    <string name="connect_wifi">Connect to WiFi and try again</string>
+    <string name="no_permission">No Permission</string>
 </resources>

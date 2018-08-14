@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ws.mesh.incores2.MeshApplication;
+import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.constant.IntentConstant;
+import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.view.activity.StageThreeActivity;
 import com.ws.mesh.incores2.view.activity.StageTwoActivity;
 
@@ -122,5 +124,14 @@ public abstract class BaseFragment extends Fragment {
         } else {
             return StageTwoActivity.class;
         }
+    }
+
+    //判断是不是分享获得的网络 并提示有无修改权限
+    protected boolean isShareMesh() {
+        boolean isShare = CoreData.core().getCurrMesh().mIsShare;
+        if (isShare) {
+            toast(getString(R.string.no_permission));
+        }
+        return isShare;
     }
 }

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/Users/zhaoliufeng/Documents/GitHub/IncoreS2/BluetoothLightLib/src/debug/shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/Users/zhaoliufeng/Desktop/Android/IncoreS2/BluetoothLightLib/src/debug/shaders"/></dataSet></merger>
