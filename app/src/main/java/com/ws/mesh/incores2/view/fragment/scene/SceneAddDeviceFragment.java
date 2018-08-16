@@ -18,11 +18,9 @@ import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.SendMsg;
-import com.ws.mesh.incores2.view.activity.ControlActivity;
 import com.ws.mesh.incores2.view.activity.SceneControlActivity;
 import com.ws.mesh.incores2.view.adapter.SceneDeviceAdapter;
 import com.ws.mesh.incores2.view.base.BaseContentFragment;
-import com.ws.mesh.incores2.view.base.BaseFragment;
 import com.ws.mesh.incores2.view.impl.ISceneAddDeviceView;
 import com.ws.mesh.incores2.view.presenter.SceneAddDevicePresenter;
 
@@ -55,7 +53,7 @@ public class SceneAddDeviceFragment extends BaseContentFragment<ISceneAddDeviceV
         rlDeviceList.setLayoutManager(new LinearLayoutManager(getActivity()));
         sceneDeviceAdapter = new SceneDeviceAdapter(presenter.getDeviceArray(), presenter.getSceneColorArray());
         rlDeviceList.setAdapter(sceneDeviceAdapter);
-        sceneDeviceAdapter.setOnSceneDeivceActionListener(new SceneDeviceAdapter.OnSceneDeviceActionListener() {
+        sceneDeviceAdapter.setOnSceneDeviceActionListener(new SceneDeviceAdapter.OnSceneDeviceActionListener() {
             @Override
             public void locateDevice(int deviceId) {
                 popLocateDialog(deviceId);

@@ -46,7 +46,10 @@ public class ChooseShareMeshFragment extends BaseContentFragment<IChooseShareMes
 
     @Override
     protected void initData() {
-        mInetAddress = (InetAddress) getActivity().getIntent().getSerializableExtra(IntentConstant.INTENT_OBJ);
+        if (getActivity() != null){
+            mInetAddress = (InetAddress) getActivity().getIntent().getSerializableExtra(IntentConstant.INTENT_OBJ);
+        }
+
         mChooseShareNetworkAdapter = new ChooseShareNetworkAdapter();
         mMeshRecyclerView.setAdapter(mChooseShareNetworkAdapter);
         mMeshRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -119,6 +122,7 @@ public class ChooseShareMeshFragment extends BaseContentFragment<IChooseShareMes
             btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    backToStageTwo();
                     mAlertDialog.dismiss();
                 }
             });

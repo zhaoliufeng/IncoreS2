@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TimingAdapter extends RecyclerView.Adapter {
+public class TimingAdapter extends RecyclerView.Adapter<TimingAdapter.TimingViewHolder> {
 
     private SparseArray<Timing> timingList;
     private Context context;
@@ -42,7 +42,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TimingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_timing, parent, false);
         context = parent.getContext();
@@ -51,9 +51,8 @@ public class TimingAdapter extends RecyclerView.Adapter {
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final TimingViewHolder viewHolder = (TimingViewHolder) holder;
-        final Timing timing = timingList.valueAt(viewHolder.getAdapterPosition());
+    public void onBindViewHolder(@NonNull TimingViewHolder holder, int position) {
+        final Timing timing = timingList.valueAt(holder.getAdapterPosition());
         //设置右边柱状指示
         int listRes = R.drawable.icon_list_center;
         if (getItemCount() == 1) {
@@ -63,30 +62,30 @@ public class TimingAdapter extends RecyclerView.Adapter {
         } else if (position == getItemCount() - 1) {
             listRes = R.drawable.icon_list_bottom;
         }
-        viewHolder.ivListIcon.setImageResource(listRes);
+        holder.ivListIcon.setImageResource(listRes);
         if (editMode) {
-            viewHolder.ivEditTiming.setVisibility(View.VISIBLE);
-            viewHolder.ivDeleteTiming.setVisibility(View.VISIBLE);
-            viewHolder.ivTimingSwitch.setVisibility(View.GONE);
+            holder.ivEditTiming.setVisibility(View.VISIBLE);
+            holder.ivDeleteTiming.setVisibility(View.VISIBLE);
+            holder.ivTimingSwitch.setVisibility(View.GONE);
         } else {
-            viewHolder.ivEditTiming.setVisibility(View.GONE);
-            viewHolder.ivDeleteTiming.setVisibility(View.GONE);
-            viewHolder.ivTimingSwitch.setVisibility(View.VISIBLE);
+            holder.ivEditTiming.setVisibility(View.GONE);
+            holder.ivDeleteTiming.setVisibility(View.GONE);
+            holder.ivTimingSwitch.setVisibility(View.VISIBLE);
         }
 
-        viewHolder.ivEvent.setImageResource(iconIds[timing.mAlarmEvent]);
+        holder.ivEvent.setImageResource(iconIds[timing.mAlarmEvent]);
 
         //设置定时显示信息
         String[] timeArray = ViewUtils.getAlarmShow(timing.mHours, timing.mMins);
-        viewHolder.tvTime.setText(timeArray[0] + " " + timeArray[1]);
-        viewHolder.tvRepeatDay.setText(getExecuteInfo(timing.mWeekNum));
+        holder.tvTime.setText(timeArray[0] + " " + timeArray[1]);
+        holder.tvRepeatDay.setText(getExecuteInfo(timing.mWeekNum));
 
         if (timing.mIsOpen){
-            viewHolder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_on);
+            holder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_on);
         }else {
-            viewHolder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_off);
+            holder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_off);
         }
-        viewHolder.ivTimingSwitch.setOnClickListener(new View.OnClickListener() {
+        holder.ivTimingSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onTimingActionListener != null) {
@@ -95,7 +94,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
             }
         });
 
-        viewHolder.ivEditTiming.setOnClickListener(new View.OnClickListener() {
+        holder.ivEditTiming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onTimingActionListener != null) {
@@ -104,7 +103,7 @@ public class TimingAdapter extends RecyclerView.Adapter {
             }
         });
 
-        viewHolder.ivDeleteTiming.setOnClickListener(new View.OnClickListener() {
+        holder.ivDeleteTiming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onTimingActionListener != null) {

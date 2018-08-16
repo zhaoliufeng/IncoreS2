@@ -102,7 +102,7 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
 
     override fun remove(success: Boolean) {
         if (success)
-            activity?.finish()
+            backToMainActivity()
         else
             toast(R.string.remove_failed)
     }

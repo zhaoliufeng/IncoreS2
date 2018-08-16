@@ -14,6 +14,7 @@ import com.baidu.location.LocationClient;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.constant.PageId;
+import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.view.base.BaseContentActivity;
 import com.ws.mesh.incores2.view.base.BaseFragment;
 import com.ws.mesh.incores2.view.fragment.main.DeviceFragment;

@@ -24,6 +24,7 @@ public class ScanAddDeviceAdapter extends BaseAdapter {
 
     public void setSparseArray(SparseArray<Device> deviceSparseArray) {
         this.mDeviceSparseArray = deviceSparseArray;
+        notifyDataSetChanged();
     }
 
     public ScanAddDeviceAdapter(Context context) {
@@ -62,9 +63,8 @@ public class ScanAddDeviceAdapter extends BaseAdapter {
         }
 
         Device device = this.getItem(position);
-        device.updateIcon();
         holder.txtName.setText(device.mDevName);
-        holder.ivIcon.setImageResource(device.mIconRes);
+        holder.ivIcon.setImageResource(device.getOnlineIcon());
 
         return convertView;
     }

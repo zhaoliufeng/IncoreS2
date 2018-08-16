@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart FlexLink</string>
+    <string name="app_name">FlexLink</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="device_extender">Extender</string>
@@ -147,4 +147,12 @@
     <string name="make_sure_be_same_wifi">Make sure the Sharer and Recipient are connected to the same WiFi</string>
     <string name="connect_wifi">Connect to WiFi and try again</string>
     <string name="no_permission">No Permission</string>
+    <string name="no_locate_permission">Location permission is not available</string>
+    <string name="no_recode_sdcard_permission">Recording, read SD card permission is not available</string>
+    <string name="no_recode_permission">Recording permission is not available</string>
+    <string name="no_sdcard_permission">Read SD card permission is not available</string>
+
+    <string name="tip_no_locate_permission">The current user has denied the permission application and will not be able to continue without this permission</string>
+    <string name="tip_no_locate_sdcard_permission">The current user has denied the permission application and will not be able to continue without this permission</string>
+    <string name="get_permissions">Permissions Succeeded</string>
 </resources>

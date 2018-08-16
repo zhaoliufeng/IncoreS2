@@ -3,6 +3,7 @@ package com.ws.mesh.incores2.view.fragment.timing;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,6 @@ import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.utils.ViewUtils;
 import com.ws.mesh.incores2.view.base.BaseContentFragment;
-import com.ws.mesh.incores2.view.base.BaseFragment;
 import com.ws.mesh.incores2.view.control.CustomTimePicker;
 import com.ws.mesh.incores2.view.impl.ITimingEditView;
 import com.ws.mesh.incores2.view.presenter.TimingEditPresenter;
@@ -50,6 +50,8 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
     private int alarmId;
     private int eventId;
     private int meshAddress;
+    //判断是编辑定时还是添加定时
+    private boolean isEdit = false;
 
     @Override
     protected int getLayoutId() {
@@ -71,6 +73,7 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
         presenter.init(meshAddress);
 
         if (alarmId != -1) {
+            isEdit = true;
             Timing timing = presenter.mAlarmSparseArray.get(alarmId);
             weekNum = timing.mWeekNum;
             eventId = timing.mAlarmEvent;
@@ -78,6 +81,7 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
             ctpTime.setCurrentMinute(timing.mMins);
             tvEvent.setText(presenter.getExecuteEvent(timing.mAlarmEvent));
         } else {
+            isEdit = false;
             //创建新的timing
             if (presenter.getAlarmId() == -1) {
                 toast(R.string.cannot_add_any_timing);
@@ -124,7 +128,11 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
         //添加定时
         int hour = ctpTime.getCurrentHour();
         int min = ctpTime.getCurrentMinute();
-        presenter.addAlarm(hour, min, eventId, weekNum, meshAddress, alarmId);
+        if (isEdit) {
+            presenter.updateAlarm(hour, min, eventId, weekNum, meshAddress, alarmId);
+        } else {
+            presenter.addAlarm(hour, min, eventId, weekNum, meshAddress, alarmId);
+        }
     }
 
     @OnClick({R.id.rl_everyday, R.id.rl_workday, R.id.rl_custom})
@@ -206,7 +214,12 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
 
     @Override
     public void updateAlarm(boolean success) {
-
+        if (success) {
+            if (getActivity() != null)
+                getActivity().finish();
+        } else {
+            toast(R.string.add_failed);
+        }
     }
 
     @Override
@@ -214,7 +227,7 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
         toast(R.string.cannot_add_any_timing);
     }
 
-    class AlarmCustomWeekAdapter extends RecyclerView.Adapter {
+    class AlarmCustomWeekAdapter extends RecyclerView.Adapter<AlarmEventViewHolder> {
 
         private String[] weekList;
 
@@ -222,24 +235,24 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
             weekList = getResources().getStringArray(R.array.custom_week_data);
         }
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AlarmEventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_timing_week, parent, false);
             return new AlarmEventViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            AlarmEventViewHolder viewHolder = (AlarmEventViewHolder) holder;
-            final int viewHolderPosition = viewHolder.getAdapterPosition();
-            viewHolder.mAlarmEventName.setText(weekList[position]);
+        public void onBindViewHolder(@NonNull AlarmEventViewHolder holder, int position) {
+            final int viewHolderPosition = holder.getAdapterPosition();
+            holder.mAlarmEventName.setText(weekList[position]);
             if (weekBytes[position] == 1) {
-                viewHolder.mAlarmEventSelectedStatus.setImageResource(R.drawable.radio_item_selected);
+                holder.mAlarmEventSelectedStatus.setImageResource(R.drawable.radio_item_selected);
             } else {
-                viewHolder.mAlarmEventSelectedStatus.setImageResource(R.drawable.radio_item);
+                holder.mAlarmEventSelectedStatus.setImageResource(R.drawable.radio_item);
             }
-            viewHolder.mAlarmEventSelectedStatus.setOnClickListener(new View.OnClickListener() {
+            holder.mAlarmEventSelectedStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     weekBytes[viewHolderPosition] = (weekBytes[viewHolderPosition] == 1 ? (byte) 0 : (byte) 1);
@@ -247,7 +260,7 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
                 }
             });
 
-            viewHolder.mWeekFrame.setOnClickListener(new View.OnClickListener() {
+            holder.mWeekFrame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     weekBytes[viewHolderPosition] = (weekBytes[viewHolderPosition] == 1 ? (byte) 0 : (byte) 1);

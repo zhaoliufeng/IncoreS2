@@ -50,32 +50,11 @@ public class ShareReceiveFragment extends BaseFragment {
             if (!TextUtils.isEmpty(jsonString)) {
                 //拿到数据
                 ShareManageBean shareManageBean = ShareDataUtils.parseShareData(jsonString);
-                if (shareManageBean == null){
+                if (shareManageBean == null) {
                     toast("数据格式错误");
-                }else {
-                    final AlertDialog mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
-                    mAlertDialog.show();
-                    Window window = mAlertDialog.getWindow();
-                    if (window != null) {
-                        window.setContentView(R.layout.dialog_receive_share_tip);
-                        mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                        mAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        mAlertDialog.setCanceledOnTouchOutside(false);
-                        Button btnConfirm = window.findViewById(R.id.btn_confirm);
-                        TextView tvReceiveNetworkName = window.findViewById(R.id.share_network_name);
-                        TextView tvSenderUserName = window.findViewById(R.id.share_send_user_name);
-                        tvReceiveNetworkName.setText(shareManageBean.mNetworkName);
-                        tvSenderUserName.setText(shareManageBean.mUserName);
-                        btnConfirm.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                getActivity().finish();
-                                mAlertDialog.dismiss();
-                            }
-                        });
-                    }
+                } else {
+                    popReceiveDialog(shareManageBean);
                 }
-
             }
         }
     };
@@ -83,9 +62,34 @@ public class ShareReceiveFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mLanShareReceiver != null){
+        if (mLanShareReceiver != null) {
             mLanShareReceiver.clientOffline();
         }
         ShareUtils.getInstance().onDestroy();
+    }
+
+    //接收成功弹窗
+    private void popReceiveDialog(ShareManageBean shareManageBean) {
+        final AlertDialog mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
+        mAlertDialog.show();
+        Window window = mAlertDialog.getWindow();
+        if (window != null) {
+            window.setContentView(R.layout.dialog_receive_share_tip);
+            mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            mAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            mAlertDialog.setCanceledOnTouchOutside(false);
+            Button btnConfirm = window.findViewById(R.id.btn_confirm);
+            TextView tvReceiveNetworkName = window.findViewById(R.id.share_network_name);
+            TextView tvSenderUserName = window.findViewById(R.id.share_send_user_name);
+            tvReceiveNetworkName.setText(shareManageBean.mNetworkName);
+            tvSenderUserName.setText(shareManageBean.mUserName);
+            btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                    mAlertDialog.dismiss();
+                }
+            });
+        }
     }
 }

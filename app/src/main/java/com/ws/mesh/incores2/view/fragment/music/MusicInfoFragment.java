@@ -56,7 +56,12 @@ public class MusicInfoFragment extends BaseFragment {
 
     //设置音乐信息
     public void setMusicInfo(String name, String singer) {
-        tvMusicName.setText(name);
+        if (name.length() > 25){
+            tvMusicName.setText(String.format("%s...", name.substring(0, 25)));
+        }else {
+            tvMusicName.setText(name);
+        }
+
         tvMusicSinger.setText(singer);
     }
 

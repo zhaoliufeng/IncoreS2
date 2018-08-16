@@ -515,7 +515,7 @@ public class LightAdapter {
 //        LeBluetooth.getInstance().stopScan();
     }
 
-    private void stopLeScan() {
+    public void stopLeScan() {
         long delay;
         if (isSupportN() && System.currentTimeMillis() - scanStartTime < MIN_SCAN_PERIOD) {
             delay = MIN_SCAN_PERIOD - (System.currentTimeMillis() - scanStartTime);

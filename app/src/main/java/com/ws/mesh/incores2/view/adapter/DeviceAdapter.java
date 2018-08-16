@@ -1,6 +1,5 @@
 package com.ws.mesh.incores2.view.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -16,15 +15,12 @@ import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.utils.SendMsg;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private SparseArray<Device> mDatas;
-    private Context context;
 
     public DeviceAdapter(SparseArray<Device> deviceSparseArray) {
         mDatas = new SparseArray<>();
@@ -50,10 +46,10 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         final Device device = mDatas.valueAt(position);
 
         //如果是强波器设备类型则不显示开关INVISIBLE
-        if((device.mDevType >> 8) == AppConstant.FORM_LIGHT_BOOSTER){
+        if (isBooster(device)) {
             viewHolder.tvDeviceOn.setVisibility(View.INVISIBLE);
             viewHolder.tvDeviceOff.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             viewHolder.tvDeviceOn.setVisibility(View.VISIBLE);
             viewHolder.tvDeviceOff.setVisibility(View.VISIBLE);
         }
@@ -77,10 +73,14 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 if (onDeviceSelectedListener != null) {
-                    onDeviceSelectedListener.onSelected(device.mDevMeshId);
+                    if (isBooster(device))
+                        onDeviceSelectedListener.onEdit(device.mDevMeshId);
+                    else
+                        onDeviceSelectedListener.onSelected(device.mDevMeshId);
                 }
             }
         });
+
         viewHolder.ivSunrise.setVisibility(device.isSetSunrise() ? View.VISIBLE : View.GONE);
         viewHolder.ivSunset.setVisibility(device.isSetSunset() ? View.VISIBLE : View.GONE);
     }
@@ -109,6 +109,10 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    private boolean isBooster(Device device) {
+        return (device.mDevType & 0xFF) == AppConstant.FORM_LIGHT_BOOSTER;
     }
 
     //刷新设备列表
@@ -146,5 +150,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     public interface OnDeviceSelectedListener {
         void onSelected(int meshId);
+
+        //强波器 直接进入编辑界面
+        void onEdit(int meshId);
     }
 }

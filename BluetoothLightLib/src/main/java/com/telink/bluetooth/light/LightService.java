@@ -104,7 +104,7 @@ public abstract class LightService extends Service implements
     public void stopScan(){
         if (this.mAdapter == null)
             return;
-        this.mAdapter.stop();
+        this.mAdapter.stopLeScan();
     }
     /**
      * 自动重连

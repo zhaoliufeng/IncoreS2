@@ -17,13 +17,9 @@ public class DeviceParamsDeal {
     //根据不同的设备的类型选择不同的灯
     public static int getDeviceIcon(Device device) {
         int id;
-        switch (device.mDevType >> 8) {
+        switch (device.mDevType & 0xFF) {
             case AppConstant.FORM_LIGHT_BOOSTER:
-                if (device.mConnectionStatus == ConnectionStatus.ON) {
-                    id = R.drawable.icon_booster_on;
-                } else {
-                    id = R.drawable.icon_booster_off;
-                }
+                id = R.drawable.icon_booster_on;
                 break;
             default:
                 if (device.mConnectionStatus == ConnectionStatus.ON) {
@@ -36,10 +32,23 @@ public class DeviceParamsDeal {
 
     }
 
+    //获取在线状态的图标
+    public static int getOnlineDeviceIcon(Device device) {
+        int id;
+        switch (device.mDevType & 0xFF) {
+            case AppConstant.FORM_LIGHT_BOOSTER:
+                id = R.drawable.icon_booster_on;
+                break;
+            default:
+                id = R.drawable.icon_device_on;
+        }
+        return id;
+    }
+
     public static synchronized String getDeviceName(int deviceType) {
         String name;
         Context context = MeshApplication.getInstance();
-        switch (deviceType >> 8) {
+        switch (deviceType & 0xFF) {
             case AppConstant.FORM_LIGHT_BOOSTER:
                 name = context.getString(R.string.device_extender);
                 break;

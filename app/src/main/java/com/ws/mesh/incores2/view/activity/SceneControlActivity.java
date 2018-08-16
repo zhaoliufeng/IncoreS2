@@ -276,12 +276,8 @@ public class SceneControlActivity extends BaseContentActivity<IControlView, Cont
                 //Action item click
                 switch (position) {
                     case 0:
-                        //on
-                        saveSuccess = presenter.saveSceneOnOff(true);
-                        break;
-                    case 1:
                         //off
-                        saveSuccess = presenter.saveSceneOnOff(true);
+                        saveSuccess = presenter.saveSceneOnOff(false);
                         break;
                     default:
                         saveSuccess = false;

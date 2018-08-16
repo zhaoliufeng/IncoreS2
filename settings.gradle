@@ -1,1 +1,1 @@
-include ':app', ':sqldao', ':BluetoothLightLib', ':lansharelib'
+include ':app', ':sqldao', ':BluetoothLightLib', ':lansharelib', ':permissions'

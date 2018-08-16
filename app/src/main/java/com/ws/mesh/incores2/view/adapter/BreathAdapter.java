@@ -14,7 +14,7 @@ import com.ws.mesh.incores2.view.impl.OnItemSelectedListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BreathAdapter extends RecyclerView.Adapter {
+public class BreathAdapter extends RecyclerView.Adapter<BreathAdapter.BreathViewHolder> {
 
     private OnItemSelectedListener onItemSelectedListener;
     private int[] iconIds = {R.drawable.breath_rainbow, R.drawable.breath_heart, R.drawable.breath_greenbreath,
@@ -24,7 +24,7 @@ public class BreathAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BreathViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_breath, parent, false);
         titles = parent.getContext().getResources().getStringArray(R.array.breath);
@@ -32,15 +32,14 @@ public class BreathAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final BreathViewHolder viewHolder = (BreathViewHolder) holder;
-        viewHolder.ivIcon.setImageResource(iconIds[viewHolder.getAdapterPosition()]);
-        viewHolder.tvName.setText(titles[viewHolder.getAdapterPosition()]);
-        viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final BreathViewHolder holder, int position) {
+        holder.ivIcon.setImageResource(iconIds[holder.getAdapterPosition()]);
+        holder.tvName.setText(titles[holder.getAdapterPosition()]);
+        holder.ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null) {
-                    onItemSelectedListener.ItemSelected(viewHolder.getAdapterPosition());
+                    onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
                 }
             }
         });
@@ -55,7 +54,7 @@ public class BreathAdapter extends RecyclerView.Adapter {
         this.onItemSelectedListener = listener;
     }
 
-    public class BreathViewHolder extends RecyclerView.ViewHolder {
+    class BreathViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_icon)
         ImageView ivIcon;

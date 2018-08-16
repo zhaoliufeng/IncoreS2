@@ -14,7 +14,7 @@ import com.ws.mesh.incores2.view.impl.OnItemSelectedListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InteractionAdapter extends RecyclerView.Adapter {
+public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.InteractionViewHolder> {
     private int[] icons = {R.drawable.icon_interaction_breath, R.drawable.icon_interaction_music,
             R.drawable.icon_interaction_edit_timer, R.drawable.icon_interaction_edit_device};
     private int[] names = {R.string.breath, R.string.music,
@@ -22,22 +22,21 @@ public class InteractionAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public InteractionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_interaction, parent, false);
         return new InteractionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final InteractionViewHolder viewHolder = (InteractionViewHolder) holder;
-        viewHolder.ivIcon.setImageResource(icons[viewHolder.getAdapterPosition()]);
-        viewHolder.tvName.setText(names[viewHolder.getAdapterPosition()]);
-        viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final InteractionViewHolder holder, int position) {
+        holder.ivIcon.setImageResource(icons[holder.getAdapterPosition()]);
+        holder.tvName.setText(names[holder.getAdapterPosition()]);
+        holder.ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null){
-                    onItemSelectedListener.ItemSelected(viewHolder.getAdapterPosition());
+                    onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
                 }
             }
         });

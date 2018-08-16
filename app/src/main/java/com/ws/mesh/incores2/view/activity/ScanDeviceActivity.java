@@ -64,7 +64,6 @@ public class ScanDeviceActivity extends BaseContentActivity<IScanView, ScanPrese
         } else {
             presenter.stopScan();
         }
-
     }
 
     @OnClick(R.id.iv_scan_back)
@@ -80,6 +79,7 @@ public class ScanDeviceActivity extends BaseContentActivity<IScanView, ScanPrese
     @Override
     public void addDeviceSuccess(SparseArray<Device> sparseArray) {
         mMultiScrollNumber.setNumber(sparseArray.size());
+        deviceAdapter.setSparseArray(sparseArray);
     }
 
     @Override

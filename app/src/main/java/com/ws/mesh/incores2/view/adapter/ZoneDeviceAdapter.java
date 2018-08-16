@@ -19,7 +19,7 @@ import com.ws.mesh.incores2.bean.Device;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ZoneDeviceAdapter extends RecyclerView.Adapter {
+public class ZoneDeviceAdapter extends RecyclerView.Adapter<ZoneDeviceAdapter.DeviceViewHolder> {
 
     //显示的所有设备
     private SparseArray<Device> mDatas;
@@ -51,7 +51,7 @@ public class ZoneDeviceAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_zone_deivce, parent, false);
         context = parent.getContext();
@@ -59,26 +59,25 @@ public class ZoneDeviceAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        DeviceViewHolder viewHolder = (DeviceViewHolder) holder;
+    public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
         final Device device = mDatas.valueAt(position);
         device.updateIcon();
-        viewHolder.ivDeviceIcon.setImageResource(device.mIconRes);
-        viewHolder.tvDeviceName.setText(device.mDevName);
+        holder.ivDeviceIcon.setImageResource(device.mIconRes);
+        holder.tvDeviceName.setText(device.mDevName);
 
         if (mZoneDevices.get(device.mDevMeshId) != null) {
-            viewHolder.rlDeviceFrame.setBackgroundResource(R.drawable.bg_zone_device_icon_selected);
-            viewHolder.tvSelect.setBackgroundResource(R.drawable.bg_zone_device_selected);
-            viewHolder.tvSelect.setTextColor(context.getResources().getColor(R.color.white));
-            viewHolder.tvSelect.setText(R.string.selected);
+            holder.rlDeviceFrame.setBackgroundResource(R.drawable.bg_zone_device_icon_selected);
+            holder.tvSelect.setBackgroundResource(R.drawable.bg_zone_device_selected);
+            holder.tvSelect.setTextColor(context.getResources().getColor(R.color.white));
+            holder.tvSelect.setText(R.string.selected);
         } else {
-            viewHolder.rlDeviceFrame.setBackgroundResource(R.drawable.bg_zone_device_icon_unselected);
-            viewHolder.tvSelect.setBackgroundResource(R.drawable.bg_zone_device_unselected);
-            viewHolder.tvSelect.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-            viewHolder.tvSelect.setText(R.string.select);
+            holder.rlDeviceFrame.setBackgroundResource(R.drawable.bg_zone_device_icon_unselected);
+            holder.tvSelect.setBackgroundResource(R.drawable.bg_zone_device_unselected);
+            holder.tvSelect.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.tvSelect.setText(R.string.select);
         }
 
-        viewHolder.tvSelect.setOnClickListener(new View.OnClickListener() {
+        holder.tvSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isAdd = mZoneDevices.get(device.mDevMeshId) == null;

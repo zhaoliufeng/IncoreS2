@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 
-public class SceneAdapter extends RecyclerView.Adapter {
+public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.SceneViewHolder> {
 
     private SparseArray<Scene> data;
     private boolean editMode;
@@ -27,28 +27,27 @@ public class SceneAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SceneViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_scene, parent, false);
         return new SceneViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        SceneViewHolder viewHolder = (SceneViewHolder) holder;
-        final Scene scene = data.valueAt(viewHolder.getAdapterPosition());
-        viewHolder.tvSceneName.setText(scene.mSceneName);
+    public void onBindViewHolder(@NonNull SceneViewHolder holder, int position) {
+        final Scene scene = data.valueAt(holder.getAdapterPosition());
+        holder.tvSceneName.setText(scene.mSceneName);
         if (editMode) {
-            viewHolder.ivDelete.setVisibility(View.VISIBLE);
-            viewHolder.ivEdit.setVisibility(View.VISIBLE);
-            viewHolder.tvRun.setVisibility(View.GONE);
+            holder.ivDelete.setVisibility(View.VISIBLE);
+            holder.ivEdit.setVisibility(View.VISIBLE);
+            holder.tvRun.setVisibility(View.GONE);
         } else {
-            viewHolder.ivDelete.setVisibility(View.GONE);
-            viewHolder.ivEdit.setVisibility(View.GONE);
-            viewHolder.tvRun.setVisibility(View.VISIBLE);
+            holder.ivDelete.setVisibility(View.GONE);
+            holder.ivEdit.setVisibility(View.GONE);
+            holder.tvRun.setVisibility(View.VISIBLE);
         }
 
-        viewHolder.tvRun.setOnClickListener(new View.OnClickListener() {
+        holder.tvRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onSceneActionListener != null)
@@ -56,7 +55,7 @@ public class SceneAdapter extends RecyclerView.Adapter {
             }
         });
 
-        viewHolder.ivEdit.setOnClickListener(new View.OnClickListener() {
+        holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onSceneActionListener != null)
@@ -64,7 +63,7 @@ public class SceneAdapter extends RecyclerView.Adapter {
             }
         });
 
-        viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
+        holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onSceneActionListener != null)

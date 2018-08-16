@@ -101,7 +101,7 @@
     <RelativeLayout
         android:id="@+id/show_device_num"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@color/colorPrimary">
 
         <LinearLayout
@@ -126,8 +126,8 @@
 
         <com.ws.mesh.incores2.view.control.MultiScrollNumber
             android:id="@+id/add_device_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"

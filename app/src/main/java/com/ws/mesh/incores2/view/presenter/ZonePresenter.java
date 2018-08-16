@@ -24,7 +24,7 @@ public class ZonePresenter extends IBasePresenter<IZoneView> {
         }
         Room room = new Room();
         room.mRoomId = zoneId;
-        room.mRoomName = "Zone " + (zoneId - AppConstant.ZONE_START_ID);
+        room.mRoomName = "Zone " + (zoneId - AppConstant.ZONE_START_ID + 1);
         room.circadian = new Circadian();
         room.mDeviceIds = new SparseArray<>();
         room.circadian = new Circadian();

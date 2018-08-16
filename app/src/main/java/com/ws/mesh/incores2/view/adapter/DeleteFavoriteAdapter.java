@@ -21,29 +21,28 @@ public class DeleteFavoriteAdapter extends FavoriteAdapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavoriteColorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return super.onCreateViewHolder(parent, viewType);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List payloads) {
-        final ColorTagViewHolder viewHolder = (ColorTagViewHolder) holder;
+    public void onBindViewHolder(@NonNull final FavoriteColorViewHolder holder, int position, @NonNull List payloads) {
         FavoriteColor favoriteColor = data.valueAt(position);
         if (favoriteColor.red != 0 || favoriteColor.green != 0 || favoriteColor.blue != 0){
-            viewHolder.crvColor.setBackgroundColor(Color.rgb(favoriteColor.red, favoriteColor.green, favoriteColor.blue));
+            holder.crvColor.setBackgroundColor(Color.rgb(favoriteColor.red, favoriteColor.green, favoriteColor.blue));
         }else {
-            viewHolder.crvColor.setBackgroundColor(ViewUtils.interpolate(0xEBF1F1F1, 0xB9FEB800, favoriteColor.warm / 255f));
+            holder.crvColor.setBackgroundColor(ViewUtils.interpolate(0xEBF1F1F1, 0xB9FEB800, favoriteColor.warm / 255f));
         }
-        viewHolder.tvBrightness.setText(String.format("%d%%", favoriteColor.brightness));
-        viewHolder.crvColor.setOnClickListener(new View.OnClickListener() {
+        holder.tvBrightness.setText(String.format("%d%%", favoriteColor.brightness));
+        holder.crvColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null){
-                    onItemSelectedListener.ItemSelected(viewHolder.getAdapterPosition());
+                    onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
                 }
             }
         });
-        viewHolder.ivDelete.setVisibility(View.VISIBLE);
+        holder.ivDelete.setVisibility(View.VISIBLE);
     }
 }

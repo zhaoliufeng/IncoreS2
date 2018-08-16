@@ -13,12 +13,13 @@ import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.bean.SceneColor;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.constant.SceneMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SceneDeviceAdapter extends RecyclerView.Adapter {
+public class SceneDeviceAdapter extends RecyclerView.Adapter<SceneDeviceAdapter.SceneDeviceViewHolder> {
 
     private SparseArray<Device> data;
     private SparseArray<SceneColor> sceneDeviceData;
@@ -29,16 +30,23 @@ public class SceneDeviceAdapter extends RecyclerView.Adapter {
         data = new SparseArray<>();
         sceneDeviceData = sceneColorSparseArray;
         for (int i = 0; i < deviceSparseArray.size(); i++) {
-            if (deviceSparseArray.valueAt(i).mConnectionStatus != null &&
-                    deviceSparseArray.valueAt(i).mConnectionStatus != ConnectionStatus.OFFLINE) {
+            Device device = deviceSparseArray.valueAt(i);
+            if (!isOfflineOrBooster(device)) {
                 data.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
             }
         }
     }
 
+    //过滤离线设备以及强波器 强波器不允许添加场景
+    private boolean isOfflineOrBooster(Device device) {
+        return device.mConnectionStatus == null ||
+                (device.mDevType & 0xFF) == AppConstant.FORM_LIGHT_BOOSTER ||
+                device.mConnectionStatus == ConnectionStatus.OFFLINE;
+    }
+
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SceneDeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_scene_device, parent, false);
         context = parent.getContext();
@@ -46,10 +54,9 @@ public class SceneDeviceAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        SceneDeviceViewHolder viewHolder = (SceneDeviceViewHolder) holder;
-        final Device device = data.valueAt(viewHolder.getAdapterPosition());
-        viewHolder.tvDeviceName.setText(device.mDevName);
+    public void onBindViewHolder(@NonNull SceneDeviceViewHolder holder, int position) {
+        final Device device = data.valueAt(holder.getAdapterPosition());
+        holder.tvDeviceName.setText(device.mDevName);
         int chooseEventsStrId = 0;
         int chooseEventsBgResId;
         int chooseEventsTextColor;
@@ -73,11 +80,11 @@ public class SceneDeviceAdapter extends RecyclerView.Adapter {
             chooseEventsBgResId = R.drawable.bg_round_white_with_border;
             chooseEventsTextColor = context.getResources().getColor(R.color.colorPrimary);
         }
-        viewHolder.tvChooseEvents.setText(chooseEventsStrId);
-        viewHolder.tvChooseEvents.setBackgroundResource(chooseEventsBgResId);
-        viewHolder.tvChooseEvents.setTextColor(chooseEventsTextColor);
+        holder.tvChooseEvents.setText(chooseEventsStrId);
+        holder.tvChooseEvents.setBackgroundResource(chooseEventsBgResId);
+        holder.tvChooseEvents.setTextColor(chooseEventsTextColor);
 
-        viewHolder.tvDeviceName.setOnClickListener(new View.OnClickListener() {
+        holder.tvDeviceName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onSceneDeviceActionListener != null)
@@ -85,7 +92,7 @@ public class SceneDeviceAdapter extends RecyclerView.Adapter {
             }
         });
 
-        viewHolder.tvChooseEvents.setOnClickListener(new View.OnClickListener() {
+        holder.tvChooseEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onSceneDeviceActionListener != null)
@@ -117,7 +124,7 @@ public class SceneDeviceAdapter extends RecyclerView.Adapter {
         void setDeviceEvent(int deviceId);
     }
 
-    public void setOnSceneDeivceActionListener(OnSceneDeviceActionListener listener) {
+    public void setOnSceneDeviceActionListener(OnSceneDeviceActionListener listener) {
         this.onSceneDeviceActionListener = listener;
     }
 }

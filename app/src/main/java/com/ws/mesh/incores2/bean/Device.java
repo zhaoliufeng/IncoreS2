@@ -79,6 +79,10 @@ public class Device {
         mIconRes = DeviceParamsDeal.getDeviceIcon(this);
     }
 
+    public int getOnlineIcon(){
+        return DeviceParamsDeal.getOnlineDeviceIcon(this);
+    }
+
     /**判断该设备是否设置过昼节律,夜节律
      * 默认值为0
      * 10 2 设置了夜节律没有设置昼节律**/

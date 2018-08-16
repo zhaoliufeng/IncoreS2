@@ -8,6 +8,7 @@ import com.ws.mesh.incores2.bean.Timing;
 import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.constant.TimingType;
 import com.ws.mesh.incores2.db.TimingDAO;
+import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.SendMsg;
 import com.ws.mesh.incores2.utils.ViewUtils;
 import com.ws.mesh.incores2.view.base.IBasePresenter;
@@ -70,7 +71,6 @@ public class TimingEditPresenter extends IBasePresenter<ITimingEditView> {
         SendMsg.updateDeviceTime();
         Timing alarm = packAlarm(hours, mins, sceneId, weeknums, meshAddress, alarmId);
         if (alarm != null) {
-            alarm.mAlarmType = meshAddress < 0x80000 ? 1 : 2;
             if (TimingDAO.getInstance().updateTiming(alarm)) {
                 //发送指令
                 SendMsg.addAlarm(meshAddress, alarm);
@@ -103,6 +103,7 @@ public class TimingEditPresenter extends IBasePresenter<ITimingEditView> {
         alarm.mTotalTime = hours * 60 + mins;
         alarm.mSec = 0;
         alarm.mDesc = "";
+        alarm.mAlarmMeshName = CoreData.core().getCurrMesh().mMeshName;
 
         if (weeknums == 0) {
             //日月年模式

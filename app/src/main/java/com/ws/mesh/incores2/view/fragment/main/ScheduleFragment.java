@@ -24,13 +24,24 @@ public class ScheduleFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        refreshList();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+           refreshList();
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
+        refreshList();
+    }
+
+    private void refreshList(){
         timingAdapter = new ScheduleAdapter(TimingDAO.getInstance().queryTotalTiming());
         rlTimingList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rlTimingList.setAdapter(timingAdapter);

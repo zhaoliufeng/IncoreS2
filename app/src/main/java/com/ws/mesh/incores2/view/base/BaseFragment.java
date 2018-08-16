@@ -13,10 +13,12 @@ import com.ws.mesh.incores2.MeshApplication;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.utils.CoreData;
+import com.ws.mesh.incores2.view.activity.MainActivity;
 import com.ws.mesh.incores2.view.activity.StageThreeActivity;
 import com.ws.mesh.incores2.view.activity.StageTwoActivity;
 
 import java.net.InetAddress;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -133,5 +135,24 @@ public abstract class BaseFragment extends Fragment {
             toast(getString(R.string.no_permission));
         }
         return isShare;
+    }
+
+    //返回到主界面
+    public void backToMainActivity(){
+        for (Map.Entry<String, BaseActivity> activityMap : CoreData.mMangerActivity.entrySet()){
+            if (!activityMap.getKey().equals(MainActivity.class.getSimpleName())){
+                activityMap.getValue().finish();
+            }
+        }
+    }
+
+    //返回到第二级界面
+    public void backToStageTwo(){
+        for (Map.Entry<String, BaseActivity> activityMap : CoreData.mMangerActivity.entrySet()){
+            if (!activityMap.getKey().equals(MainActivity.class.getSimpleName()) &&
+                    !activityMap.getKey().equals(StageTwoActivity.class.getSimpleName())){
+                activityMap.getValue().finish();
+            }
+        }
     }
 }

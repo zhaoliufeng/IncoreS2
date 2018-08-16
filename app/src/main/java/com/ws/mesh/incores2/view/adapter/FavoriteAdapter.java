@@ -20,7 +20,7 @@ import com.ws.mesh.incores2.view.impl.OnItemSelectedListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FavoriteAdapter extends RecyclerView.Adapter {
+public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteColorViewHolder> {
 
     protected SparseArray<FavoriteColor> data;
 
@@ -30,29 +30,28 @@ public class FavoriteAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavoriteColorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_favorite_color, parent, false);
-        return new ColorTagViewHolder(view);
+        return new FavoriteColorViewHolder(view);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final ColorTagViewHolder viewHolder = (ColorTagViewHolder) holder;
+    public void onBindViewHolder(@NonNull final FavoriteColorViewHolder holder, int position) {
         FavoriteColor favoriteColor = data.valueAt(position);
         if (favoriteColor.red != 0 || favoriteColor.green != 0 || favoriteColor.blue != 0){
-            viewHolder.crvColor.setBackgroundColor(Color.rgb(favoriteColor.red, favoriteColor.green, favoriteColor.blue));
+            holder.crvColor.setBackgroundColor(Color.rgb(favoriteColor.red, favoriteColor.green, favoriteColor.blue));
         }else {
-            viewHolder.crvColor.setBackgroundColor(ViewUtils.interpolate(0xEBF1F1F1, 0xB9FEB800, favoriteColor.warm / 255f));
+            holder.crvColor.setBackgroundColor(ViewUtils.interpolate(0xEBF1F1F1, 0xB9FEB800, favoriteColor.warm / 255f));
         }
 
-        viewHolder.tvBrightness.setText(String.format("%d%%", favoriteColor.brightness));
-        viewHolder.crvColor.setOnClickListener(new View.OnClickListener() {
+        holder.tvBrightness.setText(String.format("%d%%", favoriteColor.brightness));
+        holder.crvColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null){
-                    onItemSelectedListener.ItemSelected(viewHolder.getAdapterPosition());
+                    onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
                 }
             }
         });
@@ -69,7 +68,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter {
         this.onItemSelectedListener = listener;
     }
 
-    class ColorTagViewHolder extends RecyclerView.ViewHolder {
+    class FavoriteColorViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.crv_color)
         ColorRoundView crvColor;
@@ -78,7 +77,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter {
         @BindView(R.id.iv_delete)
         ImageView ivDelete;
 
-        ColorTagViewHolder(View itemView) {
+        FavoriteColorViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

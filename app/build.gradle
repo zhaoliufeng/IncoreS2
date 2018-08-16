@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-def app_name = "IncoreS2"
+def app_name = "Flexlink"
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -11,7 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0.0(build 1000)"
+        versionName "1.0.0(build 1001)"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -71,6 +71,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.2.51'
     implementation files('libs/BaiduLBS_Android.jar')
     implementation project(path: ':lansharelib')
+    implementation project(path: ':permissions')
 }
 repositories {
     mavenCentral()

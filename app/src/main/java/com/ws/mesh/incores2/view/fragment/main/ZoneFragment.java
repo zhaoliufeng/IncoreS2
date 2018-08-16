@@ -47,34 +47,34 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
         rlZoneList.setAdapter(roomAdapter);
         roomAdapter.setOnZoneMenuListener(new RoomAdapter.OnZoneClickListener() {
             @Override
-            public void onMenu(int menuItemIndex, int position) {
+            public void onMenu(RoomAdapter.ACTION_TYPE actionType, int position) {
                 Room room = CoreData.core().mRoomSparseArray.valueAt(position);
                 //菜单点击
-                switch (menuItemIndex) {
-                    case 0:
+                switch (actionType) {
+                    case DEVICE_MANAGE:
                         if (isShareMesh()) {
                             return;
                         }
                         //群组设备管理
                         pushStageActivity(PageId.ZONE_DEVICE_MANAGE, room.mRoomId);
                         break;
-                    case 1:
+                    case CONTROL:
                         //颜色控制
                         pushActivity(ControlActivity.class, room.mRoomId);
                         break;
-                    case 2:
+                    case BREATH:
                         //呼吸
                         pushStageActivity(PageId.BREATH, room.mRoomId);
                         break;
-                    case 3:
+                    case MUSIC:
                         //音乐
                         pushStageActivity(PageId.MUSIC, room.mRoomId);
                         break;
-                    case 4:
+                    case TIMING:
                         //设定定时
                         pushStageActivity(PageId.TIMING, room.mRoomId);
                         break;
-                    case 5:
+                    case EDIT:
                         //编辑群组
                         pushStageActivity(PageId.EDIT_ZONE, room.mRoomId);
                         break;

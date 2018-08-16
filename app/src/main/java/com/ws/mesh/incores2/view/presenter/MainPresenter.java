@@ -94,22 +94,7 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
                 CoreData.core().setBLERequest(true);
             }
         }
-        TaskPool.DefRandTaskPool().PushTask(new Runnable() {
-            @Override
-            public void run() {
-                if (WeSmartService.Instance() != null) {
-                    if (WeSmartService.Instance().getMode() != MODE_AUTO_CONNECT_MESH) {
-                        //自动重连参数
-                        LeAutoConnectParameters connectParams = Parameters.createAutoConnectParameters();
-                        connectParams.setMeshName(CoreData.core().getCurrMesh().mMeshName);
-                        connectParams.setPassword(CoreData.core().getCurrMesh().mMeshPassword);
-                        connectParams.setTimeoutSeconds(15);
-                        connectParams.autoEnableNotification(true);
-                        WeSmartService.Instance().autoConnect(connectParams);
-                    }
-                }
-            }
-        }, 2000);
+        autoConnect();
     }
 
     private void addListener() {
@@ -132,11 +117,11 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
     }
 
     private void autoConnect() {
-        if (!WeSmartService.Instance().isLogin()) {
-            onMeshOffline();
-        }
-
         if (WeSmartService.Instance() != null) {
+            if (!WeSmartService.Instance().isLogin()) {
+                onMeshOffline();
+            }
+
             if (WeSmartService.Instance().getMode() != MODE_AUTO_CONNECT_MESH) {
                 //自动重连参数
                 LeAutoConnectParameters connectParams = Parameters.createAutoConnectParameters();
@@ -147,6 +132,8 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
                 WeSmartService.Instance().autoConnect(connectParams);
             }
             ReFreshNotify();
+        }else {
+            Log.e(TAG, "Service is null");
         }
     }
 
@@ -367,7 +354,7 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
     }
 
     //设置设备的昼夜节律时间 昼夜节律默认关闭
-    private void setCircadian(Device device){
+    private void setCircadian(Device device) {
         //如果获取的昼夜节律时间是空的 就使用默认的昼夜节律 不然会出现数组越界的异常
         String sunRiseString = SPUtils.getSunrise().equals("") ? AppConstant.DEFAULT_SUNRISE_TIME : SPUtils.getSunrise();
         String sunSetString = SPUtils.getSunset().equals("") ? AppConstant.DEFAULT_SUNSET_TIME : SPUtils.getSunset();

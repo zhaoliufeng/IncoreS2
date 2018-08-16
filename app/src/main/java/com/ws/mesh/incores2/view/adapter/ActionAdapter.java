@@ -2,6 +2,7 @@ package com.ws.mesh.incores2.view.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,28 +15,27 @@ import com.ws.mesh.incores2.view.impl.OnItemSelectedListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ActionAdapter extends RecyclerView.Adapter {
-    private int[] icons = {R.drawable.icon_tab_device_selected, R.drawable.icon_tab_device_unselected};
-    private int[] names = {R.string.on, R.string.off};
+public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ActionViewHolder> {
+    private int[] icons = {R.drawable.icon_tab_device_unselected};
+    private int[] names = {R.string.off};
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ActionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_interaction, parent, false);
         return new ActionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final ActionViewHolder viewHolder = (ActionViewHolder) holder;
-        viewHolder.ivIcon.setImageResource(icons[viewHolder.getAdapterPosition()]);
-        viewHolder.tvName.setText(names[viewHolder.getAdapterPosition()]);
-        viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final ActionViewHolder holder, int position) {
+        holder.ivIcon.setImageResource(icons[holder.getAdapterPosition()]);
+        holder.tvName.setText(names[holder.getAdapterPosition()]);
+        holder.ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null){
-                    onItemSelectedListener.ItemSelected(viewHolder.getAdapterPosition());
+                    onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
                 }
             }
         });
@@ -52,7 +52,7 @@ public class ActionAdapter extends RecyclerView.Adapter {
         this.onItemSelectedListener = listener;
     }
 
-    public class ActionViewHolder extends RecyclerView.ViewHolder {
+    class ActionViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_icon)
         ImageView ivIcon;

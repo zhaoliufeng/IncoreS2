@@ -67,7 +67,6 @@ public class ScanPresenter extends IBasePresenter<IScanView> implements EventLis
             }
         }
     };
-    private volatile int mMeshAddress;
 
     public ScanPresenter() {
         CoreData.mAddDeviceMode = true;
@@ -141,21 +140,6 @@ public class ScanPresenter extends IBasePresenter<IScanView> implements EventLis
             if (!TextUtils.isEmpty(deviceInfo.macAddress))
                 mAllDevice.put(deviceInfo.macAddress, deviceInfo);
         }
-        if (deviceInfo != null) {
-            if (deviceInfo.productUUID == 0x04) {
-                switch (deviceInfo.meshUUID) {
-                    default:
-                        mMeshAddress = ViewUtils.getVaildMeshAddress(CoreData.core().mDeviceSparseArray) & 0xFF;
-                        break;
-                }
-            } else if (deviceInfo.productUUID == 0x20) {
-                mMeshAddress = 255;
-            }
-        }
-        if (mMeshAddress == -1) {
-            getView().addDeviceStatus(R.string.cannot_add_any_device);
-            return;
-        }
 
         //更新参数
         LeUpdateParameters params = Parameters.createUpdateParameters();
@@ -163,9 +147,7 @@ public class ScanPresenter extends IBasePresenter<IScanView> implements EventLis
         params.setOldPassword(CoreData.core().getCurrMesh().mMeshFactoryPassword);
         params.setNewMeshName(CoreData.core().getCurrMesh().mMeshName);
         params.setNewPassword(CoreData.core().getCurrMesh().mMeshPassword);
-        if (deviceInfo != null) {
-            deviceInfo.meshAddress = mMeshAddress & 0xFF;
-        }
+
         params.setUpdateDeviceList(deviceInfo);
         WeSmartService.Instance().idleMode(true);
         //加灯
@@ -235,6 +217,7 @@ public class ScanPresenter extends IBasePresenter<IScanView> implements EventLis
     public void destroy() {
         MeshApplication.getInstance().removeEventListener(this);
         MeshApplication.getInstance().unregisterReceiver(mReceiver);
+        WeSmartService.Instance().stopScan();
         CoreData.mAddDeviceMode = false;
         mAllDevice = null;
         mReceiver = null;

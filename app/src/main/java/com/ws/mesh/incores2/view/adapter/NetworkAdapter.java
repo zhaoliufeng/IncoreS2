@@ -20,7 +20,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NetworkAdapter extends RecyclerView.Adapter {
+public class NetworkAdapter extends RecyclerView.Adapter<NetworkAdapter.NetworkViewHolder> {
 
     private List<Mesh> data;
     private boolean editMode;
@@ -39,50 +39,50 @@ public class NetworkAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NetworkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_network, parent, false);
         return new NetworkViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NetworkViewHolder viewHolder = (NetworkViewHolder) holder;
-        final Mesh mesh = data.get(viewHolder.getAdapterPosition());
-        viewHolder.tvNetName.setText(mesh.mMeshShowName);
-        if (mesh.mMeshName.equals(CoreData.core().getCurrMesh().mMeshName)) {
-            viewHolder.ivSelect.setImageResource(R.drawable.radio_item_selected);
+    public void onBindViewHolder(@NonNull NetworkViewHolder holder, int position) {
+        final Mesh mesh = data.get(holder.getAdapterPosition());
+        holder.tvNetName.setText(mesh.mMeshShowName);
+        if (isCurrMesh(mesh)) {
+            holder.ivSelect.setImageResource(R.drawable.radio_item_selected);
         } else {
-            viewHolder.ivSelect.setImageResource(R.drawable.radio_item);
+            holder.ivSelect.setImageResource(R.drawable.radio_item);
         }
 
         if (editMode) {
-            viewHolder.ivSelect.setVisibility(View.GONE);
-            viewHolder.ivDelNet.setVisibility(View.GONE);
-            viewHolder.ivAddDevice.setVisibility(View.GONE);
+            holder.ivSelect.setVisibility(View.GONE);
+            holder.ivDelNet.setVisibility(View.GONE);
+            holder.ivAddDevice.setVisibility(View.GONE);
 
             //默认网络不可删除 当前网络不可删除 只有当前网络可以添加设备
             if (mesh.mMeshName.equals(CoreData.core().getCurrMesh().mMeshName) &&
                     !mesh.mMeshName.equals(SPUtils.getDefaultMesh())){
-                viewHolder.ivAddDevice.setVisibility(View.VISIBLE);
+                holder.ivAddDevice.setVisibility(View.VISIBLE);
             }else if (!mesh.mMeshName.equals(SPUtils.getDefaultMesh())){
-                viewHolder.ivDelNet.setVisibility(View.VISIBLE);
+                holder.ivDelNet.setVisibility(View.VISIBLE);
             }
         } else {
-            viewHolder.ivSelect.setVisibility(View.VISIBLE);
-            viewHolder.ivDelNet.setVisibility(View.GONE);
-            viewHolder.ivAddDevice.setVisibility(View.GONE);
+            holder.ivSelect.setVisibility(View.VISIBLE);
+            holder.ivDelNet.setVisibility(View.GONE);
+            holder.ivAddDevice.setVisibility(View.GONE);
         }
 
-        viewHolder.ivSelect.setOnClickListener(new View.OnClickListener() {
+        holder.ivSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //切换网络
-                if (onNetActionListener != null)
+                if (onNetActionListener != null &&
+                        !isCurrMesh(mesh))
                     onNetActionListener.switchNet(mesh);
             }
         });
-        viewHolder.ivDelNet.setOnClickListener(new View.OnClickListener() {
+        holder.ivDelNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //删除网络
@@ -90,7 +90,7 @@ public class NetworkAdapter extends RecyclerView.Adapter {
                     onNetActionListener.delNet(mesh);
             }
         });
-        viewHolder.ivAddDevice.setOnClickListener(new View.OnClickListener() {
+        holder.ivAddDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //添加设备
@@ -120,6 +120,11 @@ public class NetworkAdapter extends RecyclerView.Adapter {
             data.add(mesh.getValue());
         }
         notifyDataSetChanged();
+    }
+
+    //判断是不是当前 mesh
+    private boolean isCurrMesh(Mesh mesh){
+        return mesh.mMeshName.equals(CoreData.core().getCurrMesh().mMeshName);
     }
 
     class NetworkViewHolder extends RecyclerView.ViewHolder {

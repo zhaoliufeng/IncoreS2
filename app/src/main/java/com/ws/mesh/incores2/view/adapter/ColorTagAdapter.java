@@ -13,27 +13,26 @@ import com.ws.mesh.incores2.view.impl.OnItemSelectedListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ColorTagAdapter extends RecyclerView.Adapter {
+public class ColorTagAdapter extends RecyclerView.Adapter<ColorTagAdapter.ColorTagViewHolder> {
     private int[] colorTag = {0xFF0000, 0xFFFF00, 0x00FF00, 0x0000FF,
             0x00FFFF, 0xFF00FF, 0xFFFFFF, 0xFDA100};
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ColorTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_color_tag, parent, false);
         return new ColorTagViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final ColorTagViewHolder viewHolder = (ColorTagViewHolder) holder;
-        viewHolder.ccvColorTag.setBackgroundColor(colorTag[viewHolder.getAdapterPosition()]);
-        viewHolder.ccvColorTag.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final ColorTagViewHolder holder, int position) {
+        holder.ccvColorTag.setBackgroundColor(colorTag[holder.getAdapterPosition()]);
+        holder.ccvColorTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onColorTagSelectedListener != null) {
-                    onColorTagSelectedListener.OnColorTagSelected(colorTag[viewHolder.getAdapterPosition()]);
+                    onColorTagSelectedListener.OnColorTagSelected(colorTag[holder.getAdapterPosition()]);
                 }
             }
         });

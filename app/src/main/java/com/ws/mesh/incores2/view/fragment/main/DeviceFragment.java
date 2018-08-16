@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
+import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.view.activity.ControlActivity;
 import com.ws.mesh.incores2.view.adapter.DeviceAdapter;
@@ -36,6 +37,11 @@ public class DeviceFragment extends BaseFragment {
             @Override
             public void onSelected(int meshId) {
                 pushActivity(ControlActivity.class, meshId);
+            }
+
+            @Override
+            public void onEdit(int meshId) {
+                pushStageActivity(PageId.EDIT_DEVICE, meshId);
             }
         });
     }

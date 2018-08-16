@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MusicItemAdapter extends RecyclerView.Adapter {
+public class MusicItemAdapter extends RecyclerView.Adapter<MusicItemAdapter.MusicViewHolder> {
 
     private List<Song> data;
     private Context context;
@@ -33,7 +33,7 @@ public class MusicItemAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MusicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_music, parent, false);
         context = parent.getContext();
@@ -41,23 +41,22 @@ public class MusicItemAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        final MusicViewHolder viewHolder = (MusicViewHolder) holder;
+    public void onBindViewHolder(@NonNull final MusicViewHolder holder, int position) {
         if (position == currPosition){
-            viewHolder.llMusicFrame.setBackground(
+            holder.llMusicFrame.setBackground(
                     context.getResources().getDrawable(R.drawable.bg_round_white_with_border));
         }else {
-            viewHolder.llMusicFrame.setBackground(
+            holder.llMusicFrame.setBackground(
                     context.getResources().getDrawable(R.drawable.bg_round_white));
         }
-        viewHolder.tvMusicName.setText(data.get(viewHolder.getAdapterPosition()).getMusicName());
-        viewHolder.tvMusicSinger.setText(data.get(viewHolder.getAdapterPosition()).getArtist());
-        viewHolder.llMusicFrame.setOnClickListener(new View.OnClickListener() {
+        holder.tvMusicName.setText(data.get(holder.getAdapterPosition()).getMusicName());
+        holder.tvMusicSinger.setText(data.get(holder.getAdapterPosition()).getArtist());
+        holder.llMusicFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null){
-                    onItemSelectedListener.ItemSelected(viewHolder.getAdapterPosition());
-                    currPosition = position;
+                    onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
+                    currPosition = holder.getAdapterPosition();
                     notifyDataSetChanged();
                 }
             }

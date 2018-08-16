@@ -16,7 +16,14 @@ import com.ws.mesh.incores2.bean.Room;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RoomAdapter extends RecyclerView.Adapter {
+import static com.ws.mesh.incores2.view.adapter.RoomAdapter.ACTION_TYPE.BREATH;
+import static com.ws.mesh.incores2.view.adapter.RoomAdapter.ACTION_TYPE.CONTROL;
+import static com.ws.mesh.incores2.view.adapter.RoomAdapter.ACTION_TYPE.DEVICE_MANAGE;
+import static com.ws.mesh.incores2.view.adapter.RoomAdapter.ACTION_TYPE.EDIT;
+import static com.ws.mesh.incores2.view.adapter.RoomAdapter.ACTION_TYPE.MUSIC;
+import static com.ws.mesh.incores2.view.adapter.RoomAdapter.ACTION_TYPE.TIMING;
+
+public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
     private SparseArray<Room> data;
 
     public RoomAdapter(SparseArray<Room> data) {
@@ -25,61 +32,65 @@ public class RoomAdapter extends RecyclerView.Adapter {
 
     private int expandPosition = -1;
 
+    public enum ACTION_TYPE {
+        DEVICE_MANAGE, CONTROL, BREATH, MUSIC, TIMING, EDIT
+    }
+
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RoomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_zone, parent, false);
         return new RoomViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        RoomViewHolder viewHolder = (RoomViewHolder) holder;
+    public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
+        final int index = holder.getAdapterPosition();
         Room room = data.valueAt(position);
-        viewHolder.tvZoneName.setText(room.mRoomName);
+        holder.tvZoneName.setText(room.mRoomName);
         if (position == expandPosition) {
-            viewHolder.rlZoneMenu.setVisibility(View.VISIBLE);
+            holder.rlZoneMenu.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.rlZoneMenu.setVisibility(View.GONE);
+            holder.rlZoneMenu.setVisibility(View.GONE);
         }
-        viewHolder.rlZoneFrame.setOnClickListener(new View.OnClickListener() {
+        holder.rlZoneFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //如果当前点击的zone item已经展开 则收起菜单
-                if (position == expandPosition) {
+                if (index == expandPosition) {
                     expandPosition = -1;
                 } else {
-                    expandPosition = position;
+                    expandPosition = index;
                 }
                 notifyDataSetChanged();
             }
         });
 
-        viewHolder.tvRoomOn.setOnClickListener(new View.OnClickListener() {
+        holder.tvRoomOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onZoneClickListener != null){
-                    onZoneClickListener.onSwitch(true, position);
+                if (onZoneClickListener != null) {
+                    onZoneClickListener.onSwitch(true, index);
                 }
             }
         });
 
-        viewHolder.tvRoomOff.setOnClickListener(new View.OnClickListener() {
+        holder.tvRoomOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onZoneClickListener != null){
-                    onZoneClickListener.onSwitch(false, position);
+                if (onZoneClickListener != null) {
+                    onZoneClickListener.onSwitch(false, index);
                 }
             }
         });
 
-        viewHolder.ivZoneDevice.setOnClickListener(onZoneMenuListener);
-        viewHolder.ivZonePanel.setOnClickListener(onZoneMenuListener);
-        viewHolder.ivZoneBreath.setOnClickListener(onZoneMenuListener);
-        viewHolder.ivZoneMusic.setOnClickListener(onZoneMenuListener);
-        viewHolder.ivZoneAlarm.setOnClickListener(onZoneMenuListener);
-        viewHolder.ivZoneEdit.setOnClickListener(onZoneMenuListener);
+        holder.ivZoneDevice.setOnClickListener(onZoneMenuListener);
+        holder.ivZonePanel.setOnClickListener(onZoneMenuListener);
+        holder.ivZoneBreath.setOnClickListener(onZoneMenuListener);
+        holder.ivZoneMusic.setOnClickListener(onZoneMenuListener);
+        holder.ivZoneAlarm.setOnClickListener(onZoneMenuListener);
+        holder.ivZoneEdit.setOnClickListener(onZoneMenuListener);
     }
 
 
@@ -91,29 +102,31 @@ public class RoomAdapter extends RecyclerView.Adapter {
     private View.OnClickListener onZoneMenuListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int menuItemIndex = 0;
+            ACTION_TYPE actionType;
             switch (v.getId()) {
                 case R.id.iv_zone_device:
-                    menuItemIndex = 0;
+                    actionType = DEVICE_MANAGE;
                     break;
                 case R.id.iv_zone_panel:
-                    menuItemIndex = 1;
+                    actionType = CONTROL;
                     break;
                 case R.id.iv_zone_breath:
-                    menuItemIndex = 2;
+                    actionType = BREATH;
                     break;
                 case R.id.iv_zone_music:
-                    menuItemIndex = 3;
+                    actionType = MUSIC;
                     break;
                 case R.id.iv_zone_alarm:
-                    menuItemIndex = 4;
+                    actionType = TIMING;
                     break;
                 case R.id.iv_zone_edit:
-                    menuItemIndex = 5;
+                    actionType = EDIT;
                     break;
+                default:
+                    actionType = DEVICE_MANAGE;
             }
-            if (onZoneClickListener != null){
-                onZoneClickListener.onMenu(menuItemIndex, expandPosition);
+            if (onZoneClickListener != null) {
+                onZoneClickListener.onMenu(actionType, expandPosition);
             }
         }
     };
@@ -122,7 +135,7 @@ public class RoomAdapter extends RecyclerView.Adapter {
 
     //群组点击事件接口
     public interface OnZoneClickListener {
-        void onMenu(int menuItemIndex, int position);
+        void onMenu(ACTION_TYPE actionType, int position);
 
         void onSwitch(boolean isOpen, int position);
     }

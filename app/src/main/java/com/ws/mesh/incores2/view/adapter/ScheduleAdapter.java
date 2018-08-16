@@ -31,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ScheduleAdapter extends RecyclerView.Adapter {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.TimingViewHolder> {
 
     private List<Timing> timingList;
     private Context context;
@@ -67,7 +67,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TimingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.item_schedule, parent, false);
         context = parent.getContext();
@@ -75,9 +75,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TimingViewHolder viewHolder = (TimingViewHolder) holder;
-        int viewPosition = viewHolder.getAdapterPosition();
+    public void onBindViewHolder(@NonNull TimingViewHolder holder, int position) {
+        int viewPosition = holder.getAdapterPosition();
         Timing timing = timingList.get(viewPosition);
         int listRes = R.drawable.icon_list_center;
         if (getItemCount() == 1) {
@@ -87,19 +86,27 @@ public class ScheduleAdapter extends RecyclerView.Adapter {
         } else if (position == getItemCount() - 1) {
             listRes = R.drawable.icon_list_bottom;
         }
-        viewHolder.ivListIcon.setImageResource(listRes);
+        holder.ivListIcon.setImageResource(listRes);
 
         String[] timeShow = ViewUtils.getAlarmShow(timing.mHours, timing.mMins);
         String time = String.format("%s %s", timeShow[0], timeShow[1]);
-        viewHolder.tvTime.setText(time);
-        viewHolder.tvName.setText(getParentName(timing.mParentId, timing.mAlarmType));
-        viewHolder.tvRepeatDay.setText(getExecuteInfo(timing.mWeekNum));
-        viewHolder.tvEvent.setText(getExecuteEvent(timing.mAlarmEvent));
+        holder.tvTime.setText(time);
+        holder.tvName.setText(getParentName(timing.mParentId, timing.mAlarmType));
+        holder.tvRepeatDay.setText(getExecuteInfo(timing.mWeekNum));
+        if (isSceneTiming(timing)){
+            holder.tvEvent.setText("");
+        }else {
+            holder.tvEvent.setText(getExecuteEvent(timing.mAlarmEvent));
+        }
     }
 
     @Override
     public int getItemCount() {
         return timingList.size();
+    }
+
+    private boolean isSceneTiming(Timing timing){
+        return timing.mAlarmType == TimingType.SCENE.getValue();
     }
 
     public class TimingViewHolder extends RecyclerView.ViewHolder {
