@@ -160,4 +160,5 @@
     <string name="zone_schedule">Zone Schedule</string>
     <string name="device_schedule">Device Schedule</string>
     <string name="devices_">Devices-</string>
+    <string name="pls_choose_execute_date">Please choose execute date</string>
 </resources>

@@ -180,6 +180,10 @@ public class TimingEditFragment extends BaseContentFragment<ITimingEditView, Tim
                 @Override
                 public void onClick(View v) {
                     weekNum = ViewUtils.byteArrayToWeekNum(ViewUtils.reverseBytes(weekBytes));
+                    if (weekNum == 0){
+                        toast(R.string.pls_choose_execute_date);
+                        return;
+                    }
                     dialog.dismiss();
                 }
             });

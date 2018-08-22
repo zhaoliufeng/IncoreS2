@@ -78,6 +78,10 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
 
             @Override
             public void addDevice() {
+                if (isShareMesh()){
+                    toast(R.string.no_permission);
+                    return;
+                }
                 pushActivity(ScanDeviceActivity.class);
             }
         });

@@ -52,6 +52,10 @@ public class EditFragment extends BaseContentFragment<IEditView, EditPresenter> 
 
     @OnClick(R.id.iv_edit_name)
     public void editName() {
+        if (isShareMesh()){
+            toast(R.string.no_permission);
+            return;
+        }
         ivEditName.setVisibility(View.GONE);
         tvEnter.setVisibility(View.VISIBLE);
         edtName.setEnabled(true);
@@ -67,6 +71,10 @@ public class EditFragment extends BaseContentFragment<IEditView, EditPresenter> 
 
     @OnClick(R.id.tv_remove)
     public void remove() {
+        if (isShareMesh()){
+            toast(R.string.no_permission);
+            return;
+        }
         presenter.remove();
     }
 

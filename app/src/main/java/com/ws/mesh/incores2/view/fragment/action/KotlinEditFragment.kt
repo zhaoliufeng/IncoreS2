@@ -63,6 +63,7 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
 
     private fun editName() {
         if (isShareMesh) {
+            toast(R.string.no_permission)
             return
         }
         //设置输入框可用 设置输入框光标位置
@@ -80,11 +81,11 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
     }
 
     private fun remove() {
-        if (CoreData.core().currMesh.mIsShare) {
-            toast(getString(R.string.no_permission))
-        } else {
-            presenter.remove()
+        if (isShareMesh) {
+            toast(R.string.no_permission)
+            return
         }
+        presenter.remove()
     }
 
     /*******IEditView Interface********/

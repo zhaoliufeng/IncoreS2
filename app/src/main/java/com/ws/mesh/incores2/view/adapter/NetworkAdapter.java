@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Mesh;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.SPUtils;
 
@@ -61,10 +62,11 @@ public class NetworkAdapter extends RecyclerView.Adapter<NetworkAdapter.NetworkV
             holder.ivAddDevice.setVisibility(View.GONE);
 
             //默认网络不可删除 当前网络不可删除 只有当前网络可以添加设备
+            //需求增加 当默认网络的showName 不为 Fulife 即分享获得的网络时，可以删除当前默认网络，并新建默认网络
             if (mesh.mMeshName.equals(CoreData.core().getCurrMesh().mMeshName) &&
                     !mesh.mMeshName.equals(SPUtils.getDefaultMesh())){
                 holder.ivAddDevice.setVisibility(View.VISIBLE);
-            }else if (!mesh.mMeshName.equals(SPUtils.getDefaultMesh())){
+            }else if (!mesh.mMeshShowName.equals(AppConstant.DEFAULT_MESH_NAME)){
                 holder.ivDelNet.setVisibility(View.VISIBLE);
             }
         } else {
