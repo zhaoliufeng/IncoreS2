@@ -85,10 +85,6 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         return circadian.isNightOpen ? R.drawable.schedules_switch_on : R.drawable.schedules_switch_off;
     }
 
-    private boolean isRoom() {
-        return meshAddress > 0x8000;
-    }
-
     private boolean isSunriseOpen() {
         return circadian.isDayOpen;
     }
@@ -284,5 +280,9 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         }else {
             openAlarm(alarmId);
         }
+    }
+
+    public boolean isRoom(){
+        return meshAddress >= AppConstant.ZONE_START_ID;
     }
 }

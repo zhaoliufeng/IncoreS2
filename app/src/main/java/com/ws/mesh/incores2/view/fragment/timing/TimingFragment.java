@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.ws.mesh.incores2.R;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.utils.SPUtils;
@@ -56,6 +57,8 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     View viewSpace;
     @BindView(R.id.iv_edit)
     ImageView ivEditTiming;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
     private TimingAdapter timingAdapter;
     private int meshAddress;
@@ -74,9 +77,12 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
                 toast("meshAddress 传值 -1");
                 return;
             }
+
         }
 
         presenter.init(meshAddress);
+        //房间 设备 分别标题显示 Zone Schedule / Device Schedule
+        tvTitle.setText(presenter.isRoom() ? R.string.zone_schedule : R.string.device_schedule);
         rlTimingList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         tvRiseTime.setText(presenter.getSunriseTime());

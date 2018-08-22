@@ -157,4 +157,6 @@
     <string name="get_permissions">Permissions Succeeded</string>
     <string name="all_devices">All Devices</string>
     <string name="cant_add_any_favorite_color">can\'t add any favoriteColor</string>
+    <string name="zone_schedule">Zone Schedule</string>
+    <string name="device_schedule">Device Schedule</string>
 </resources>
