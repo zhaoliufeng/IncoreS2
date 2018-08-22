@@ -65,10 +65,19 @@ public class ControlPresenter extends IBasePresenter<IControlView> implements Ev
         }
     }
 
+    /*
+       最多有 8 个自定义颜色 判断能不能继续添加自定义颜色
+       ture 不能继续添加
+     */
+    public boolean cantAddMoreFavoriteColor(){
+        return colorSparseArray.size() >= 8;
+    }
+
     //获取路数
     private void getChannel(int meshAddress) {
         if (isRoom()) {
             Room room = CoreData.core().mRoomSparseArray.get(meshAddress);
+            // TODO: 2018/8/18 根据路数适配对应的界面
         } else {
             //设备
             Device device = CoreData.core().mDeviceSparseArray.get(meshAddress);
@@ -115,6 +124,18 @@ public class ControlPresenter extends IBasePresenter<IControlView> implements Ev
         for (Integer index : deleteIndexList) {
             FColorDAO.getInstance().deleteFColor(colorSparseArray.valueAt(index));
             colorSparseArray.removeAt(index);
+        }
+
+        SparseArray<FavoriteColor> tempArray = colorSparseArray.clone();
+        colorSparseArray.clear();
+        //删除后 将中间空缺的 index 填补起来
+        for (int i = 0; i < tempArray.size(); i++){
+            tempArray.valueAt(i).cIndex = i;
+            FColorDAO.getInstance().updateFColor(tempArray.valueAt(i));
+        }
+        for (int i = 0; i < tempArray.size(); i++){
+            FavoriteColor favoriteColor = tempArray.valueAt(i);
+            colorSparseArray.append(favoriteColor.cIndex, favoriteColor);
         }
         deleteIndexList.clear();
     }

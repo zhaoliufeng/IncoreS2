@@ -35,6 +35,8 @@ public class MeshApplication extends TelinkApplication {
 
         SPUtils.init(this);
 
+        String sunRiseStr = SPUtils.getSunrise();
+        Log.i(TAG, "onCreate: " + sunRiseStr);
         if (SPUtils.getSunrise() == null ||
                 SPUtils.getSunrise().equals("")){
             //如果没有保存昼夜节律 则请求坐标信息 计算昼夜节律的时间
@@ -43,6 +45,8 @@ public class MeshApplication extends TelinkApplication {
                 public void onLocate(BDLocation location) {
                     SunriseSunset sunriseSunset = new SunriseSunset(
                             TimeZone.getDefault(), location.getLatitude(), location.getLongitude());
+                    Log.i(TAG, "onLocate: " + location.getLatitude());
+
                     String sunRise = sunriseSunset.getOfficialSunrise(Calendar.getInstance());
                     String sunSet = sunriseSunset.getOfficialSunset(Calendar.getInstance());
 

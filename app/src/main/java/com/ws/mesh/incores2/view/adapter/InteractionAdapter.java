@@ -20,6 +20,11 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
     private int[] names = {R.string.breath, R.string.music,
             R.string.schedules, R.string.device_editor};
 
+    public InteractionAdapter(boolean isAllDevices) {
+        if (isAllDevices)
+            icons = new int[]{R.drawable.icon_interaction_breath, R.drawable.icon_interaction_music};
+    }
+
     @NonNull
     @Override
     public InteractionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,7 +40,7 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
         holder.ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemSelectedListener != null){
+                if (onItemSelectedListener != null) {
                     onItemSelectedListener.ItemSelected(holder.getAdapterPosition());
                 }
             }
@@ -49,7 +54,7 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
 
     private OnItemSelectedListener onItemSelectedListener;
 
-    public void setOnItemSelectedListener(OnItemSelectedListener listener){
+    public void setOnItemSelectedListener(OnItemSelectedListener listener) {
         this.onItemSelectedListener = listener;
     }
 

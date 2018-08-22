@@ -45,4 +45,5 @@ public class AppConstant {
     public static final String DEFAULT_SUNRISE_TIME = "06:00";
     public static final String DEFAULT_SUNSET_TIME = "18:00";
     public static final int SHARE_VERSION = 1;
+    public static final int ALL_DEVICE_MESH_ID = 0xFFFF;
 }

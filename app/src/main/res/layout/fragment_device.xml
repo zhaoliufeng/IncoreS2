@@ -19,13 +19,14 @@
             android:background="@color/colorPrimary" />
 
         <TextView
+            android:id="@+id/tv_device_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:text="@string/devices"
             android:textColor="@color/black_333"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_mesh_name"
@@ -38,10 +39,114 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_round_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_all_frame"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/all_devices"
+                android:textColor="@color/black_333"
+                android:textSize="@dimen/text_size_34px" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_all_on"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tap_device_on"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/on"
+                    android:textColor="@color/color_text_on" />
+
+                <TextView
+                    android:id="@+id/tv_all_off"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:background="@drawable/bg_tap_device_off"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/off"
+                    android:textColor="@color/color_text_off" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_all_menu"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/app_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_all_panel"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:src="@drawable/zone_colorpanel" />
+
+                <ImageView
+                    android:id="@+id/iv_all_breath"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:src="@drawable/zone_breath" />
+
+                <ImageView
+                    android:id="@+id/iv_all_music"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:src="@drawable/zone_musicmain" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_device_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:layout_marginTop="5dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp">
 

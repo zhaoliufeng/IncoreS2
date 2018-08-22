@@ -251,6 +251,31 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         return new int[]{Integer.valueOf(sunSet[0]), Integer.valueOf(sunSet[1])};
     }
 
+    //获取小时
+    public int getDayHour(){
+        return Integer.parseInt(getSunriseTime().split(":")[0]);
+    }
+
+    public int getNightHour(){
+        return Integer.parseInt(getSunsetTime().split(":")[0]);
+    }
+
+    public int getDayMin(){
+        return Integer.parseInt(getSunriseTime().split(":")[1]);
+    }
+
+    public int getNightMin(){
+        return Integer.parseInt(getSunsetTime().split(":")[1]);
+    }
+
+    //获取间隔时间
+    public int getDayDurTime(){
+        return circadian.dayDurTime == 0 ? 1 : circadian.dayDurTime;
+    }
+
+    public int getNightDurTime(){
+        return circadian.nightDurTime == 0 ? 1 : circadian.nightDurTime;
+    }
 
     public void switchTiming(int alarmId) {
         Timing alarm = timingSparseArray.get(alarmId);

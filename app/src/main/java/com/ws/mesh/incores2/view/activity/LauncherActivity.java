@@ -75,7 +75,7 @@ public class LauncherActivity extends BaseContentActivity<ILauncherView, Launche
         int deniedCount = 0;
         if (requestCode == PermissionsManager.REQUEST_CODE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                for (int i = 0; i < permissions.length; i++) {
+                for (int i = 0; i < permissions.length;  i++) {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         deniedCount++;
                     }

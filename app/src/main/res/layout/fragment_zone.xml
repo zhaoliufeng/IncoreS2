@@ -25,7 +25,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/zones"
             android:textColor="@color/black_333"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

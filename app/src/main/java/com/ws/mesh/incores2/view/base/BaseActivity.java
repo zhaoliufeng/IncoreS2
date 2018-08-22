@@ -18,6 +18,7 @@ import com.ws.mesh.incores2.utils.StatusBarUpper;
 import com.ws.mesh.incores2.view.activity.LauncherActivity;
 import com.ws.mesh.incores2.view.fragment.action.BreathFragment;
 import com.ws.mesh.incores2.view.fragment.action.EditFragment;
+import com.ws.mesh.incores2.view.fragment.action.KotlinEditFragment;
 import com.ws.mesh.incores2.view.fragment.setting.NetworkListFragment;
 import com.ws.mesh.incores2.view.fragment.scene.SceneAddFragment;
 import com.ws.mesh.incores2.view.fragment.setting.SettingFragment;
@@ -173,8 +174,14 @@ public abstract class BaseActivity extends FragmentActivity {
             title.setText(R.string.schedule_events);
         }
 
-        if (fragment instanceof EditFragment) {
-            title.setText(R.string.zone_editor);
+        if (fragment instanceof KotlinEditFragment) {
+            int meshAddress = getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
+            if (meshAddress > 0x8000){
+                title.setText(R.string.zone_editor);
+            }else {
+                title.setText(R.string.device_editor);
+            }
+
         }
 
         if (fragment instanceof SceneAddTimingFragment) {

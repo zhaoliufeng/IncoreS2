@@ -155,4 +155,6 @@
     <string name="tip_no_locate_permission">The current user has denied the permission application and will not be able to continue without this permission</string>
     <string name="tip_no_locate_sdcard_permission">The current user has denied the permission application and will not be able to continue without this permission</string>
     <string name="get_permissions">Permissions Succeeded</string>
+    <string name="all_devices">All Devices</string>
+    <string name="cant_add_any_favorite_color">can\'t add any favoriteColor</string>
 </resources>

@@ -61,6 +61,6 @@ public class FColorDAO extends BaseDAO<FavoriteColor> {
     }
 
     public boolean updateFColor(FavoriteColor favoriteColor){
-        return update(favoriteColor, "index", "deviceType");
+        return update(favoriteColor, "cIndex", "deviceType");
     }
 }

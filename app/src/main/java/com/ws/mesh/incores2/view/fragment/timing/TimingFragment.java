@@ -90,7 +90,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         ivSetSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isShareMesh()){
+                if (isShareMesh()) {
                     return;
                 }
                 presenter.switchSunset();
@@ -100,7 +100,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         ivRiseSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isShareMesh()){
+                if (isShareMesh()) {
                     return;
                 }
                 presenter.switchSunrise();
@@ -118,7 +118,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         timingAdapter.setOnTimingActionListener(new TimingAdapter.OnTimingActionListener() {
             @Override
             public void onAction(TimingAdapter.Action action, int alarmId) {
-                if (isShareMesh()){
+                if (isShareMesh()) {
                     return;
                 }
                 switch (action) {
@@ -141,7 +141,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
 
     @OnClick(R.id.iv_add_timing)
     public void addTiming() {
-        if (isShareMesh()){
+        if (isShareMesh()) {
             return;
         }
         //跳转添加定时界面
@@ -150,7 +150,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
 
     @OnClick(R.id.iv_edit)
     public void editTiming() {
-        if (isShareMesh()){
+        if (isShareMesh()) {
             return;
         }
         isEditMode = true;
@@ -216,15 +216,21 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
 
     @OnClick({R.id.ll_sunrise_time, R.id.ll_sunset_time})
     public void onSetTime(View view) {
-        if (isShareMesh()){
+        if (isShareMesh()) {
             return;
         }
         switch (view.getId()) {
             case R.id.ll_sunrise_time:
-                popSetTimeDialog(true);
+                popSetTimeDialog(true,
+                        presenter.getDayHour(),
+                        presenter.getDayMin(),
+                        presenter.getDayDurTime());
                 break;
             case R.id.ll_sunset_time:
-                popSetTimeDialog(false);
+                popSetTimeDialog(false,
+                        presenter.getNightHour(),
+                        presenter.getNightMin(),
+                        presenter.getNightDurTime());
                 break;
         }
     }
@@ -234,7 +240,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     private int durtime;
 
     //设置昼夜节律时间
-    private void popSetTimeDialog(final boolean isRise) {
+    private void popSetTimeDialog(final boolean isRise, int hour_, int min_, final int durtime_) {
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         Window window = dialog.getWindow();
 
@@ -244,7 +250,11 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
             CustomTimePicker timePicker = window.findViewById(R.id.ctp_time);
             TextView tvConfirm = window.findViewById(R.id.tv_confirm);
             TextView tvCancel = window.findViewById(R.id.tv_cancel);
+            timePicker.setCurrentHour(hour_);
+            timePicker.setCurrentMinute(min_);
+
             hour = timePicker.getCurrentHour();
+
             min = timePicker.getCurrentMinute();
             timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                 @Override
@@ -257,7 +267,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
                 @Override
                 public void onClick(View v) {
                     //选择持续时间
-                    popSetDurTimeDialog(isRise, hour, min);
+                    popSetDurTimeDialog(isRise, hour, min, durtime_);
                     dialog.dismiss();
                 }
             });
@@ -272,7 +282,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     }
 
     //设置昼夜节律时间
-    private void popSetDurTimeDialog(final boolean isRise, final int hour, final int min) {
+    private void popSetDurTimeDialog(final boolean isRise, final int hour, final int min, int durtime_) {
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         Window window = dialog.getWindow();
 
@@ -282,9 +292,10 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
             NumberPicker numberPicker = window.findViewById(R.id.np_durtime);
             TextView tvConfirm = window.findViewById(R.id.tv_confirm);
             TextView tvCancel = window.findViewById(R.id.tv_cancel);
-            durtime = 1;
+            durtime = durtime_;
             numberPicker.setMinValue(1);
             numberPicker.setMaxValue(30);
+            numberPicker.setValue(durtime);
             numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {

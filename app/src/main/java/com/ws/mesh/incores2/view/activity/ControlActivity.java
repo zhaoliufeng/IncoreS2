@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.FavoriteColor;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.utils.SendMsg;
@@ -38,6 +39,10 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
 
     @BindView(R.id.ll_bg)
     LinearLayout llBg;
+    @BindView(R.id.ll_switch_bar)
+    LinearLayout llSwitchBar;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     @BindView(R.id.ll_color_tag)
     LinearLayout llColorTag;
     @BindView(R.id.tv_finish)
@@ -283,8 +288,14 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             }
         });
 
+        //如果不是设备则不显示Interaction
+        if (presenter.isRoom()){
+            llSwitchBar.setVisibility(View.GONE);
+            tvTitle.setVisibility(View.VISIBLE);
+        }
         //Interaction
-        interactionAdapter = new InteractionAdapter();
+        interactionAdapter = new InteractionAdapter(
+                meshAddress == AppConstant.ALL_DEVICE_MESH_ID);
         rlInteraction.setAdapter(interactionAdapter);
         rlInteraction.setLayoutManager(new GridLayoutManager(this, 3));
         interactionAdapter.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -357,6 +368,10 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
     //添加 FavoriteColor 进入编辑模式
     @OnClick(R.id.iv_add_favorite_color)
     public void onAddFavoriteColor() {
+        if(presenter.cantAddMoreFavoriteColor()){
+            toast(getString(R.string.cant_add_any_favorite_color));
+            return;
+        }
         if (llColorTag.getVisibility() == View.VISIBLE) {
             llColorTag.setVisibility(View.GONE);
             tvFinish.setVisibility(View.VISIBLE);

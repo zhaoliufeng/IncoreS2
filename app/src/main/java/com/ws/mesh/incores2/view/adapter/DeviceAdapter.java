@@ -1,5 +1,6 @@
 package com.ws.mesh.incores2.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private SparseArray<Device> mDatas;
+    private TextView tvDeviceNum;
 
     public DeviceAdapter(SparseArray<Device> deviceSparseArray) {
         mDatas = new SparseArray<>();
@@ -30,6 +32,18 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 mDatas.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
             }
         }
+    }
+
+    public DeviceAdapter(SparseArray<Device> deviceSparseArray, TextView tvDeviceNum) {
+        this.tvDeviceNum = tvDeviceNum;
+        mDatas = new SparseArray<>();
+        for (int i = 0; i < deviceSparseArray.size(); i++) {
+            if (deviceSparseArray.valueAt(i).mConnectionStatus != null &&
+                    deviceSparseArray.valueAt(i).mConnectionStatus != ConnectionStatus.OFFLINE) {
+                mDatas.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
+            }
+        }
+        setNumText();
     }
 
     @NonNull
@@ -129,6 +143,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 notifyItemRemoved(index);
             }
         }
+        setNumText();
     }
 
     public void refreshDeviceList(SparseArray<Device> deviceSparseArray) {
@@ -140,6 +155,18 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             }
         }
         notifyDataSetChanged();
+        setNumText();
+    }
+
+    //获取当前显示设备数量
+    private int getDataCount() {
+        return mDatas.size();
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void setNumText() {
+        if (tvDeviceNum != null)
+            tvDeviceNum.setText(String.format("%s-%d", "Devices-", getDataCount()));
     }
 
     private OnDeviceSelectedListener onDeviceSelectedListener;

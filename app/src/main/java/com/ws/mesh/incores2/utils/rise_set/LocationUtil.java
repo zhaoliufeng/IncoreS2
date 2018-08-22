@@ -33,6 +33,10 @@ public class LocationUtil {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 Log.i(TAG, "onLocation: lat --> " + bdLocation.getLatitude() + " lng --> " + bdLocation.getLongitude());
+                if (String.valueOf(bdLocation.getLatitude()).startsWith("4.9E")){
+                    //定位失败的情况不保存
+                    return;
+                }
                 listener.onLocate(bdLocation);
             }
         });
