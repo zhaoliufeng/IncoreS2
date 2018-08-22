@@ -73,12 +73,6 @@ public class SceneAddDeviceFragment extends BaseContentFragment<ISceneAddDeviceV
         sceneDeviceAdapter.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.tv_finish)
-    public void onFinish(){
-        if (getActivity() != null)
-            getActivity().finish();
-    }
-
     @Override
     protected SceneAddDevicePresenter createPresent() {
         return new SceneAddDevicePresenter();
