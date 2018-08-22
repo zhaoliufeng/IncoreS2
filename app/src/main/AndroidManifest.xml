@@ -16,9 +16,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- 这个权限用于获取 wifi 的获取权限，wifi 信息会用来进行网络定位-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- 用于读取手机当前的状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".MeshApplication"
@@ -29,9 +29,11 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="3HhWBHUOGc9cmbVBQDCSgmjE1x6Vp204"/>
+            android:value="3HhWBHUOGc9cmbVBQDCSgmjE1x6Vp204" />
 
-        <activity android:name=".view.activity.LauncherActivity">
+        <activity
+            android:name=".view.activity.LauncherActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,12 +44,24 @@
         <activity android:name=".view.activity.MainActivity">
 
         </activity>
-        <activity android:name=".view.activity.ControlActivity" />
-        <activity android:name=".view.activity.StageTwoActivity" />
-        <activity android:name=".view.activity.StageThreeActivity" />
-        <activity android:name=".view.activity.StageFourActivity" />
-        <activity android:name=".view.activity.SceneControlActivity" />
-        <activity android:name=".view.activity.ScanDeviceActivity" />
+        <activity
+            android:name=".view.activity.ControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.StageTwoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.StageThreeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.StageFourActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.SceneControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ScanDeviceActivity"
+            android:screenOrientation="portrait" />
 
 
         <service android:name=".service.music.PlayMusicService" />
@@ -57,7 +71,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
     </application>
 
 </manifest>
