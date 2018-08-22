@@ -159,4 +159,5 @@
     <string name="cant_add_any_favorite_color">can\'t add any favoriteColor</string>
     <string name="zone_schedule">Zone Schedule</string>
     <string name="device_schedule">Device Schedule</string>
+    <string name="devices_">Devices-</string>
 </resources>

@@ -11,11 +11,9 @@ import com.ws.mesh.incores2.view.impl.ISceneAddDeviceView;
 
 public class SceneAddDevicePresenter extends IBasePresenter<ISceneAddDeviceView>{
 
-    private int sceneId;
     private Scene scene;
 
     public void init(int sceneId){
-        this.sceneId = sceneId;
         this.scene = CoreData.core().mSceneSparseArray.get(sceneId);
     }
 

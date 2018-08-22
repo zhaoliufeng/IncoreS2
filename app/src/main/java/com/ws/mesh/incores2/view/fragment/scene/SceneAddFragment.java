@@ -1,5 +1,6 @@
 package com.ws.mesh.incores2.view.fragment.scene;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import com.ws.mesh.incores2.utils.ViewUtils;
 import com.ws.mesh.incores2.view.base.BaseContentFragment;
 import com.ws.mesh.incores2.view.impl.ISceneAddView;
 import com.ws.mesh.incores2.view.presenter.SceneAddPresenter;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,6 +39,10 @@ public class SceneAddFragment extends BaseContentFragment<ISceneAddView, SceneAd
     TextView tvWeekNum;
     @BindView(R.id.tv_no_schedule)
     TextView tvNoSchedule;
+    @BindView(R.id.tv_device_num)
+    TextView tvDeviceNum;
+    @BindView(R.id.tv_select_tip)
+    TextView tvSelectTip;
 
     private int sceneId;
     private int alarmId = -1;
@@ -61,10 +68,22 @@ public class SceneAddFragment extends BaseContentFragment<ISceneAddView, SceneAd
         edtName.setText(presenter.getName());
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onResume() {
         super.onResume();
         presenter.getSchedule();
+        //显示当前已经添加的设备数量
+        int devicesNum = presenter.getSceneColorArraySize();
+        if (devicesNum != 0) {
+            tvDeviceNum.setVisibility(View.VISIBLE);
+            tvSelectTip.setVisibility(View.GONE);
+            tvDeviceNum.setText(String.format("%s%d",
+                    getResources().getString(R.string.devices_), devicesNum));
+        }else {
+            tvDeviceNum.setVisibility(View.GONE);
+            tvSelectTip.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

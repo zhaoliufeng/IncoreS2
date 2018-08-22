@@ -1,9 +1,11 @@
 package com.ws.mesh.incores2.view.presenter;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Scene;
+import com.ws.mesh.incores2.bean.SceneColor;
 import com.ws.mesh.incores2.bean.Timing;
 import com.ws.mesh.incores2.db.SceneDAO;
 import com.ws.mesh.incores2.db.TimingDAO;
@@ -62,5 +64,9 @@ public class SceneAddPresenter extends IBasePresenter<ISceneAddView>{
             }
         }
         return showString.substring(0, showString.length() - 1);
+    }
+
+    public int getSceneColorArraySize(){
+        return scene.mDevSceneSparseArray.size();
     }
 }

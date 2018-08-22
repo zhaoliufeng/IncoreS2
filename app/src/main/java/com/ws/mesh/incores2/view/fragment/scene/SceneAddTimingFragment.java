@@ -40,7 +40,7 @@ public class SceneAddTimingFragment extends BaseContentFragment<ISceneAddTimingV
     ImageView ivNotSchedule;
 
     //默认循环模式为everyday
-    private int weekNum = 127;
+    private int weekNum = -1;
     private int sceneId;
     private int alarmId;
     private byte weekBytes[];

@@ -43,7 +43,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:padding="7dp"
-                android:src="@drawable/radio_item_selected" />
+                android:src="@drawable/radio_item" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -131,7 +131,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="7dp"
-            android:src="@drawable/radio_item" />
+            android:src="@drawable/radio_item_selected" />
     </RelativeLayout>
 
     <View
