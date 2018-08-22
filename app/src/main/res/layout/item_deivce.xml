@@ -59,7 +59,8 @@
         android:orientation="horizontal"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="3dp">
 
         <TextView
             android:id="@+id/tv_device_on"
@@ -75,7 +76,7 @@
             android:id="@+id/tv_device_off"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_tap_device_off"
             android:gravity="center"

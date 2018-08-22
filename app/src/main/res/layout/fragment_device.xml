@@ -85,7 +85,7 @@
                     android:id="@+id/tv_all_off"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="5dp"
                     android:background="@drawable/bg_tap_device_off"
                     android:gravity="center"
                     android:paddingBottom="8dp"
