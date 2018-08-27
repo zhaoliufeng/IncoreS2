@@ -45,5 +45,5 @@
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
-        android:background="@drawable/bg_btn_finish" />
+        android:background="@drawable/bg_share_btn_finish" />
 </LinearLayout>

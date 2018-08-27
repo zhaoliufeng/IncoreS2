@@ -1,11 +1,13 @@
 package com.ws.mesh.incores2.view.fragment.action
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import com.ws.mesh.incores2.R
 import com.ws.mesh.incores2.constant.IntentConstant
-import com.ws.mesh.incores2.utils.CoreData
 import com.ws.mesh.incores2.view.base.BaseContentFragment
 import com.ws.mesh.incores2.view.impl.IEditView
 import com.ws.mesh.incores2.view.presenter.EditPresenter
@@ -85,7 +87,7 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
             toast(R.string.no_permission)
             return
         }
-        presenter.remove()
+        popDeleteRemindDialog()
     }
 
     /*******IEditView Interface********/
@@ -106,5 +108,29 @@ open class KotlinEditFragment : BaseContentFragment<IEditView, EditPresenter>(),
             backToMainActivity()
         else
             toast(R.string.remove_failed)
+    }
+
+    //删除弹窗提示
+    private fun popDeleteRemindDialog() {
+        val dialog = AlertDialog.Builder(activity, R.style.CustomDialog).create()
+        dialog.show()
+        val window = dialog.window
+
+        window.setContentView(
+                if (presenter.isRoom)
+                    R.layout.dialog_custom_delete_group
+                else
+                    R.layout.dialog_custom_delete_device
+        )
+        val btnConfirm = window.findViewById<Button>(R.id.btn_confirm)
+        val btnCancel = window.findViewById<Button>(R.id.btn_cancel)
+
+        btnConfirm.setOnClickListener {
+            presenter.remove()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 }

@@ -1,7 +1,10 @@
 package com.ws.mesh.incores2.view.fragment.action;
 
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +55,7 @@ public class EditFragment extends BaseContentFragment<IEditView, EditPresenter> 
 
     @OnClick(R.id.iv_edit_name)
     public void editName() {
-        if (isShareMesh()){
+        if (isShareMesh()) {
             toast(R.string.no_permission);
             return;
         }
@@ -71,11 +74,11 @@ public class EditFragment extends BaseContentFragment<IEditView, EditPresenter> 
 
     @OnClick(R.id.tv_remove)
     public void remove() {
-        if (isShareMesh()){
+        if (isShareMesh()) {
             toast(R.string.no_permission);
             return;
         }
-        presenter.remove();
+        popDeleteRemindDialog();
     }
 
     @Override
@@ -103,5 +106,36 @@ public class EditFragment extends BaseContentFragment<IEditView, EditPresenter> 
         } else {
             toast(R.string.remove_failed);
         }
+    }
+
+
+    //删除弹窗提示
+    private void popDeleteRemindDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+
+        if (window == null)
+            return;
+        window.setContentView(presenter.isRoom() ?
+                R.layout.dialog_custom_delete_group :
+                R.layout.dialog_custom_delete_device);
+
+        Button btnConfirm = window.findViewById(R.id.btn_confirm);
+        Button btnCancel = window.findViewById(R.id.btn_cancel);
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.remove();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }
