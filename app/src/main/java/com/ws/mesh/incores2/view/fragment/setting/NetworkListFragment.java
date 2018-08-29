@@ -73,7 +73,7 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
 
             @Override
             public void delNet(Mesh mesh) {
-                presenter.delNetwork(mesh);
+                popDeleteRemindDialog(mesh);
             }
 
             @Override
@@ -218,5 +218,35 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
                 progress.isShowing()){
             progress.dismiss();
         }
+    }
+
+    //删除弹窗提示
+    private void popDeleteRemindDialog(final Mesh mesh) {
+        final android.app.AlertDialog dialog =
+                new android.app.AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+
+        if (window == null)
+            return;
+        window.setContentView(
+                R.layout.dialog_custom_delete_network);
+
+        Button btnConfirm = window.findViewById(R.id.btn_confirm);
+        Button btnCancel = window.findViewById(R.id.btn_cancel);
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.delNetwork(mesh);
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }

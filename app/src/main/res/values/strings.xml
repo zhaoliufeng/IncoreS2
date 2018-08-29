@@ -162,7 +162,7 @@
     <string name="devices_">Devices-</string>
     <string name="pls_choose_execute_date">Please choose execute date</string>
 
-    <string name="delete_network_reminder">After deleting the Home, all the home\'s information will be deleted. Are you sure to delete it?</string>
+    <string name="delete_network_reminder">Deleting this Network will erase all configuration information, confirm delete?</string>
     <string name="delete_device_reminder">After deleting the device, all the information of the device will be deleted. Are you sure to delete it?</string>
     <string name="delete_room_reminder">After deleting the room, all the information in the room will be deleted. Are you sure to delete it?</string>
     <string name="delete">Delete</string>

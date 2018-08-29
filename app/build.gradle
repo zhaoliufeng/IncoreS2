@@ -10,8 +10,8 @@ android {
         applicationId "com.ws.mesh.smart_flexLink"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0.0(build 1001)"
+        versionCode 100002
+        versionName "1.0.0(build 1002)"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
