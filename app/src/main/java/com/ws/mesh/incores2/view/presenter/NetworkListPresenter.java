@@ -16,9 +16,9 @@ public class NetworkListPresenter extends IBasePresenter<INetworkListView> {
 
     public void addNetwork(String netName) {
         //自动生成账户与密码
-//        String account = AccountUtil.generateAccount();
-//        String password = AccountUtil.generatePassword(account);
-        addNetwork(netName, AppConstant.MESH_DEFAULT_PASSWORD, netName);
+        String account = AccountUtil.generateAccount();
+        String password = AccountUtil.generatePassword(account);
+        addNetwork(account, password, netName);
     }
 
     private void addDefaultNetwork() {
@@ -36,8 +36,6 @@ public class NetworkListPresenter extends IBasePresenter<INetworkListView> {
         mesh.mMeshShowName = showName;
         mesh.mIsShare = false;
         mesh.mMeshEditPassword = AppConstant.DEFAULT_EDIT_PASSWORD;
-        //保存创建网络时的utc时间戳 秒级
-        mesh.createUtcTime = System.currentTimeMillis() / 1000;
 
         if (MeshDAO.getInstance().insertMesh(mesh)) {
             Mesh currMesh = CoreData.core().getCurrMesh();

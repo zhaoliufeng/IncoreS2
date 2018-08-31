@@ -15,6 +15,7 @@ import com.ws.mesh.incores2.bean.Room;
 import com.ws.mesh.incores2.bean.Scene;
 import com.ws.mesh.incores2.bean.SceneColor;
 import com.ws.mesh.incores2.bean.Timing;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.constant.SceneMode;
 import com.ws.mesh.incores2.db.FColorDAO;
 import com.ws.mesh.incores2.db.SceneDAO;
@@ -47,6 +48,10 @@ public class ControlPresenter extends IBasePresenter<IControlView> implements Ev
 
     //添加自定义颜色
     public void addFavorite(int r, int g, int b, int w, int c, int brightness) {
+        if (!vailColorParam(r, g, b, w, c, brightness)){
+            getView().addFavoriteColor(false);
+            return;
+        }
         FavoriteColor favoriteColor = new FavoriteColor();
         favoriteColor.cIndex = colorSparseArray.size();
         favoriteColor.deviceType= channel;
@@ -63,6 +68,15 @@ public class ControlPresenter extends IBasePresenter<IControlView> implements Ev
         } else {
             getView().addFavoriteColor(false);
         }
+    }
+
+    /**
+     * 判断参数是否合法
+     * @return true 合法
+     */
+    private boolean vailColorParam(int r, int g, int b, int w, int c, int brightness) {
+        return brightness >= AppConstant.MIN_BRIGHTNESS
+                && (r != 0 || g != 0 || b != 0 || w != 0 || c != 0);
     }
 
     /*

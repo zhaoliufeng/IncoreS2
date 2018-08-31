@@ -32,6 +32,8 @@ public class MeshDAO extends BaseDAO<Mesh> {
     }
 
     public boolean insertMesh(Mesh mesh) {
+        //记录当前创建网络的时间 秒级
+        mesh.createUtcTime = System.currentTimeMillis() / 1000;
         return insert(mesh);
     }
 

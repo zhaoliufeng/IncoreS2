@@ -21,7 +21,7 @@ public class DeviceParamsDeal {
             case AppConstant.FORM_LIGHT_BOOSTER:
                 //强波器只有在线和离线两种状态
                 if (device.mConnectionStatus == ConnectionStatus.OFFLINE){
-                    id = R.drawable.icon_delete;
+                    id = R.drawable.icon_device_offline;
                 }else {
                     id = R.drawable.icon_booster_on;
                 }
@@ -33,7 +33,7 @@ public class DeviceParamsDeal {
                 } else if (device.mConnectionStatus == ConnectionStatus.OFF){
                     id = R.drawable.icon_device_off;
                 }else {
-                    id = R.drawable.icon_delete;
+                    id = R.drawable.icon_device_offline;
                 }
         }
         return id;

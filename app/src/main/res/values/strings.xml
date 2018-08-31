@@ -19,7 +19,7 @@
     <string name="color_tag">Color Tag:</string>
     <string name="color_preview">Color Preview:</string>
     <string name="finish">Finish</string>
-    <string name="save_failed">save failed</string>
+    <string name="save_failed">save failed please check color params</string>
     <string name="delete_favorite_color">Delete favorite color</string>
     <string name="palette">Palette</string>
     <string name="interaction">Interaction</string>

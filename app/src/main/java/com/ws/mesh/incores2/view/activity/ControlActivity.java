@@ -114,9 +114,16 @@ public class ControlActivity extends BaseContentActivity<IControlView, ControlPr
             @SuppressLint("DefaultLocale")
             @Override
             public void dragging(int process) {
+                if (process <= AppConstant.MIN_BRIGHTNESS){
+                    brightness = AppConstant.MIN_BRIGHTNESS;
+                    tvBrightness.setText(String.format("%d%%", brightness));
+                    csbBrightness.setProcessWithValue(brightness);
+                    return;
+                }
+
                 brightness = process;
-                tvBrightness.setText(String.format("%d%%", process));
-                SendMsg.setDevBrightness(meshAddress, process);
+                tvBrightness.setText(String.format("%d%%", brightness));
+                SendMsg.setDevBrightness(meshAddress, brightness);
             }
 
             @Override

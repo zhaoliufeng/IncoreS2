@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.FavoriteColor;
+import com.ws.mesh.incores2.constant.AppConstant;
 import com.ws.mesh.incores2.constant.IntentConstant;
 import com.ws.mesh.incores2.utils.SendMsg;
 import com.ws.mesh.incores2.utils.ViewUtils;
@@ -123,9 +124,16 @@ public class SceneControlActivity extends BaseContentActivity<IControlView, Cont
             @SuppressLint("DefaultLocale")
             @Override
             public void dragging(int process) {
+                if (process <= AppConstant.MIN_BRIGHTNESS){
+                    brightness = AppConstant.MIN_BRIGHTNESS;
+                    tvBrightness.setText(String.format("%d%%", brightness));
+                    csbBrightness.setProcessWithValue(brightness);
+                    return;
+                }
+
                 brightness = process;
-                tvBrightness.setText(String.format("%d%%", process));
-                SendMsg.setDevBrightness(meshAddress, process);
+                tvBrightness.setText(String.format("%d%%", brightness));
+                SendMsg.setDevBrightness(meshAddress, brightness);
             }
 
             @Override
