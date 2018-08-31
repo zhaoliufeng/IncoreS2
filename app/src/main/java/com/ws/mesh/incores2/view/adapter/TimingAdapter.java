@@ -2,6 +2,7 @@ package com.ws.mesh.incores2.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -12,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ws.mesh.incores2.R;
+import com.ws.mesh.incores2.bean.Room;
 import com.ws.mesh.incores2.bean.Timing;
+import com.ws.mesh.incores2.constant.AppConstant;
+import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.ViewUtils;
 
 import java.util.List;
@@ -80,9 +84,9 @@ public class TimingAdapter extends RecyclerView.Adapter<TimingAdapter.TimingView
         holder.tvTime.setText(timeArray[0] + " " + timeArray[1]);
         holder.tvRepeatDay.setText(getExecuteInfo(timing.mWeekNum));
 
-        if (timing.mIsOpen){
+        if (timing.mIsOpen) {
             holder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_on);
-        }else {
+        } else {
             holder.ivTimingSwitch.setImageResource(R.drawable.schedules_switch_off);
         }
         holder.ivTimingSwitch.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +115,15 @@ public class TimingAdapter extends RecyclerView.Adapter<TimingAdapter.TimingView
                 }
             }
         });
+
+        //判断是否显示房间名称
+        if (timing.mParentId >= AppConstant.ZONE_START_ID) {
+            holder.tvZoneName.setVisibility(View.VISIBLE);
+            Room room = CoreData.core().mRoomSparseArray.get(timing.mParentId);
+            holder.tvZoneName.setText(room.mRoomName);
+        }else {
+            holder.tvZoneName.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -134,6 +147,8 @@ public class TimingAdapter extends RecyclerView.Adapter<TimingAdapter.TimingView
         TextView tvRepeatDay;
         @BindView(R.id.iv_event)
         ImageView ivEvent;
+        @BindView(R.id.tv_zone_name)
+        TextView tvZoneName;
 
 
         TimingViewHolder(View itemView) {

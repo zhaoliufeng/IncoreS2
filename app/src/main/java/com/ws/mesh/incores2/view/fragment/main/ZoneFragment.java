@@ -2,6 +2,7 @@ package com.ws.mesh.incores2.view.fragment.main;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Room;
@@ -23,6 +24,8 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
 
     @BindView(R.id.rl_zone_list)
     RecyclerView rlZoneList;
+    @BindView(R.id.tv_zone_num)
+    TextView tvZoneNum;
 
     private RoomAdapter roomAdapter;
 
@@ -44,6 +47,7 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
     @Override
     public void onResume() {
         roomAdapter = new RoomAdapter(CoreData.core().mRoomSparseArray);
+        tvZoneNum.setText(String.format("%s-%d", "Zones-", CoreData.core().mRoomSparseArray.size()));
         rlZoneList.setAdapter(roomAdapter);
         roomAdapter.setOnZoneMenuListener(new RoomAdapter.OnZoneClickListener() {
             @Override
@@ -110,6 +114,7 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
     public void addRoom(boolean success) {
         if (success) {
             toast(R.string.add_success);
+            tvZoneNum.setText(String.format("%s-%d", "Zones-", CoreData.core().mRoomSparseArray.size()));
             roomAdapter.notifyDataSetChanged();
         } else {
             toast(R.string.add_failed);

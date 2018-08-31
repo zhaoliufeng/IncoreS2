@@ -22,27 +22,21 @@ import butterknife.ButterKnife;
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private SparseArray<Device> mDatas;
+    //强波器集合
+    private SparseArray<Device> mBoosterDatas;
     private TextView tvDeviceNum;
 
     public DeviceAdapter(SparseArray<Device> deviceSparseArray) {
-        mDatas = new SparseArray<>();
-        for (int i = 0; i < deviceSparseArray.size(); i++) {
-            if (deviceSparseArray.valueAt(i).mConnectionStatus != null &&
-                    deviceSparseArray.valueAt(i).mConnectionStatus != ConnectionStatus.OFFLINE) {
-                mDatas.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
-            }
-        }
+        this.mDatas = new SparseArray<>();
+        this.mBoosterDatas = new SparseArray<>();
+        distinguishDevice(deviceSparseArray);
     }
 
     public DeviceAdapter(SparseArray<Device> deviceSparseArray, TextView tvDeviceNum) {
+        this.mDatas = new SparseArray<>();
+        this.mBoosterDatas = new SparseArray<>();
+        distinguishDevice(deviceSparseArray);
         this.tvDeviceNum = tvDeviceNum;
-        mDatas = new SparseArray<>();
-        for (int i = 0; i < deviceSparseArray.size(); i++) {
-            if (deviceSparseArray.valueAt(i).mConnectionStatus != null &&
-                    deviceSparseArray.valueAt(i).mConnectionStatus != ConnectionStatus.OFFLINE) {
-                mDatas.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
-            }
-        }
         setNumText();
     }
 
@@ -57,7 +51,12 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         DeviceViewHolder viewHolder = (DeviceViewHolder) holder;
-        final Device device = mDatas.valueAt(position);
+        final Device device;
+        if (position < mDatas.size()) {
+            device = mDatas.valueAt(position);
+        } else {
+            device = mBoosterDatas.valueAt(position - mDatas.size());
+        }
 
         //如果是强波器设备类型则不显示开关INVISIBLE
         if (isBooster(device)) {
@@ -87,7 +86,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 if (onDeviceSelectedListener != null) {
-                    if (isBooster(device))
+                    if (isBooster(device) || isOfflineDevice(device))
                         onDeviceSelectedListener.onEdit(device.mDevMeshId);
                     else
                         onDeviceSelectedListener.onSelected(device.mDevMeshId);
@@ -95,13 +94,13 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             }
         });
 
-        viewHolder.ivSunrise.setVisibility(device.isSetSunrise() ? View.VISIBLE : View.GONE);
-        viewHolder.ivSunset.setVisibility(device.isSetSunset() ? View.VISIBLE : View.GONE);
+//        viewHolder.ivSunrise.setVisibility(device.isSetSunrise() ? View.VISIBLE : View.GONE);
+//        viewHolder.ivSunset.setVisibility(device.isSetSunset() ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mDatas.size() + mBoosterDatas.size();
     }
 
     class DeviceViewHolder extends RecyclerView.ViewHolder {
@@ -125,16 +124,52 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * 判断是否是强波器
+     */
     private boolean isBooster(Device device) {
         return (device.mDevType & 0xFF) == AppConstant.FORM_LIGHT_BOOSTER;
     }
 
+    /**
+     * 判断是否离线
+     */
+    private boolean isOfflineDevice(Device device) {
+        return device.mConnectionStatus == ConnectionStatus.OFFLINE;
+    }
+
+    /**
+     * 区分是强波器 还是普通设备 强波器需要排在普通设备后面
+     */
+    private void distinguishDevice(SparseArray<Device> deviceSparseArray) {
+        mDatas.clear();
+        mBoosterDatas.clear();
+        for (int i = 0; i < deviceSparseArray.size(); i++) {
+            Device device = deviceSparseArray.valueAt(i);
+            if (device.mConnectionStatus != null) {
+                //判断是不是强波器类型
+                if (isBooster(device)) {
+                    mBoosterDatas.append(device.mDevMeshId, device);
+                } else {
+                    mDatas.append(device.mDevMeshId, device);
+                }
+            }
+        }
+    }
+
     //刷新设备列表
     public void refreshDevice(Device device) {
-        //如果设备当前是离线状态则从列表中剔除
-        if (device.mConnectionStatus != null && device.mConnectionStatus != ConnectionStatus.OFFLINE) {
-            mDatas.append(device.mDevMeshId, device);
-            int index = mDatas.indexOfKey(device.mDevMeshId);
+        //如果设备当前状态不正常则从列表中剔除
+        if (device.mConnectionStatus != null) {
+            int index;
+            if (isBooster(device)) {
+                mBoosterDatas.append(device.mDevMeshId, device);
+                //强波器的创新的下标应该是 强波器集合中的下标 + 普通设备类型设备集合的大小
+                index = mBoosterDatas.indexOfKey(device.mDevMeshId) + mDatas.size();
+            } else {
+                mDatas.append(device.mDevMeshId, device);
+                index = mDatas.indexOfKey(device.mDevMeshId);
+            }
             notifyItemChanged(index);
         } else {
             if (mDatas.get(device.mDevMeshId) != null) {
@@ -147,20 +182,14 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     }
 
     public void refreshDeviceList(SparseArray<Device> deviceSparseArray) {
-        mDatas.clear();
-        for (int i = 0; i < deviceSparseArray.size(); i++) {
-            if (deviceSparseArray.valueAt(i).mConnectionStatus != null &&
-                    deviceSparseArray.valueAt(i).mConnectionStatus != ConnectionStatus.OFFLINE) {
-                mDatas.append(deviceSparseArray.valueAt(i).mDevMeshId, deviceSparseArray.valueAt(i));
-            }
-        }
+        distinguishDevice(deviceSparseArray);
         notifyDataSetChanged();
         setNumText();
     }
 
     //获取当前显示设备数量
     private int getDataCount() {
-        return mDatas.size();
+        return mDatas.size() + mBoosterDatas.size();
     }
 
     @SuppressLint("DefaultLocale")

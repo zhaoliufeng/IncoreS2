@@ -1,5 +1,6 @@
 package com.ws.mesh.incores2.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -92,7 +93,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         holder.ivZoneAlarm.setOnClickListener(onZoneMenuListener);
         holder.ivZoneEdit.setOnClickListener(onZoneMenuListener);
     }
-
 
     @Override
     public int getItemCount() {

@@ -33,4 +33,8 @@ public class Mesh {
 
     @DBFiled
     public String mMeshEditPassword;
+
+    //网络创建时间
+    @DBFiled
+    public long createUtcTime;
 }

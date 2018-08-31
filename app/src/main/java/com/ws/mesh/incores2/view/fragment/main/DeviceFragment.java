@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.telink.bluetooth.light.ConnectionStatus;
 import com.ws.mesh.incores2.R;
 import com.ws.mesh.incores2.bean.Device;
 import com.ws.mesh.incores2.constant.AppConstant;

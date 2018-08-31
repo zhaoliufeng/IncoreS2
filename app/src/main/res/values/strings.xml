@@ -156,7 +156,7 @@
     <string name="tip_no_locate_sdcard_permission">The current user has denied the permission application and will not be able to continue without this permission</string>
     <string name="get_permissions">Permissions Succeeded</string>
     <string name="all_devices">All Devices</string>
-    <string name="cant_add_any_favorite_color">can\'t add any favoriteColor</string>
+    <string name="cant_add_any_favorite_color">Can\'t Add More FavoriteColor</string>
     <string name="zone_schedule">Zone Schedule</string>
     <string name="device_schedule">Device Schedule</string>
     <string name="devices_">Devices-</string>

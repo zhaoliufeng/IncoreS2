@@ -116,6 +116,8 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     }
 
     private void popAddNetWork() {
+        if (getActivity() == null)
+            return;
         final AlertDialog mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
         mAlertDialog.show();
         final Window window = mAlertDialog.getWindow();
@@ -222,8 +224,10 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
 
     //删除弹窗提示
     private void popDeleteRemindDialog(final Mesh mesh) {
-        final android.app.AlertDialog dialog =
-                new android.app.AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
+        if (getActivity() == null)
+            return;
+        final AlertDialog dialog =
+                new AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
         dialog.show();
         Window window = dialog.getWindow();
 
@@ -239,6 +243,7 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
             @Override
             public void onClick(View v) {
                 presenter.delNetwork(mesh);
+                dialog.dismiss();
             }
         });
 

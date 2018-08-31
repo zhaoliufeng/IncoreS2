@@ -15,6 +15,8 @@ import com.ws.mesh.incores2.utils.CoreData;
 import com.ws.mesh.incores2.utils.SPUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +31,7 @@ public class NetworkAdapter extends RecyclerView.Adapter<NetworkAdapter.NetworkV
 
     public NetworkAdapter() {
         data = new ArrayList<>();
-        for (Map.Entry<String, Mesh> mesh : CoreData.core().mMeshMap.entrySet()) {
-            if (mesh.getKey().equals(SPUtils.getDefaultMesh())) {
-                data.add(0, mesh.getValue());
-                continue;
-            }
-            data.add(mesh.getValue());
-        }
+        sortNetworklist();
     }
 
     @NonNull
@@ -113,14 +109,7 @@ public class NetworkAdapter extends RecyclerView.Adapter<NetworkAdapter.NetworkV
     }
 
     public void refreshMeshList() {
-        data.clear();
-        for (Map.Entry<String, Mesh> mesh : CoreData.core().mMeshMap.entrySet()) {
-            if (mesh.getKey().equals(SPUtils.getDefaultMesh())) {
-                data.add(0, mesh.getValue());
-                continue;
-            }
-            data.add(mesh.getValue());
-        }
+        sortNetworklist();
         notifyDataSetChanged();
     }
 
@@ -156,5 +145,27 @@ public class NetworkAdapter extends RecyclerView.Adapter<NetworkAdapter.NetworkV
 
     public void setOnNetActionListener(OnNetActionListener listener) {
         this.onNetActionListener = listener;
+    }
+
+    /**
+     * 列表排序
+     * 默认网络排第一个 其他网络按照创建时间排序
+     */
+    private void sortNetworklist(){
+        data.clear();
+        for (Map.Entry<String, Mesh> mesh : CoreData.core().mMeshMap.entrySet()) {
+            data.add(mesh.getValue());
+        }
+        Collections.sort(data, new Comparator<Mesh>() {
+            @Override
+            public int compare(Mesh o1, Mesh o2) {
+                return (int) (o1.createUtcTime - o2.createUtcTime);
+            }
+        });
+        for (int i = 0; i < data.size(); i++){
+            if (data.get(i).mMeshName.equals(SPUtils.getDefaultMesh())){
+                data.add(0, data.remove(i));
+            }
+        }
     }
 }
