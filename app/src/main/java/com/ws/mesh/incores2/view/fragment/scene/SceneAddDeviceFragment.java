@@ -35,6 +35,8 @@ public class SceneAddDeviceFragment extends BaseContentFragment<ISceneAddDeviceV
 
     @BindView(R.id.rl_device_list)
     RecyclerView rlDeviceList;
+    @BindView(R.id.tv_scene_title)
+    TextView tvTitle;
 
     private int sceneId;
     private SceneDeviceAdapter sceneDeviceAdapter;
@@ -52,6 +54,10 @@ public class SceneAddDeviceFragment extends BaseContentFragment<ISceneAddDeviceV
         presenter.init(sceneId);
         rlDeviceList.setLayoutManager(new LinearLayoutManager(getActivity()));
         sceneDeviceAdapter = new SceneDeviceAdapter(presenter.getDeviceArray(), presenter.getSceneColorArray());
+        tvTitle.setText(String.format(
+                getString(R.string.title_device),
+                presenter.getDeviceArray().size()
+        ));
         rlDeviceList.setAdapter(sceneDeviceAdapter);
         sceneDeviceAdapter.setOnSceneDeviceActionListener(new SceneDeviceAdapter.OnSceneDeviceActionListener() {
             @Override
