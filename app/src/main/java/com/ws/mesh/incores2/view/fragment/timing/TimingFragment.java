@@ -1,6 +1,9 @@
 package com.ws.mesh.incores2.view.fragment.timing;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -60,6 +63,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     @BindView(R.id.tv_title)
     TextView tvTitle;
 
+    private String titleName;
     private TimingAdapter timingAdapter;
     private int meshAddress;
     private boolean isEditMode;
@@ -72,17 +76,19 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     @Override
     protected void initData() {
         if (getActivity() != null) {
-            meshAddress = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
+            meshAddress = getActivity().getIntent()
+                    .getIntExtra(IntentConstant.MESH_ADDRESS, -1);
             if (meshAddress == -1) {
                 toast("meshAddress 传值 -1");
                 return;
             }
-
         }
 
         presenter.init(meshAddress);
         //房间 设备 分别标题显示 Zone Schedule / Device Schedule
-        tvTitle.setText(presenter.isRoom() ? R.string.zone_schedule : R.string.device_schedule);
+        titleName = getString(
+                presenter.isRoom() ? R.string.zone_schedule : R.string.device_schedule);
+
         rlTimingList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         tvRiseTime.setText(presenter.getSunriseTime());
@@ -119,6 +125,8 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     public void onResume() {
         super.onResume();
         timingAdapter = new TimingAdapter(presenter.getAlarmList());
+        tvTitle.setText(String.format(getString(R.string.title_format),
+                titleName, presenter.getAlarmListSize()));
         rlTimingList.setAdapter(timingAdapter);
 
         timingAdapter.setOnTimingActionListener(new TimingAdapter.OnTimingActionListener() {
@@ -178,6 +186,10 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         ivAddTiming.setVisibility(isEditMode ? View.GONE : View.VISIBLE);
         viewSpace.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
         tvFinish.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
+        if (getActivity() != null)
+            tvTitle.setTextColor(isEditMode ?
+                    ContextCompat.getColor(getActivity(), R.color.white)
+                    : ContextCompat.getColor(getActivity(), R.color.black_333));
     }
 
     @Override

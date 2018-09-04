@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="95dp">
 
     <ImageView
         android:id="@+id/iv_list_icon"
@@ -57,13 +57,12 @@
             android:id="@+id/tv_zone_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_main_frame"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/tv_repeat_day"
+            android:layout_alignStart="@id/tv_repeat_day"
+            android:layout_below="@id/tv_repeat_day"
             android:text="Zone"
             android:textColor="@color/black_333"
             android:textSize="15sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/iv_timing_switch"

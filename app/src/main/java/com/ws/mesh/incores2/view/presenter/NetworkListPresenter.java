@@ -15,10 +15,7 @@ import com.ws.mesh.incores2.view.impl.INetworkListView;
 public class NetworkListPresenter extends IBasePresenter<INetworkListView> {
 
     public void addNetwork(String netName) {
-        //自动生成账户与密码
-        String account = AccountUtil.generateAccount();
-        String password = AccountUtil.generatePassword(account);
-        addNetwork(account, password, netName);
+        addNetwork(netName, AppConstant.MESH_DEFAULT_PASSWORD, netName);
     }
 
     private void addDefaultNetwork() {

@@ -94,7 +94,14 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
                 CoreData.core().setBLERequest(true);
             }
         }
-        autoConnect();
+
+        //延迟2s 自动回连 否则 service 将报空
+        TaskPool.DefRandTaskPool().PushTask(new Runnable() {
+            @Override
+            public void run() {
+                autoConnect();
+            }
+        }, 2000);
     }
 
     private void addListener() {

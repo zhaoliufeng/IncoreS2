@@ -52,6 +52,7 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
     @BindView(R.id.tv_finish)
     TextView tvFinish;
 
+    private String zoneName;
     private DeviceAdapter deviceAdapter;
     private ZoneDeviceAdapter zoneDeviceAdapter;
     private int meshAddress;
@@ -73,7 +74,7 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
                     IntentConstant.MESH_ADDRESS, -1);
         }
         presenter.init(meshAddress);
-        tvZoneName.setText(presenter.getZoneName());
+        zoneName = presenter.getZoneName();
         rlDeviceList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
     }
 
@@ -81,6 +82,10 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
     public void onResume() {
         super.onResume();
         deviceAdapter = new DeviceAdapter(presenter.getZoneDevices());
+        tvZoneName.setText(String.format(
+                getString(R.string.title_format),
+                zoneName, presenter.getZoneDevicesSize()
+        ));
         rlDeviceList.setAdapter(deviceAdapter);
         rlDeviceList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
@@ -128,9 +133,9 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
                 public void onClick(View v) {
                     isLocating = false;
                     dialog.dismiss();
-                    if (isAdd){
+                    if (isAdd) {
                         presenter.addDevice(meshId);
-                    }else {
+                    } else {
                         presenter.removeDevice(meshId);
                     }
                 }
@@ -162,7 +167,7 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
         tvFinish.setVisibility(View.GONE);
         rlDeviceList.setVisibility(View.VISIBLE);
         rlZoneDeviceList.setVisibility(View.GONE);
-        tvZoneName.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvZoneName.setTextColor(getResources().getColor(R.color.black_333));
     }
 
     @Override
@@ -178,9 +183,9 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
 
     @Override
     public void updateDeviceList(boolean success) {
-        if (success){
+        if (success) {
             onResume();
-        }else {
+        } else {
             toast(R.string.save_failed);
         }
     }

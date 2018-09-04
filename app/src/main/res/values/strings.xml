@@ -167,4 +167,11 @@
     <string name="delete_room_reminder">After deleting the room, all the information in the room will be deleted. Are you sure to delete it?</string>
     <string name="delete">Delete</string>
 
+    <string name="title_zone">Zones-%d</string>
+    <string name="title_device">Devices-%d</string>
+    <string name="title_scenes">Scenes-%d</string>
+    <string name="title_schedules">Schedules-%d</string>
+    <string name="title_network">Lighting Network List—%d</string>
+
+    <string name="title_format">%s-%d</string>
 </resources>

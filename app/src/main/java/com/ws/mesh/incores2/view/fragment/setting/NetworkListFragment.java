@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,6 +33,7 @@ import butterknife.OnClick;
 
 public class NetworkListFragment extends BaseContentFragment<INetworkListView, NetworkListPresenter> implements INetworkListView {
 
+    private static final String TAG = "NetworkListFragment";
     @BindView(R.id.ll_main_frame)
     LinearLayout llMainFrame;
     @BindView(R.id.tv_network_title)
@@ -62,6 +64,8 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     @Override
     protected void initData() {
         networkAdapter = new NetworkAdapter();
+        tvNetTitle.setText(String.format(
+                getString(R.string.title_network), networkAdapter.getItemCount()));
         rlNetList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rlNetList.setAdapter(networkAdapter);
         networkAdapter.setOnNetActionListener(new NetworkAdapter.OnNetActionListener() {
@@ -78,7 +82,7 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
 
             @Override
             public void addDevice() {
-                if (isShareMesh()){
+                if (isShareMesh()) {
                     toast(R.string.no_permission);
                     return;
                 }
@@ -183,6 +187,8 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     public void addNet(boolean success) {
         if (success) {
             networkAdapter.refreshMeshList();
+            tvNetTitle.setText(String.format(
+                    getString(R.string.title_network), networkAdapter.getItemCount()));
         } else {
             toast(R.string.add_failed);
         }
@@ -192,6 +198,8 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     public void delNet(boolean success) {
         if (success) {
             networkAdapter.refreshMeshList();
+            tvNetTitle.setText(String.format(
+                    getString(R.string.title_network), networkAdapter.getItemCount()));
         } else {
             toast(R.string.delete_fail);
         }
@@ -204,20 +212,21 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     }
 
     private android.app.AlertDialog progress;
+
     //切换网络时显示进度条
-    private void showProgress(){
+    private void showProgress() {
         progress = new android.app.AlertDialog.Builder(getActivity()).create();
         progress.show();
         Window window = progress.getWindow();
-        if (window != null){
+        if (window != null) {
             window.setContentView(R.layout.item_swtich_net);
             window.setBackgroundDrawable(new BitmapDrawable());
         }
     }
 
-    private void dismissProgress(){
+    private void dismissProgress() {
         if (progress != null &&
-                progress.isShowing()){
+                progress.isShowing()) {
             progress.dismiss();
         }
     }

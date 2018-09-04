@@ -17,6 +17,10 @@ public class ScenePresenter extends IBasePresenter<ISceneView> {
         return CoreData.core().mSceneSparseArray;
     }
 
+    public int getListSize(){
+        return getSceneList().size();
+    }
+
     //添加场景 判断是否有可用的场景id
     public void addScene(){
         int sceneId = getSceneId();

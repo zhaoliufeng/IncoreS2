@@ -47,7 +47,7 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
     @Override
     public void onResume() {
         roomAdapter = new RoomAdapter(CoreData.core().mRoomSparseArray);
-        tvZoneNum.setText(String.format("%s-%d", "Zones-", CoreData.core().mRoomSparseArray.size()));
+        tvZoneNum.setText(String.format(getString(R.string.title_zone), CoreData.core().mRoomSparseArray.size()));
         rlZoneList.setAdapter(roomAdapter);
         roomAdapter.setOnZoneMenuListener(new RoomAdapter.OnZoneClickListener() {
             @Override

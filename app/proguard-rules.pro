@@ -59,10 +59,6 @@ void set*(***);
 *** get*();
 }
 
-
-
-
-
 -keepclassmembers class * implements android.os.Parcelable {
 public static final android.os.Parcelable$Creator CREATOR;
 }
@@ -77,17 +73,7 @@ public static <fields>;
 }
 
 -dontwarn android.support.**
-
-
--keep public class java.awt.**{ *; }
--dontwarn java.awt.**
--dontwarn junit.**
--dontwarn javax.microedition.khronos.opengles.GL10.**
--keep interface *
--keep class javax.jmdns.**{*;}
--keep public class java.time.**{ *; }
--keep public class com.alibaba.fastjson.**{ *;}
--keep class com.iflytek.**{*;}
+-keep class com.ws.mesh.incores2.bean.**{*;}
 
 -keep interface android.support.v7.**{*;}
 -keep class android.support.**{*;}
@@ -149,12 +135,6 @@ public <init>(org.json.JSONObject);
 }
 -keep class org.json.**{*;}
 
-#EventBus
--keep class de.greenrobot.event.**{*;}
--dontwarn de.greenrobot.event.**
--keepclassmembers class ** {
-public void onEvent*(**);
-}
 
 #fastJson
 -keep class com.alibaba.fastjson.**{*;}

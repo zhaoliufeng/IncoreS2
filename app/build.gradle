@@ -16,7 +16,8 @@ android {
     }
     buildTypes {
         release {
-            shrinkResources true
+            debuggable false
+            zipAlignEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -24,22 +25,20 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            if (!variant.buildType.isDebuggable()) {
-                def replaceFile
-                //判断有没有发布渠道
-                if (!variant.flavorName.isEmpty()) {
-                    replaceFile = "${app_name}V${variant.versionName}_${releaseTime()}_${variant.flavorName}_${variant.buildType.name}.apk"
-                } else {
-                    replaceFile = "${app_name}V${variant.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-                }
-
-                outputFileName = replaceFile
+            def replaceFile
+            //判断有没有发布渠道
+            if (!variant.flavorName.isEmpty()) {
+                replaceFile = "${app_name}V${variant.versionName}_${releaseTime()}_${variant.flavorName}_${variant.buildType.name}.apk"
+            } else {
+                replaceFile = "${app_name}V${variant.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
             }
+
+            outputFileName = replaceFile
         }
     }
 
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDir 'libs'
             jni.srcDirs = []
         }

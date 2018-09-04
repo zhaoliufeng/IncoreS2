@@ -44,6 +44,14 @@ public class ZoneDeviceManagePresenter extends IBasePresenter<IZoneDeviceManageV
         return zoneDevices;
     }
 
+    public int getZoneDevicesSize(){
+        return zoneDevices.size();
+    }
+
+    public int getDeviceSize(){
+        return CoreData.core().mDeviceSparseArray.size();
+    }
+
     //获取所有设备
     public SparseArray<Device> getDevices() {
         return CoreData.core().mDeviceSparseArray;

@@ -1,6 +1,7 @@
 package com.ws.mesh.incores2.view.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 
 public class DeviceAdapter extends RecyclerView.Adapter {
 
+    private Context context;
     private SparseArray<Device> mDatas;
     //强波器集合
     private SparseArray<Device> mBoosterDatas;
@@ -37,7 +39,6 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         this.mBoosterDatas = new SparseArray<>();
         distinguishDevice(deviceSparseArray);
         this.tvDeviceNum = tvDeviceNum;
-        setNumText();
     }
 
     @NonNull
@@ -45,6 +46,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_deivce, parent, false);
+        context = parent.getContext();
+        setNumText();
         return new DeviceViewHolder(view);
     }
 
@@ -194,8 +197,9 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     @SuppressLint("DefaultLocale")
     private void setNumText() {
-        if (tvDeviceNum != null)
-            tvDeviceNum.setText(String.format("%s-%d", "Devices-", getDataCount()));
+        if (tvDeviceNum != null && context != null)
+            tvDeviceNum.setText(
+                    String.format(context.getString(R.string.title_device), getDataCount()));
     }
 
     private OnDeviceSelectedListener onDeviceSelectedListener;

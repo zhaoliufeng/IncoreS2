@@ -34,6 +34,12 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         return timingSparseArray;
     }
 
+    public int getAlarmListSize() {
+        if (timingSparseArray != null)
+            return timingSparseArray.size();
+        return 0;
+    }
+
     public void init(int meshAddress) {
         this.meshAddress = meshAddress;
         if (isRoom()) {
@@ -54,8 +60,8 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
     }
 
     @SuppressLint("DefaultLocale")
-    public String getSunriseDurtime(){
-        if (circadian.dayDurTime == 0 || circadian.dayDurTime == 1){
+    public String getSunriseDurtime() {
+        if (circadian.dayDurTime == 0 || circadian.dayDurTime == 1) {
             return "1 Min";
         }
         return String.format("%d Min", circadian.dayDurTime);
@@ -70,8 +76,8 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
     }
 
     @SuppressLint("DefaultLocale")
-    public String getSunsetDurtime(){
-        if (circadian.nightDurTime == 0 || circadian.nightDurTime == 1){
+    public String getSunsetDurtime() {
+        if (circadian.nightDurTime == 0 || circadian.nightDurTime == 1) {
             return "1 Min";
         }
         return String.format("%d Min", circadian.nightDurTime);
@@ -192,7 +198,7 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         getView().switchCircadian();
     }
 
-    public void updateCircadian(boolean isRise, int hour, int min, int durtime){
+    public void updateCircadian(boolean isRise, int hour, int min, int durtime) {
         if (isRise) {
             updateSunrise(hour, min, durtime);
         } else {
@@ -201,22 +207,22 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         getView().refreshCircadian();
     }
 
-    private void updateSunrise(int hour, int min, int durtime){
+    private void updateSunrise(int hour, int min, int durtime) {
         circadian.dayStartHours = hour;
         circadian.dayStartMinutes = min;
         circadian.dayDurTime = durtime;
-        if (circadian.isDayOpen){
+        if (circadian.isDayOpen) {
             //如果当前昼夜节律是开启的 就需要更新设备的昼夜节律时间
             SendMsg.addSunrise(hour, min, durtime, meshAddress);
         }
         saveCircadian();
     }
 
-    private void updateSunset(int hour, int min, int durtime){
+    private void updateSunset(int hour, int min, int durtime) {
         circadian.nightStartHours = hour;
         circadian.nightStartMinutes = min;
         circadian.nightDurTime = durtime;
-        if (circadian.isDayOpen){
+        if (circadian.isDayOpen) {
             //如果当前昼夜节律是开启的 就需要更新设备的昼夜节律时间
             SendMsg.addSunset(hour, min, durtime, meshAddress);
         }
@@ -248,41 +254,41 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
     }
 
     //获取小时
-    public int getDayHour(){
+    public int getDayHour() {
         return Integer.parseInt(getSunriseTime().split(":")[0]);
     }
 
-    public int getNightHour(){
+    public int getNightHour() {
         return Integer.parseInt(getSunsetTime().split(":")[0]);
     }
 
-    public int getDayMin(){
+    public int getDayMin() {
         return Integer.parseInt(getSunriseTime().split(":")[1]);
     }
 
-    public int getNightMin(){
+    public int getNightMin() {
         return Integer.parseInt(getSunsetTime().split(":")[1]);
     }
 
     //获取间隔时间
-    public int getDayDurTime(){
+    public int getDayDurTime() {
         return circadian.dayDurTime == 0 ? 1 : circadian.dayDurTime;
     }
 
-    public int getNightDurTime(){
+    public int getNightDurTime() {
         return circadian.nightDurTime == 0 ? 1 : circadian.nightDurTime;
     }
 
     public void switchTiming(int alarmId) {
         Timing alarm = timingSparseArray.get(alarmId);
-        if (alarm.mIsOpen){
+        if (alarm.mIsOpen) {
             closeAlarm(alarmId);
-        }else {
+        } else {
             openAlarm(alarmId);
         }
     }
 
-    public boolean isRoom(){
+    public boolean isRoom() {
         return meshAddress >= AppConstant.ZONE_START_ID;
     }
 }

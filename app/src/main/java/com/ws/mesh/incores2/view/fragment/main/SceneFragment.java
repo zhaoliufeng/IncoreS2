@@ -59,6 +59,7 @@ public class SceneFragment extends BaseContentFragment<ISceneView, ScenePresente
     @Override
     public void onResume() {
         super.onResume();
+        tvTitle.setText(String.format(getString(R.string.title_scenes), presenter.getListSize()));
         sceneAdapter = new SceneAdapter(presenter.getSceneList());
         rlSceneList.setAdapter(sceneAdapter);
         sceneAdapter.setEditMode(editMode);
