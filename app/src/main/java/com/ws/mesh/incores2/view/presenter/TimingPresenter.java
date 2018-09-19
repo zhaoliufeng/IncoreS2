@@ -34,12 +34,6 @@ public class TimingPresenter extends IBasePresenter<ITimingView> {
         return timingSparseArray;
     }
 
-    public int getAlarmListSize() {
-        if (timingSparseArray != null)
-            return timingSparseArray.size();
-        return 0;
-    }
-
     public void init(int meshAddress) {
         this.meshAddress = meshAddress;
         if (isRoom()) {

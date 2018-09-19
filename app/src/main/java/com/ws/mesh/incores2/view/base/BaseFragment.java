@@ -138,19 +138,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     //返回到主界面
-    public void backToMainActivity(){
-        for (Map.Entry<String, BaseActivity> activityMap : CoreData.mMangerActivity.entrySet()){
-            if (!activityMap.getKey().equals(MainActivity.class.getSimpleName())){
-                activityMap.getValue().finish();
-            }
-        }
-    }
-
-    //返回到第二级界面
-    public void backToStageTwo(){
-        for (Map.Entry<String, BaseActivity> activityMap : CoreData.mMangerActivity.entrySet()){
-            if (!activityMap.getKey().equals(MainActivity.class.getSimpleName()) &&
-                    !activityMap.getKey().equals(StageTwoActivity.class.getSimpleName())){
+    public void backToMainActivity() {
+        for (Map.Entry<String, BaseActivity> activityMap : CoreData.mMangerActivity.entrySet()) {
+            if (!activityMap.getKey().equals(MainActivity.class.getSimpleName())) {
                 activityMap.getValue().finish();
             }
         }

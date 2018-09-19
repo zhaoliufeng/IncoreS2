@@ -48,16 +48,13 @@ public class SceneAddDeviceFragment extends BaseContentFragment<ISceneAddDeviceV
 
     @Override
     protected void initData() {
-        if (getActivity() != null){
+        if (getActivity() != null) {
             sceneId = getActivity().getIntent().getIntExtra(IntentConstant.MESH_ADDRESS, -1);
         }
         presenter.init(sceneId);
         rlDeviceList.setLayoutManager(new LinearLayoutManager(getActivity()));
         sceneDeviceAdapter = new SceneDeviceAdapter(presenter.getDeviceArray(), presenter.getSceneColorArray());
-        tvTitle.setText(String.format(
-                getString(R.string.title_device),
-                presenter.getDeviceArray().size()
-        ));
+
         rlDeviceList.setAdapter(sceneDeviceAdapter);
         sceneDeviceAdapter.setOnSceneDeviceActionListener(new SceneDeviceAdapter.OnSceneDeviceActionListener() {
             @Override
@@ -71,6 +68,11 @@ public class SceneAddDeviceFragment extends BaseContentFragment<ISceneAddDeviceV
                 pushActivity(SceneControlActivity.class, deviceId, sceneId);
             }
         });
+
+        tvTitle.setText(String.format(
+                getString(R.string.title_device),
+                sceneDeviceAdapter.getItemCount()
+        ));
     }
 
     @Override

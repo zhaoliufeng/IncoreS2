@@ -44,10 +44,25 @@ public class NetworkListPresenter extends IBasePresenter<INetworkListView> {
                 CoreData.core().switchMesh(mesh);
             }
             CoreData.core().initMesh();
+            loginNewNetwork(mesh);
             getView().addNet(true);
         } else {
             getView().addNet(false);
         }
+    }
+
+    private void loginNewNetwork(final Mesh mesh) {
+        if (WeSmartService.Instance() != null) {
+            WeSmartService.Instance().idleMode(true);
+        }
+        CoreData.mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loginNetworkParams(mesh);
+                if (getView() != null)
+                    getView().switchNet();
+            }
+        }, 2000);
     }
 
     public void delNetwork(Mesh mesh) {
@@ -81,7 +96,7 @@ public class NetworkListPresenter extends IBasePresenter<INetworkListView> {
                 loginNetworkParams(mesh);
                 getView().switchNet();
             }
-        }, 1000);
+        }, 2000);
     }
 
     private void loginNetworkParams(Mesh mesh) {

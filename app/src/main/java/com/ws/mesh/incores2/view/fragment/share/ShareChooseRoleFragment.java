@@ -15,6 +15,10 @@ import com.ws.mesh.incores2.view.base.BaseFragment;
 
 import butterknife.OnClick;
 
+/**
+ * 选择分享的角色
+ * 是分享方 还是 接收方
+ */
 public class ShareChooseRoleFragment extends BaseFragment {
 
     @Override

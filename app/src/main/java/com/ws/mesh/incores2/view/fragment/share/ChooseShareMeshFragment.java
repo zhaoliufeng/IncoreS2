@@ -1,7 +1,6 @@
 package com.ws.mesh.incores2.view.fragment.share;
 
 
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 选择需要分享的网络
  */
 public class ChooseShareMeshFragment extends BaseContentFragment<IChooseShareMeshView,
         ChooseShareMeshPresenter> implements IChooseShareMeshView {
@@ -46,7 +45,7 @@ public class ChooseShareMeshFragment extends BaseContentFragment<IChooseShareMes
 
     @Override
     protected void initData() {
-        if (getActivity() != null){
+        if (getActivity() != null) {
             mInetAddress = (InetAddress) getActivity().getIntent().getSerializableExtra(IntentConstant.INTENT_OBJ);
         }
 
@@ -106,6 +105,7 @@ public class ChooseShareMeshFragment extends BaseContentFragment<IChooseShareMes
     }
 
     public void onShareSuccessDialog(Client client) {
+        if (getActivity() == null) return;
         final AlertDialog mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog).create();
         mAlertDialog.show();
         Window window = mAlertDialog.getWindow();
@@ -122,7 +122,7 @@ public class ChooseShareMeshFragment extends BaseContentFragment<IChooseShareMes
             btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    backToStageTwo();
+                    getActivity().finish();
                     mAlertDialog.dismiss();
                 }
             });

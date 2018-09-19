@@ -155,7 +155,8 @@ public class MainPresenter extends IBasePresenter<IMainView> implements EventLis
 
     //切换网络
     private void switchNetwork() {
-        if (!mCurrMesh.mMeshName.equals(CoreData.core().getCurrMesh().mMeshName)) {
+        Mesh mesh = CoreData.core().getCurrMesh();
+        if (!mCurrMesh.mMeshName.equals(mesh.mMeshName)) {
             //更新设备信息
             getView().updateDevice(CoreData.core().mDeviceSparseArray);
 

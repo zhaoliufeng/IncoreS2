@@ -22,7 +22,7 @@ public class DeviceDAO extends BaseDAO<Device> {
 
     public static DeviceDAO getInstance() {
         if (dao == null) {
-            synchronized (MeshDAO.class) {
+            synchronized (DeviceDAO.class) {
                 if (dao == null) {
                     dao = new DeviceDAO();
                 }

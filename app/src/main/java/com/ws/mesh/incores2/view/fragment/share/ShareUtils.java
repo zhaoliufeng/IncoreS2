@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class ShareUtils {
 
     private static final String TAG = "ShareUtils";
+
     private ShareUtils() {
     }
 
@@ -48,6 +49,9 @@ public class ShareUtils {
 
     public void sendData(InetAddress inetAddress, String data) {
         Log.i(TAG, "sendData: " + data);
+        if (mLanShareSender == null) {
+            init();
+        }
         mLanShareSender.sendDataToReceive(inetAddress, data);
     }
 

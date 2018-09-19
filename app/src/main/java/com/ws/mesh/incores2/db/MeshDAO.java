@@ -42,6 +42,7 @@ public class MeshDAO extends BaseDAO<Mesh> {
         DeviceDAO.getInstance().clearMeshDevice(mesh.mMeshName);
         RoomDAO.getInstance().clearMeshRooms(mesh.mMeshName);
         SceneDAO.getInstance().clearMeshScenes(mesh.mMeshName);
+        TimingDAO.getInstance().clearMeshTiming(mesh.mMeshName);
         return delete(mesh,"mMeshName");
     }
 

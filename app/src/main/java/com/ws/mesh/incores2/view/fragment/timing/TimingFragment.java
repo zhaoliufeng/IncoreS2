@@ -88,6 +88,7 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
         //房间 设备 分别标题显示 Zone Schedule / Device Schedule
         titleName = getString(
                 presenter.isRoom() ? R.string.zone_schedule : R.string.device_schedule);
+        tvTitle.setText(titleName);
 
         rlTimingList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -125,8 +126,6 @@ public class TimingFragment extends BaseContentFragment<ITimingView, TimingPrese
     public void onResume() {
         super.onResume();
         timingAdapter = new TimingAdapter(presenter.getAlarmList());
-        tvTitle.setText(String.format(getString(R.string.title_format),
-                titleName, presenter.getAlarmListSize()));
         rlTimingList.setAdapter(timingAdapter);
 
         timingAdapter.setOnTimingActionListener(new TimingAdapter.OnTimingActionListener() {

@@ -41,9 +41,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.MainActivity">
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:screenOrientation="portrait" />
 
-        </activity>
         <activity
             android:name=".view.activity.ControlActivity"
             android:screenOrientation="portrait" />
@@ -52,9 +53,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.StageThreeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.StageFourActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SceneControlActivity"

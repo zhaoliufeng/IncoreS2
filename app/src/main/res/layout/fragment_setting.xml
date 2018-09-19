@@ -139,14 +139,14 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:padding="5dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:src="@drawable/icon_trashcam" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="10dp"
             android:text="@string/about_us"
             android:textColor="@color/black_333"
             android:textSize="18sp" />

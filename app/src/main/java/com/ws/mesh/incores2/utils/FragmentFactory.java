@@ -4,6 +4,7 @@ import com.ws.mesh.incores2.constant.PageId;
 import com.ws.mesh.incores2.view.base.BaseFragment;
 import com.ws.mesh.incores2.view.fragment.action.BreathFragment;
 import com.ws.mesh.incores2.view.fragment.action.KotlinEditFragment;
+import com.ws.mesh.incores2.view.fragment.setting.AboutUsFragment;
 import com.ws.mesh.incores2.view.fragment.setting.NetworkListFragment;
 import com.ws.mesh.incores2.view.fragment.NullFragment;
 import com.ws.mesh.incores2.view.fragment.scene.SceneAddDeviceFragment;
@@ -51,6 +52,8 @@ public class FragmentFactory {
                 return new SceneAddDeviceFragment();
             case PageId.NET_MANAGE:
                 return new NetworkListFragment();
+                case PageId.ABOUT_US:
+                    return new AboutUsFragment();
             /**
              * 分享
              */

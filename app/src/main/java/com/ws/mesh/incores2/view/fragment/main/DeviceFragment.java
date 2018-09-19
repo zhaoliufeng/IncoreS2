@@ -48,7 +48,7 @@ public class DeviceFragment extends BaseFragment {
         deviceAdapter = new DeviceAdapter(CoreData.core().mDeviceSparseArray, tvDeviceNum);
         rlDeviceList.setAdapter(deviceAdapter);
         rlDeviceList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-
+        rlDeviceList.setItemAnimator(null);
         deviceAdapter.setOnDeviceSelectedListener(new DeviceAdapter.OnDeviceSelectedListener() {
             @Override
             public void onSelected(int meshId) {

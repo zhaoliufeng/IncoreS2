@@ -47,6 +47,9 @@ public class PageId {
     //网络管理
     public static final int NET_MANAGE = 33;
 
+    //关于我们
+    public static final int ABOUT_US = 34;
+
     /*
     *分享*
     * */

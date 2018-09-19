@@ -176,4 +176,10 @@ public class TimingDAO extends BaseDAO<Timing> {
         return queryTiming(new String[]{mMeshName},
                 "mAlarmMeshName");
     }
+
+    public boolean clearMeshTiming(String meshName) {
+        Timing timing = new Timing();
+        timing.mAlarmMeshName = meshName;
+        return delete(timing, "mAlarmMeshName");
+    }
 }

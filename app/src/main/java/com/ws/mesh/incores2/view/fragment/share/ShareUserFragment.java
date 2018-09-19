@@ -1,7 +1,6 @@
 package com.ws.mesh.incores2.view.fragment.share;
 
 
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +21,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 等待接收端上线
+ * 选择需要分享的接收方
  */
 public class ShareUserFragment extends BaseContentFragment<IUserStatusView, ShareUserPresenter> implements IUserStatusView {
 

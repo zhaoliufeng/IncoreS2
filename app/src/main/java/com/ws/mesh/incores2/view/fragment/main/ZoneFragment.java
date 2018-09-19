@@ -56,9 +56,6 @@ public class ZoneFragment extends BaseContentFragment<IZoneView, ZonePresenter> 
                 //菜单点击
                 switch (actionType) {
                     case DEVICE_MANAGE:
-                        if (isShareMesh()) {
-                            return;
-                        }
                         //群组设备管理
                         pushStageActivity(PageId.ZONE_DEVICE_MANAGE, room.mRoomId);
                         break;

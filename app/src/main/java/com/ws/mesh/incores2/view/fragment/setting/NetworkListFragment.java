@@ -44,8 +44,6 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     RecyclerView rlNetList;
     @BindView(R.id.iv_add_net)
     ImageView ivAddNet;
-    @BindView(R.id.view_space)
-    View viewSpace;
     @BindView(R.id.tv_finish)
     TextView tvFinish;
 
@@ -95,7 +93,7 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add_net:
-                //添加默认网络
+                //添加网络
                 popAddNetWork();
                 break;
             case R.id.iv_edit:
@@ -104,7 +102,6 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
                 tvNetTitle.setTextColor(getResources().getColor(R.color.white));
                 ivAddNet.setVisibility(View.GONE);
                 ivEdit.setVisibility(View.GONE);
-                viewSpace.setVisibility(View.VISIBLE);
                 tvFinish.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_finish:
@@ -113,7 +110,6 @@ public class NetworkListFragment extends BaseContentFragment<INetworkListView, N
                 tvNetTitle.setTextColor(getResources().getColor(R.color.black_333));
                 ivAddNet.setVisibility(View.VISIBLE);
                 ivEdit.setVisibility(View.VISIBLE);
-                viewSpace.setVisibility(View.GONE);
                 tvFinish.setVisibility(View.GONE);
                 break;
         }

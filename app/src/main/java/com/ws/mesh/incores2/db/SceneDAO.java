@@ -51,7 +51,7 @@ public class SceneDAO extends BaseDAO<Scene> {
 
     public boolean clearMeshScenes(String meshName) {
         Scene scene = new Scene();
-        scene.mSceneName = meshName;
+        scene.mSceneMeshName = meshName;
         return delete(scene, "mSceneMeshName");
     }
 

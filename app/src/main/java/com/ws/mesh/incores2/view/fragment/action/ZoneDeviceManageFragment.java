@@ -152,6 +152,10 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
 
     @OnClick(R.id.iv_edit_zone_devices)
     public void onEdit() {
+        if (isShareMesh()) {
+            return;
+        }
+        onChangeTitle.onEdit(true);
         llBg.setBackgroundColor(getResources().getColor(R.color.black_333));
         ivEdit.setVisibility(View.GONE);
         tvFinish.setVisibility(View.VISIBLE);
@@ -162,6 +166,7 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
 
     @OnClick(R.id.tv_finish)
     public void onFinish() {
+        onChangeTitle.onEdit(false);
         llBg.setBackgroundColor(getResources().getColor(R.color.app_bg));
         ivEdit.setVisibility(View.VISIBLE);
         tvFinish.setVisibility(View.GONE);
@@ -216,4 +221,14 @@ public class ZoneDeviceManageFragment extends BaseContentFragment<IZoneDeviceMan
             }
         }
     };
+
+    public interface OnChangeTitle{
+        void onEdit(boolean editMode);
+    }
+
+    private OnChangeTitle onChangeTitle;
+
+    public void setOnChangeTitleListener(OnChangeTitle listener){
+        this.onChangeTitle = listener;
+    }
 }

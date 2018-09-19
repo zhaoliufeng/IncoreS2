@@ -19,6 +19,7 @@ import com.ws.mesh.incores2.view.activity.LauncherActivity;
 import com.ws.mesh.incores2.view.fragment.action.BreathFragment;
 import com.ws.mesh.incores2.view.fragment.action.EditFragment;
 import com.ws.mesh.incores2.view.fragment.action.KotlinEditFragment;
+import com.ws.mesh.incores2.view.fragment.setting.AboutUsFragment;
 import com.ws.mesh.incores2.view.fragment.setting.NetworkListFragment;
 import com.ws.mesh.incores2.view.fragment.scene.SceneAddFragment;
 import com.ws.mesh.incores2.view.fragment.setting.SettingFragment;
@@ -181,7 +182,6 @@ public abstract class BaseActivity extends FragmentActivity {
             }else {
                 title.setText(R.string.device_editor);
             }
-
         }
 
         if (fragment instanceof SceneAddTimingFragment) {
@@ -195,6 +195,13 @@ public abstract class BaseActivity extends FragmentActivity {
 
         if (fragment instanceof ZoneDeviceManageFragment){
             title.setText(R.string.zone_manager);
+            ((ZoneDeviceManageFragment) fragment).setOnChangeTitleListener(
+                    new ZoneDeviceManageFragment.OnChangeTitle() {
+                @Override
+                public void onEdit(boolean editMode) {
+                    title.setText(editMode ? R.string.allocate_devices : R.string.zone_manager);
+                }
+            });
         }
 
         if (fragment instanceof SettingFragment) {
@@ -214,6 +221,10 @@ public abstract class BaseActivity extends FragmentActivity {
                 fragment instanceof ChooseShareMeshFragment ||
                 fragment instanceof ShareReceiveFragment) {
             title.setText(R.string.network_share);
+        }
+
+        if (fragment instanceof AboutUsFragment){
+            title.setText(R.string.about_us);
         }
 
     }

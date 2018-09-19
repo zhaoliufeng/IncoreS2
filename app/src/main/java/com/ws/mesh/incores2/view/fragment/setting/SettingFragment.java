@@ -30,7 +30,7 @@ public class SettingFragment extends BaseFragment {
                 pushStageActivity(PageId.CHOOSE_ROLE);
                 break;
             case R.id.rl_about_us:
-
+                pushStageActivity(PageId.ABOUT_US);
                 break;
         }
     }

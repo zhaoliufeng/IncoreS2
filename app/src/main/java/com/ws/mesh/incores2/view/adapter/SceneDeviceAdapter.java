@@ -127,4 +127,8 @@ public class SceneDeviceAdapter extends RecyclerView.Adapter<SceneDeviceAdapter.
     public void setOnSceneDeviceActionListener(OnSceneDeviceActionListener listener) {
         this.onSceneDeviceActionListener = listener;
     }
+
+    private int getOnlineDataCount(){
+        return data.size();
+    }
 }
